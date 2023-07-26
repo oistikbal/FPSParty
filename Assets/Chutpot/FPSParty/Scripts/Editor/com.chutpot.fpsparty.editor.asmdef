@@ -3,7 +3,8 @@
     "rootNamespace": "Chutpot.FPSParty",
     "references": [
         "GUID:595a8f61c4889cd44a05ca3b46c3ebd2",
-        "GUID:619b15a0db1d51c48976aa23314c90df"
+        "GUID:619b15a0db1d51c48976aa23314c90df",
+        "GUID:ba8c092d026123a418fb4bfb797a7bd8"
     ],
     "includePlatforms": [
         "Editor"

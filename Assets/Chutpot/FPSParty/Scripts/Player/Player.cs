@@ -1,3 +1,4 @@
+using Cinemachine;
 using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,6 +6,7 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.TextCore.Text;
 
 namespace Chutpot.FPSParty
 {
@@ -12,14 +14,18 @@ namespace Chutpot.FPSParty
     {
         private PlayerController _playerController;
         private PlayerActionMap _playerActionMap;
+        private Camera _camera;
 
-        private Vector2 _input;
+        private Vector2 _moveInput;
+        private Vector2 _cameraInput;
+        private bool _jumpInput;
 
         private void Awake()
         {
             _playerActionMap = new PlayerActionMap();
             _playerActionMap.Enable();
             _playerController = GetComponent<PlayerController>();
+            _camera = FindObjectOfType<Camera>();
         }
 
         private void Start()
@@ -29,30 +35,63 @@ namespace Chutpot.FPSParty
 
         private void Update()
         {
-            _playerController.SetInputs(_input);
+            HandleCharacterInput();
         }
+        
 
         private void OnEnable()
         {
             _playerActionMap.Player.Movement.performed += OnMovementPerformed;
             _playerActionMap.Player.Movement.canceled += OnMovementCanceled;
+            _playerActionMap.Player.Jump.performed += OnJumpPerformed;
+            _playerActionMap.Player.Jump.canceled += OnJumpCancelled;
         }
+
 
         private void OnDisable()
         {
             _playerActionMap.Player.Movement.performed -= OnMovementPerformed;
             _playerActionMap.Player.Movement.canceled -= OnMovementCanceled;
+            _playerActionMap.Player.Jump.performed -= OnJumpPerformed;
+            _playerActionMap.Player.Jump.canceled -= OnJumpCancelled;
+        }
+
+
+        private void OnJumpCancelled(InputAction.CallbackContext obj)
+        {
+            _jumpInput = false;
+        }
+
+        private void OnJumpPerformed(InputAction.CallbackContext obj)
+        {
+            _jumpInput = true;
         }
 
         private void OnMovementCanceled(InputAction.CallbackContext obj)
         {
-            _input = Vector2.zero;
+            _moveInput = Vector2.zero;
         }
 
 
         private void OnMovementPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            _input = obj.ReadValue<Vector2>();
+            _moveInput = obj.ReadValue<Vector2>();
+        }
+
+        private void HandleCharacterInput()
+        {
+            PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
+
+            // Build the CharacterInputs struct
+            characterInputs.MoveAxisForward = _moveInput.y;
+            characterInputs.MoveAxisRight = _moveInput.x;
+            characterInputs.CameraRotation = _camera.transform.rotation;
+            characterInputs.JumpDown = _jumpInput;
+            characterInputs.CrouchDown = false;
+            characterInputs.CrouchUp = true;
+
+            // Apply inputs to character
+            _playerController.SetInputs(ref characterInputs);
         }
 
     }
