@@ -273,7 +273,6 @@ namespace Chutpot.FPSParty
                             currentRotation = Quaternion.FromToRotation(currentUp, smoothedGravityDir) * currentRotation;
                         }
                         */
-                        Debug.Log(currentRotation);
                         break;
                     }
             }
