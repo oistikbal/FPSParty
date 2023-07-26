@@ -14,6 +14,7 @@ namespace Chutpot.FPSParty
     {
         private PlayerController _playerController;
         private PlayerActionMap _playerActionMap;
+        private CinemachineVirtualCamera _virtualCamera;
         private Camera _camera;
 
         private Vector2 _moveInput;
@@ -26,6 +27,8 @@ namespace Chutpot.FPSParty
             _playerActionMap.Enable();
             _playerController = GetComponent<PlayerController>();
             _camera = FindObjectOfType<Camera>();
+            _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            _virtualCamera.Follow = transform;
         }
 
         private void Start()

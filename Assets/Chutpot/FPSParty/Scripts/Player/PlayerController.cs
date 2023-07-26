@@ -2,6 +2,7 @@ using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Codice.CM.Common.CmCallContext;
 
 namespace Chutpot.FPSParty
 {
@@ -143,13 +144,34 @@ namespace Chutpot.FPSParty
         /// </summary>
         public void SetInputs(ref PlayerCharacterInputs inputs)
         {
-            _moveInputVector = new Vector3(inputs.MoveAxisRight, 0, inputs.MoveAxisForward);
-            _lookInputQuaternion = inputs.CameraRotation;
+            // Clamp input
+            Vector3 moveInputVector = Vector3.ClampMagnitude(new Vector3(inputs.MoveAxisRight, 0f, inputs.MoveAxisForward), 1f);
+
+            // Calculate camera direction and rotation on the character plane
+            Vector3 cameraPlanarDirection = Vector3.ProjectOnPlane(inputs.CameraRotation * Vector3.forward, _motor.CharacterUp).normalized;
+            if (cameraPlanarDirection.sqrMagnitude == 0f)
+            {
+                cameraPlanarDirection = Vector3.ProjectOnPlane(inputs.CameraRotation * Vector3.up, _motor.CharacterUp).normalized;
+            }
+            Quaternion cameraPlanarRotation = Quaternion.LookRotation(cameraPlanarDirection, _motor.CharacterUp);
 
             switch (CurrentCharacterState)
             {
                 case CharacterState.Default:
                     {
+                        // Move and look inputs
+                        _moveInputVector = cameraPlanarRotation * moveInputVector;
+
+                        switch (OrientationMethod)
+                        {
+                            case OrientationMethod.TowardsCamera:
+                                _lookInputVector = cameraPlanarDirection;
+                                break;
+                            case OrientationMethod.TowardsMovement:
+                                _lookInputVector = _moveInputVector.normalized;
+                                break;
+                        }
+
                         // Jumping input
                         if (inputs.JumpDown)
                         {
@@ -179,6 +201,14 @@ namespace Chutpot.FPSParty
             }
         }
 
+        /// <summary>
+        /// This is called every frame by the AI script in order to tell the character what its inputs are
+        /// </summary>
+        public void SetInputs(ref AICharacterInputs inputs)
+        {
+            _moveInputVector = inputs.MoveVector;
+            _lookInputVector = inputs.LookVector;
+        }
 
         private Quaternion _tmpTransientRot;
 
@@ -201,7 +231,7 @@ namespace Chutpot.FPSParty
             {
                 case CharacterState.Default:
                     {
-                        currentRotation = _lookInputQuaternion;
+                        currentRotation = Quaternion.LookRotation(_lookInputVector, _motor.CharacterUp);
                         /*
                         if (_lookInputVector.sqrMagnitude > 0f && OrientationSharpness > 0f)
                         {
@@ -243,6 +273,7 @@ namespace Chutpot.FPSParty
                             currentRotation = Quaternion.FromToRotation(currentUp, smoothedGravityDir) * currentRotation;
                         }
                         */
+                        Debug.Log(currentRotation);
                         break;
                     }
             }
