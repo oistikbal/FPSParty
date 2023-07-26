@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Chutpot/FPSParty/Scenes/Persistent.unity
+    guid: 18310fe88c925cf4497039f9a670f43b
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 0f79692c8a705fb4a9eba6b1b71079aa, type: 2}

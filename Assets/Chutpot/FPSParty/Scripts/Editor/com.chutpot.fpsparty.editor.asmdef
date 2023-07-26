@@ -1,0 +1,19 @@
+{
+    "name": "Chutpot.FPSParty.Editor",
+    "rootNamespace": "Chutpot.FPSParty",
+    "references": [
+        "GUID:595a8f61c4889cd44a05ca3b46c3ebd2",
+        "GUID:619b15a0db1d51c48976aa23314c90df"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
