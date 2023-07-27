@@ -31,6 +31,7 @@ namespace Chutpot.FPSParty.Persistent
             if (SteamClient.IsValid)
             {
                 IsSteamInitialized = true;
+                _networkManager.NetworkConfig.NetworkTransport = _unityTransport;
             }
             else 
             {

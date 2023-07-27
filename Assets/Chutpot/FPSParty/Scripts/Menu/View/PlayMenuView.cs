@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.AddressableAssets;
 using System;
 using UnityEditor;
+using TMPro;
 
 namespace Chutpot.FPSParty.Menu
 {
@@ -18,28 +19,43 @@ namespace Chutpot.FPSParty.Menu
         [SerializeField]
         private Button _hostButton;
         [SerializeField]
-        private Button _joinSubButton;
+        private Button _createButton;
+
         [SerializeField]
-        private Button _hostSubButton;
+        private TMP_InputField _inputField;
+        [SerializeField]
+        private Toggle _invitationToggle;
+
+        [SerializeField]
+        private CanvasGroup _hostCanvasGroup;
 
         [SerializeField]
         private Button _backButton;
 
+        private string _hostName;
+        private bool _isInvitationOnly;
+
         protected override void Awake()
         {
             base.Awake();
-            SelectedGO = _joinSubButton.gameObject;
+            SelectedGO = _joinButton.gameObject;
             //_joinButton.onClick.AddListener(() => StartCoroutine(OnJoinButtonPressed()));
             //_hostButton.onClick.AddListener(() => StartCoroutine(OnHostButtonPressed()));
-            _joinSubButton.onClick.AddListener(() => OnJoinSubButtonPressed());
-            _hostSubButton.onClick.AddListener(() => OnHostSubButtonPressed());
+            _hostButton.onClick.AddListener(() => OnHostButtonPressed());
             _backButton.onClick.AddListener(() => StartCoroutine(OnBackButtonPressed()));
+
+            _inputField.onValueChanged.AddListener(str => _hostName = str);
+            _invitationToggle.onValueChanged.AddListener(toggle => _isInvitationOnly = toggle);
         }
 
         public override IEnumerator Show()
         {
             yield return base.Show();
             MenuShowSignal.Dispatch(new MenuShowEvent(typeof(PlayMenuView), SelectedGO));
+
+            _hostCanvasGroup.alpha = 0;
+            _hostCanvasGroup.blocksRaycasts = false;
+            _hostCanvasGroup.interactable = false;
         }
 
         private IEnumerator OnJoinButtonPressed()
@@ -48,26 +64,21 @@ namespace Chutpot.FPSParty.Menu
             MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.Join)));
         }
 
-        private IEnumerator OnHostButtonPressed()
+        private void OnHostButtonPressed()
         {
-            yield return Hide();
-            MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.Host)));
+            _hostCanvasGroup.alpha = 1;
+            _hostCanvasGroup.blocksRaycasts = true;
+            _hostCanvasGroup.interactable = true;
         }
 
         private IEnumerator OnBackButtonPressed()
         {
             yield return Hide();
             MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.Exit)));
-        }
 
-        private void OnJoinSubButtonPressed()
-        {
-
-        }
-
-        private void OnHostSubButtonPressed()
-        {
-
+            _hostCanvasGroup.alpha = 0;
+            _hostCanvasGroup.blocksRaycasts = false;
+            _hostCanvasGroup.interactable = false;
         }
 
         protected override void OnCancelPressed(InputAction.CallbackContext obj)

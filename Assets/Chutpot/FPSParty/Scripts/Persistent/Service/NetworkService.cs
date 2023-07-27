@@ -50,7 +50,7 @@ namespace Chutpot.FPSParty.Persistent
                 PlayerModel.Id = SteamClient.SteamId;
                 PlayerModel.ProfileImage = playerTask.Result;
                 PlayerModel.Name = SteamClient.Name;
-                go.GetComponent<Canvas>().enabled = false;
+                _networkServiceView.GetComponentInChildren<Canvas>().enabled = false;
             }
         }
 

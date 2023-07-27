@@ -90,7 +90,20 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 171358736655425536
-    m_Localized: Please launch the game through Steam
+    m_Localized: Greetings, oh mighty gamer! Our lord and savior, Gabe Newell, beckons
+      you to embrace the divine path of Steam!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171489782260670464
+    m_Localized: Host Name
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171494422565986304
+    m_Localized: Friends Only
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171494970396614656
+    m_Localized: Create
     m_Metadata:
       m_Items: []
   references:
