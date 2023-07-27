@@ -13,11 +13,9 @@ namespace Chutpot.FPSParty.Menu
     public class PlayMenuView : MenuView
     {
         [SerializeField]
-        private Button _playButton1;
+        private Button _joinButton;
         [SerializeField]
-        private Button _playButton2;
-        [SerializeField]
-        private Button _playButton3;
+        private Button _hostButton;
 
         [SerializeField]
         private Button _backButton;
@@ -25,10 +23,9 @@ namespace Chutpot.FPSParty.Menu
         protected override void Awake()
         {
             base.Awake();
-            SelectedGO = _playButton1.gameObject;
-            _playButton1.onClick.AddListener(() => StartCoroutine(OnPlayButton1Pressed()));
-            _playButton2.onClick.AddListener(() => StartCoroutine(OnPlayButton2Pressed()));
-            _playButton2.onClick.AddListener(() => StartCoroutine(OnPlayButton3Pressed()));
+            SelectedGO = _joinButton.gameObject;
+            _joinButton.onClick.AddListener(() => StartCoroutine(OnJoinButtonPressed()));
+            _hostButton.onClick.AddListener(() => StartCoroutine(OnHostButtonPressed()));
             _backButton.onClick.AddListener(() => StartCoroutine(OnBackButtonPressed()));
         }
 
@@ -38,22 +35,16 @@ namespace Chutpot.FPSParty.Menu
             MenuShowSignal.Dispatch(new MenuShowEvent(typeof(PlayMenuView), SelectedGO));
         }
 
-        private IEnumerator OnPlayButton1Pressed()
+        private IEnumerator OnJoinButtonPressed()
         {
             yield return Hide();
-            MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.PlayFirst)));
+            MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.Join)));
         }
 
-        private IEnumerator OnPlayButton2Pressed()
+        private IEnumerator OnHostButtonPressed()
         {
             yield return Hide();
-            MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.PlaySecond)));
-        }
-
-        private IEnumerator OnPlayButton3Pressed()
-        {
-            yield return Hide();
-            MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.PlayThirst)));
+            MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.Host)));
         }
 
         private IEnumerator OnBackButtonPressed()

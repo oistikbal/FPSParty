@@ -81,5 +81,14 @@ MonoBehaviour:
     m_Localized: Credits
     m_Metadata:
       m_Items: []
+  - m_Id: 171353290355875840
+    m_Localized: Join
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171353345070571520
+    m_Localized: Host
+    m_Metadata:
+      m_Items: []
   references:
-    version: 1
+    version: 2
+    RefIds: []

@@ -9,9 +9,8 @@ namespace Chutpot.FPSParty.Menu
     {
         public enum PlayEvent 
         {
-            PlayFirst,
-            PlaySecond,
-            PlayThirst,
+            Join,
+            Host,
             Exit
         }
 
@@ -73,17 +72,14 @@ namespace Chutpot.FPSParty.Menu
                 }
                 if(menuEvent.MenuEventData is PlayEventData) 
                 {
-                    if (((PlayEventData)menuEvent.MenuEventData).Event == PlayEventData.PlayEvent.PlayFirst)
+                    
+                    if (((PlayEventData)menuEvent.MenuEventData).Event == PlayEventData.PlayEvent.Host)
                     {
-                        MenuPlaySignal.Dispatch(new PlayEventData(PlayEventData.PlayEvent.PlayFirst));
+                        MenuPlaySignal.Dispatch(new PlayEventData(PlayEventData.PlayEvent.Host));
                     }
-                    else if (((PlayEventData)menuEvent.MenuEventData).Event == PlayEventData.PlayEvent.PlaySecond)
+                    else if (((PlayEventData)menuEvent.MenuEventData).Event == PlayEventData.PlayEvent.Join)
                     {
-                        MenuPlaySignal.Dispatch(new PlayEventData(PlayEventData.PlayEvent.PlaySecond));
-                    }
-                    else if (((PlayEventData)menuEvent.MenuEventData).Event == PlayEventData.PlayEvent.PlayThirst)
-                    {
-                        MenuPlaySignal.Dispatch(new PlayEventData(PlayEventData.PlayEvent.PlayThirst));
+                        MenuPlaySignal.Dispatch(new PlayEventData(PlayEventData.PlayEvent.Join));
                     }
                 }
             }

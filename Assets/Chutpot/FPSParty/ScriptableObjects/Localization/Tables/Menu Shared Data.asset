@@ -75,13 +75,22 @@ MonoBehaviour:
     m_Key: CREDITS
     m_Metadata:
       m_Items: []
+  - m_Id: 171353290355875840
+    m_Key: JOIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 171353345070571520
+    m_Key: HOST
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    id: 0
+    rid: 0
   references:
-    version: 1
-    00000000:
+    version: 2
+    RefIds:
+    - rid: 0
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
         m_CustomEpoch: 1649597541717
