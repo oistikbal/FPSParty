@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Menu_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: 79cea95f3c76b0d47913f5ed70a89de5, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 251575074816
+    m_Localized: Quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 232977530880
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1897650651136
+    m_Localized: Nouvelle Partie
+    m_Metadata:
+      m_Items: []
+  - m_Id: 307935172034560
+    m_Localized: Sauver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7722049929216
+    m_Localized: "Arri\xE8re"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7772209610752
+    m_Localized: Appliquer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7733403910144
+    m_Localized: Jeu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7828488781824
+    m_Localized: "Vid\xE9o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7846083887104
+    m_Localized: Manette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7875204939776
+    m_Localized: Clavier
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7942288637952
+    m_Localized: "D\xE9faut"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 310341557485568
+    m_Localized: l'audio
+    m_Metadata:
+      m_Items: []
+  - m_Id: 312892101165056
+    m_Localized: Langue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11131980478087168
+    m_Localized: "Project 2D utilise des sauvegardes automatiques.\nNe quittez pas
+      tant que cette ic\xF4ne est \xE0 l'\xE9cran."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 15937805373603840
+    m_Localized: "Cr\xE9dits"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 1

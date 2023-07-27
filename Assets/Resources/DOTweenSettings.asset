@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 16995157, guid: a811bde74b26b53498b4f6d872b09b6d, type: 3}
   m_Name: DOTweenSettings
   m_EditorClassIdentifier: 
-  useSafeMode: 1
+  useSafeMode: 0
   safeModeOptions:
     logBehaviour: 2
     nestedTweenFailureBehaviour: 0
   timeScale: 1
-  unscaledTimeScale: 1
   useSmoothDeltaTime: 0
   maxSmoothUnscaledTime: 0.15
   rewindCallbackMode: 0
@@ -31,7 +30,7 @@ MonoBehaviour:
   defaultEaseType: 6
   defaultEaseOvershootOrAmplitude: 1.70158
   defaultEasePeriod: 0
-  defaultAutoKill: 1
+  defaultAutoKill: 0
   defaultLoopType: 0
   debugMode: 0
   debugStoreTargetId: 1
@@ -40,8 +39,8 @@ MonoBehaviour:
   modules:
     showPanel: 0
     audioEnabled: 0
-    physicsEnabled: 1
-    physics2DEnabled: 0
+    physicsEnabled: 0
+    physics2DEnabled: 1
     spriteEnabled: 1
     uiEnabled: 1
     textMeshProEnabled: 0
@@ -50,5 +49,5 @@ MonoBehaviour:
     deUnityExtendedEnabled: 0
     epoOutlineEnabled: 0
   createASMDEF: 1
-  showPlayingTweens: 0
-  showPausedTweens: 0
+  showPlayingTweens: 1
+  showPausedTweens: 1

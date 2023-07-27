@@ -20,13 +20,13 @@ namespace Chutpot.FPSParty.Menu
         [Inject]
         public SettingsModel SettingsModel { get; set; }
 
-        private const string _mainCanvasAddress = "MainMenuCanvasView";
+        private const string _mainCanvasAddress = "MainMenu";
 
         public override void Execute()
         {
             var handle = Addressables.LoadAssetAsync<GameObject>(_mainCanvasAddress);
             var op = handle.WaitForCompletion();
-            var go = MonoBehaviour.Instantiate(handle.Result);
+            var go = MonoBehaviour.Instantiate(op);
             Context.AddView(go.GetComponent<View>());
             //need refactoring
             foreach(var menuView in go.GetComponentsInChildren<MenuView>())

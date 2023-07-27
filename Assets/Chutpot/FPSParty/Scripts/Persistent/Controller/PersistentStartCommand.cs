@@ -4,6 +4,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using DG.Tweening;
 using UnityEngine.AddressableAssets;
+using Chutpot.FPSParty.Menu;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -28,7 +29,6 @@ namespace Chutpot.FPSParty.Persistent
         [Inject]
         public FMODModel FMODModel { get; set; }
 
-        private const string _menuPrefabAddress = "MenuPrefab";
 
         public override void Execute()
         {
@@ -37,10 +37,7 @@ namespace Chutpot.FPSParty.Persistent
             FMODModel.MusicBus.setVolume(SettingsModel.Settings.Audio.MusicAudio);
             DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
 
-            Addressables.LoadAssetAsync<GameObject>(_menuPrefabAddress).Completed += result =>
-            {
-            
-            };
+            var menuContext = new GameObject("MainMenuContextView", new []{typeof(MenuContextView) });
         }
     }
 }

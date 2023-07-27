@@ -7,6 +7,7 @@ using strange.extensions.command.api;
 using strange.extensions.signal.impl;
 using strange.extensions.context.api;
 using Chutpot.FPSParty.Persistent;
+using Chutpot.FPSParty.Game;
 
 namespace Chutpot.FPSParty.Menu
 {
@@ -33,7 +34,7 @@ namespace Chutpot.FPSParty.Menu
             injectionBinder.Bind<MenuHideSignal>().ToSingleton();
 
             commandBinder.Bind<MenuStartSignal>().To<MenuStartCommand>().To<PlayBGMCommand>().Once();
-            //commandBinder.Bind<MenuPlaySignal>().To<LoadGameCommand>().Once();
+            commandBinder.Bind<MenuPlaySignal>().To<GameStartSignal>();
             commandBinder.Bind<MenuShowSignal>().To<SetSelectedGONavigationCommand>().To<EnableInputCommand>();
             commandBinder.Bind<MenuPreHideSignal>().To<PlayOKSoundCommand>().To<DisableInputCommand>();
             commandBinder.Bind<MenuPointerSignal>().To<SetSelectedGOPointerCommand>();

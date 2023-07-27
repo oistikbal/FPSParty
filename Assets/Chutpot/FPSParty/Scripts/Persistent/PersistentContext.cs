@@ -38,6 +38,7 @@ namespace Chutpot.FPSParty.Persistent
 
             injectionBinder.Bind<LoadingScreenSignal>().ToSingleton();
             injectionBinder.Bind<SettingsSignal>().CrossContext().ToSingleton();
+            injectionBinder.Bind<CameraSignal>().CrossContext().ToSingleton();
 
             commandBinder.Bind<StartSignal>().To<PersistentStartCommand>();
         }

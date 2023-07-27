@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Swedish (sv)
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-String-Tables-Swedish (sv)
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 02f7aa15b6f5f26499ee25e423a806ab
+  m_SerializeEntries:
+  - m_GUID: 46ad96182a54c8b45958dceaf27f36a7
+    m_Address: Menu_sv
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-sv
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: 318fb6f7d9a3acc45ab9a85c88dfa9fe, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 17ac46a3e9715e644a643c0e18244838, type: 2}
+    - {fileID: 11400000, guid: 858d4ed9f5f1cb541b061dca5da85ac1, type: 2}

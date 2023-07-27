@@ -23,18 +23,17 @@ namespace Chutpot.FPSParty.Persistent
         [PostConstruct]
         public void Initialize()
         {
-            /*
+            
             var handle = Addressables.LoadAssetAsync<GameObject>(_cameraPrefabAddress);
             var op = handle.WaitForCompletion();
             var go = MonoBehaviour.Instantiate(handle.Result);
-            _letterBoxer = go.GetComponent<LetterBoxer>();
             Context.AddView(go.GetComponent<View>());
 
             handle = Addressables.LoadAssetAsync<GameObject>(_virtualCamerasPrefabAddress);
             op = handle.WaitForCompletion();
-            _virtualCamerasView = MonoBehaviour.Instantiate(handle.Result).GetComponent<VirtualCamerasView>();
-            Context.AddView(_virtualCamerasView.GetComponent<View>());
-            */
+            //_virtualCamerasView = MonoBehaviour.Instantiate(handle.Result).GetComponent<VirtualCamerasView>();
+            //Context.AddView(_virtualCamerasView.GetComponent<View>());
+            
         }
 
 
