@@ -7,7 +7,7 @@ using strange.extensions.context.api;
 using strange.extensions.signal.impl;
 using strange.extensions.mediation.impl;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class SceneService
     {

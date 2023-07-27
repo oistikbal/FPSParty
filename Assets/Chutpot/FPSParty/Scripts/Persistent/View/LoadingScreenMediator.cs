@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using strange.extensions.mediation.impl;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class LoadingScreenMediator : Mediator
     {

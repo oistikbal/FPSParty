@@ -8,7 +8,7 @@ using UnityEngine.AddressableAssets;
 using Newtonsoft.Json;
 using System.Text;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     [Serializable]
     public struct Game : ICloneable

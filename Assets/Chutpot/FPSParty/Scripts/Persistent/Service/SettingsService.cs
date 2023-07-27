@@ -6,7 +6,7 @@ using UnityEngine.Localization.Settings;
 using UnityEngine.AddressableAssets;
 using Newtonsoft.Json;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class SettingsService : AbstractWriterService, ISettingsService
     {

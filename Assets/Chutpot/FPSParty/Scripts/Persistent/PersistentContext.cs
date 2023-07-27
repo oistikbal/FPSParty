@@ -7,7 +7,7 @@ using strange.extensions.command.api;
 using strange.extensions.signal.impl;
 using strange.extensions.context.api;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class PersistentContext : PATContext
     {

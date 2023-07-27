@@ -6,7 +6,7 @@ using Cinemachine;
 using System.Collections.Generic;
 using strange.extensions.mediation.impl;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class CameraService
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMOD.Studio;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class FMODService
     {

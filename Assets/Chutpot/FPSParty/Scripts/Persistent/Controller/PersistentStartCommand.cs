@@ -5,7 +5,7 @@ using strange.extensions.command.impl;
 using DG.Tweening;
 using UnityEngine.AddressableAssets;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class PersistentStartCommand : Command
     {

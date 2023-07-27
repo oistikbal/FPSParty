@@ -9,7 +9,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using DG.Tweening;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class LoadingScreenView : View
     {

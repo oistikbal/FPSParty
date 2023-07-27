@@ -4,7 +4,7 @@ using UnityEngine;
 using strange.extensions.command.impl;
 using strange.extensions.context.api;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class SetGameCommand : Command
     {

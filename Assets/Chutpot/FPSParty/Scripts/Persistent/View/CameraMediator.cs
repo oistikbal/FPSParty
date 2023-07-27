@@ -5,7 +5,7 @@ using strange.extensions.mediation.impl;
 using UnityEngine.Events;
 using Cinemachine;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class CameraMediator : Mediator
     {

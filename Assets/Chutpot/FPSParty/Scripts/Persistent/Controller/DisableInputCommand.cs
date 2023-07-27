@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using strange.extensions.command.impl;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class DisableInputCommand : Command
     {

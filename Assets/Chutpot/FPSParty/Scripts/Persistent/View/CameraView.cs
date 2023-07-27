@@ -5,7 +5,7 @@ using strange.extensions.mediation.impl;
 using Cinemachine;
 using UnityEngine.Events;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class CameraView : View
     {

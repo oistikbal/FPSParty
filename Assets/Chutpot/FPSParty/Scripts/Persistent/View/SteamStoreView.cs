@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Chutpot.Project2D
+namespace Chutpot.FPSParty
 {
     //No need to register as view
     public class SteamStoreView : MonoBehaviour

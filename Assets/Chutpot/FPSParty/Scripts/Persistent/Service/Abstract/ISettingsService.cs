@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public interface ISettingsService
     {

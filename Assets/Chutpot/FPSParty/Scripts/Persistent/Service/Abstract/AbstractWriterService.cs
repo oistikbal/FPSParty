@@ -10,7 +10,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public abstract class AbstractWriterService
     {

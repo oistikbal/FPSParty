@@ -8,7 +8,7 @@ using strange.extensions.mediation.impl;
 using strange.extensions.mediation.api;
 using UnityEngine.SceneManagement;
 
-namespace Chutpot.Project2D
+namespace Chutpot.FPSParty
 {
     public class PATContext : MVCSContext
     {

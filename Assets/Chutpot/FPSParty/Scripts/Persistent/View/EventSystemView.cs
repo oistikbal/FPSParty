@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using strange.extensions.mediation.impl;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class EventSystemView : View
     {

@@ -1,7 +1,7 @@
 using Chutpot.FPSParty;
 using UnityEngine.InputSystem;
 
-namespace Chutpot.Project2D.Persistent
+namespace Chutpot.FPSParty.Persistent
 {
     public class InputModel
     {
