@@ -21,15 +21,14 @@ namespace Chutpot.FPSParty.Persistent
             injectionBinder.Bind<IInputService>().To<InputService>().CrossContext().ToSingleton();
             injectionBinder.Bind<FMODService>().CrossContext().ToSingleton();
             injectionBinder.Bind<GameSettingsService>().CrossContext().ToSingleton();
-#if STEAM_STORE
-            injectionBinder.Bind<IStoreService>().To<SteamStoreService>().ToSingleton();
-#endif
+            injectionBinder.Bind<NetworkService>().CrossContext().ToSingleton();
             injectionBinder.Bind<EventSystemModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<InputModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<SettingsModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<FMODModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<GameSettingsModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<CameraModel>().CrossContext().ToSingleton();
+            injectionBinder.Bind<PlayerModel>().CrossContext().ToSingleton();
 
             mediationBinder.Bind<CameraView>().To<CameraMediator>();
             mediationBinder.Bind<LoadingScreenView>().To<LoadingScreenMediator>();

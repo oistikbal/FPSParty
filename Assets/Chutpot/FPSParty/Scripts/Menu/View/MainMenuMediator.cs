@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using strange.extensions.mediation.impl;
+using Chutpot.FPSParty.Persistent;
 
 namespace Chutpot.FPSParty.Menu
 {
@@ -29,6 +30,8 @@ namespace Chutpot.FPSParty.Menu
         public MainMenuView View { get; set; }
         [Inject]
         public MenuExitSignal MenuMediatorExitSignal { get; set; }
+        [Inject]
+        public PlayerModel PlayerModel { get; set; }
 
         public override void OnRegister()
         {
@@ -38,6 +41,7 @@ namespace Chutpot.FPSParty.Menu
             View.MenuPointerSignal.AddListener(OnMenuPointerSignal);
             View.MenuPreHideSignal.AddListener(OnMenuPreHideSignal);
             View.MenuExitSignal.AddListener(OnMenuExitSignal);
+            View.PlayerModel = PlayerModel;
         }
 
         public override void OnRemove()

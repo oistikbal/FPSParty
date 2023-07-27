@@ -83,6 +83,10 @@ MonoBehaviour:
     m_Key: HOST
     m_Metadata:
       m_Items: []
+  - m_Id: 171358736655425536
+    m_Key: STEAM_FAIL
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

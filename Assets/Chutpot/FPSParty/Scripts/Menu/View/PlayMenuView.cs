@@ -7,6 +7,7 @@ using strange.extensions.mediation.impl;
 using UnityEngine.EventSystems;
 using UnityEngine.AddressableAssets;
 using System;
+using UnityEditor;
 
 namespace Chutpot.FPSParty.Menu
 {
@@ -16,6 +17,10 @@ namespace Chutpot.FPSParty.Menu
         private Button _joinButton;
         [SerializeField]
         private Button _hostButton;
+        [SerializeField]
+        private Button _joinSubButton;
+        [SerializeField]
+        private Button _hostSubButton;
 
         [SerializeField]
         private Button _backButton;
@@ -23,9 +28,11 @@ namespace Chutpot.FPSParty.Menu
         protected override void Awake()
         {
             base.Awake();
-            SelectedGO = _joinButton.gameObject;
-            _joinButton.onClick.AddListener(() => StartCoroutine(OnJoinButtonPressed()));
-            _hostButton.onClick.AddListener(() => StartCoroutine(OnHostButtonPressed()));
+            SelectedGO = _joinSubButton.gameObject;
+            //_joinButton.onClick.AddListener(() => StartCoroutine(OnJoinButtonPressed()));
+            //_hostButton.onClick.AddListener(() => StartCoroutine(OnHostButtonPressed()));
+            _joinSubButton.onClick.AddListener(() => OnJoinSubButtonPressed());
+            _hostSubButton.onClick.AddListener(() => OnHostSubButtonPressed());
             _backButton.onClick.AddListener(() => StartCoroutine(OnBackButtonPressed()));
         }
 
@@ -51,6 +58,16 @@ namespace Chutpot.FPSParty.Menu
         {
             yield return Hide();
             MenuHideSignal.Dispatch(new MenuHideEvent(typeof(PlayMenuView), new PlayEventData(PlayEventData.PlayEvent.Exit)));
+        }
+
+        private void OnJoinSubButtonPressed()
+        {
+
+        }
+
+        private void OnHostSubButtonPressed()
+        {
+
         }
 
         protected override void OnCancelPressed(InputAction.CallbackContext obj)

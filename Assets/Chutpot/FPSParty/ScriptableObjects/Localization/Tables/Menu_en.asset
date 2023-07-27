@@ -89,6 +89,10 @@ MonoBehaviour:
     m_Localized: Host
     m_Metadata:
       m_Items: []
+  - m_Id: 171358736655425536
+    m_Localized: Please launch the game through Steam
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using strange.extensions.mediation.impl;
+using TMPro;
+using Chutpot.FPSParty.Persistent;
 
 namespace Chutpot.FPSParty.Menu
 {
@@ -19,7 +21,12 @@ namespace Chutpot.FPSParty.Menu
         private Button _creditsButton;
         [SerializeField]
         private Button _exitButton;
+        [SerializeField]
+        private RawImage _clientImage;
+        [SerializeField]
+        private TextMeshProUGUI _clientName;
 
+        public PlayerModel PlayerModel { get; set; }
         public MenuExitSignal MenuExitSignal { get; protected set; } 
 
         protected override void Awake()
@@ -37,6 +44,11 @@ namespace Chutpot.FPSParty.Menu
         {
             base.Start();
             StartCoroutine(Show());
+            if(!string.IsNullOrEmpty(PlayerModel.Name)) 
+            {
+                _clientName.text = PlayerModel.Name;
+                _clientImage.texture = PlayerModel.ProfileImage.Value.Covert();
+            }
         }
 
         public override IEnumerator Show()

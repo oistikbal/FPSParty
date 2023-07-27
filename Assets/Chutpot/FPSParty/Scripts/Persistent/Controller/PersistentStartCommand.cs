@@ -10,10 +10,9 @@ namespace Chutpot.FPSParty.Persistent
 {
     public class PersistentStartCommand : Command
     {
-#if DEVELOPMENT_BUILD || !UNITY_EDITOR
         [Inject]
-        public IStoreService StoreService { get; set; }
-#endif
+        public NetworkService NetworkService { get; set; }
+
         [Inject]
         public ISettingsService SettingsService { get; set; }
         [Inject]
