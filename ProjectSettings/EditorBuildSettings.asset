@@ -5,9 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Chutpot/FPSParty/Scenes/Game.unity
-    guid: 18310fe88c925cf4497039f9a670f43b
+  - enabled: 1
+    path: Assets/Chutpot/FPSParty/Scenes/Persistent.unity
+    guid: 59b2ecba5c09fed488b84d63bb39bd8b
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 0f79692c8a705fb4a9eba6b1b71079aa, type: 2}
     com.unity.localization.settings: {fileID: 11400000, guid: 07d37feba70bba444840d8c199dfee3b, type: 2}

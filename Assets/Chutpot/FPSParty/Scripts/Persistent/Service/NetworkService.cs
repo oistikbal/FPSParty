@@ -22,6 +22,7 @@ namespace Chutpot.FPSParty.Persistent
         private NetworkServiceView _networkServiceView;
 
         private const string _networkServiceAddress = "NetworkService";
+        private const string _eventSystemAddress = "EventSystem";
 
         [PostConstruct]
         public void Initialize()
@@ -34,7 +35,12 @@ namespace Chutpot.FPSParty.Persistent
             _networkServiceView = go.GetComponent<NetworkServiceView>();
 #if !UNITY_EDITOR || DEVELOPMENT_BUILD
             if (!_networkServiceView.IsSteamInitialized)
-                throw new Exception("Throw exception stop further Initializing"); ;
+            {
+                handle = Addressables.LoadAssetAsync<GameObject>(_eventSystemAddress);
+                op = handle.WaitForCompletion();
+                go = MonoBehaviour.Instantiate(handle.Result);
+                throw new Exception("Throw exception stop further Initializing");
+            }
 #endif
             if (_networkServiceView.IsSteamInitialized)
             {

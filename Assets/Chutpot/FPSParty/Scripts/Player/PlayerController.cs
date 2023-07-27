@@ -2,7 +2,6 @@ using KinematicCharacterController;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Codice.CM.Common.CmCallContext;
 
 namespace Chutpot.FPSParty
 {
