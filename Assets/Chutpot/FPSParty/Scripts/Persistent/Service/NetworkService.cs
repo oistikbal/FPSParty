@@ -25,7 +25,6 @@ namespace Chutpot.FPSParty.Persistent
         private FacepunchTransport _facepunchTransport;
 
         private const string _networkServiceAddress = "NetworkService";
-        private const string _eventSystemAddress = "EventSystem";
 
         [PostConstruct]
         public void Initialize()
@@ -36,15 +35,7 @@ namespace Chutpot.FPSParty.Persistent
             var go = MonoBehaviour.Instantiate(handle.Result);
             Context.AddView(go.GetComponent<View>());
             _networkServiceView = go.GetComponent<NetworkServiceView>();
-#if !UNITY_EDITOR || DEVELOPMENT_BUILD
-            if (!_networkServiceView.IsSteamInitialized)
-            {
-                handle = Addressables.LoadAssetAsync<GameObject>(_eventSystemAddress);
-                op = handle.WaitForCompletion();
-                go = MonoBehaviour.Instantiate(handle.Result);
-                throw new Exception("Throw exception stop further Initializing");
-            }
-#endif
+
             if (_networkServiceView.IsSteamInitialized)
             {
                 var playerTask = GetAvatar(SteamClient.SteamId);

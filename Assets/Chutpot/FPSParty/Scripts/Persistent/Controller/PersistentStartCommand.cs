@@ -5,11 +5,17 @@ using strange.extensions.command.impl;
 using DG.Tweening;
 using UnityEngine.AddressableAssets;
 using Chutpot.FPSParty.Menu;
+using strange.extensions.context.impl;
+using strange.extensions.mediation.impl;
+using strange.extensions.context.api;
 
 namespace Chutpot.FPSParty.Persistent
 {
     public class PersistentStartCommand : Command
     {
+        [Inject(ContextKeys.CONTEXT)]
+        public IContext Context { get; set; }
+
         [Inject]
         public NetworkService NetworkService { get; set; }
 
@@ -28,6 +34,7 @@ namespace Chutpot.FPSParty.Persistent
         [Inject]
         public FMODModel FMODModel { get; set; }
 
+        private const string _mainCanvasAddress = "MainMenuCanvas";
 
         public override void Execute()
         {
@@ -36,7 +43,11 @@ namespace Chutpot.FPSParty.Persistent
             FMODModel.MusicBus.setVolume(SettingsModel.Settings.Audio.MusicAudio);
             DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
 
-            var menuContext = new GameObject("MainMenuContextView", new []{typeof(MenuContextView) });
+            var handle = Addressables.LoadAssetAsync<GameObject>(_mainCanvasAddress);
+            var op = handle.WaitForCompletion();
+            var go = MonoBehaviour.Instantiate(handle.Result);
+            //Context.AddView(go.GetComponent<View>());
+            Addressables.Release(handle);
         }
     }
 }

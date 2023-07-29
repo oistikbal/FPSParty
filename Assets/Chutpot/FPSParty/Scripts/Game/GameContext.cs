@@ -25,13 +25,13 @@ namespace Chutpot.FPSParty.Game
             //mediationBinder.Bind<GroundSpikeView>().To<GroundSpikeMediator>();
 
 
-            commandBinder.Bind<GameStartSignal>().To<GameStartCommand>().Once();
+            commandBinder.Bind<StartSignal>().To<GameStartCommand>().Once();
         }
 
         public override IContext Start()
         {
             base.Start();
-            (injectionBinder.GetInstance<GameStartSignal>() as GameStartSignal).Dispatch();
+            (injectionBinder.GetInstance<StartSignal>() as StartSignal).Dispatch();
             return this;
         }
     }

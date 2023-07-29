@@ -1,24 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FMOD.Studio;
 using strange.extensions.command.impl;
 using Chutpot.FPSParty.Persistent;
 
 namespace Chutpot.FPSParty.Menu
 {
-    public class GameExitCommand : Command
+    public class PlayBGMCommand : Command
     {
         [Inject]
-        public ISettingsService SettingsService { get; set; }
+        public FMODService FMODService { get; set; }
+
+        private EventInstance _instance;
 
         public override void Execute()
         {
-            SettingsService.Write();
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            //_instance = FMODService.GetInstance("event:/UI/UI_BGM");
+            //_instance.start();
         }
     }
 }

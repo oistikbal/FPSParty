@@ -39,8 +39,25 @@ namespace Chutpot.FPSParty.Persistent
                 Destroy(_facepunchTransport);
                 _unityTransport = gameObject.AddComponent<UnityTransport>();
                 _networkManager.NetworkConfig.NetworkTransport = _unityTransport;
+#if !(!UNITY_EDITOR || !DEVELOPMENT_BUILD)
+                StartCoroutine(SendSteamFail());
+#endif
             }
 
         }
+
+        private IEnumerator SendSteamFail()
+        {
+            //Wait until MainMenuInitializes
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+
+            if(!IsSteamInitialized)
+            {
+                Doozy.Runtime.Signals.SignalsService.SendSignal("MainMenuUI", "SteamFail");
+            }
+        }
+
     }
 }

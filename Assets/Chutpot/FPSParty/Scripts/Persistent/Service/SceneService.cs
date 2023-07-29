@@ -21,10 +21,6 @@ namespace Chutpot.FPSParty.Persistent
         [Inject]
         public LoadingScreenSignal LoadingScreenSignal { get; set; }
 
-        private LoadingScreenView _loadingScreenView;
-
-        private const string _loadingScreenAddress = "LoadingScreen";
-
         public SceneService()
         {
         }
@@ -32,16 +28,11 @@ namespace Chutpot.FPSParty.Persistent
         [PostConstruct]
         public void Initialize()
         {
-            var handle = Addressables.LoadAssetAsync<GameObject>(_loadingScreenAddress);
-            var op = handle.WaitForCompletion();
-            var go = MonoBehaviour.Instantiate(handle.Result);
-            Context.AddView(go.GetComponent<View>());
-            _loadingScreenView = go.GetComponent<LoadingScreenView>();
+            //_loadingScreenView = go.GetComponent<LoadingScreenView>();
         }
 
         public void LoadScene(string sceneAddress)
         {
-            _loadingScreenView.LoadScene(sceneAddress);
         }
     }
 }

@@ -88,7 +88,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 171489782260670464
-    m_Key: HOST_NAME
+    m_Key: SERVER_NAME
     m_Metadata:
       m_Items: []
   - m_Id: 171494422565986304
