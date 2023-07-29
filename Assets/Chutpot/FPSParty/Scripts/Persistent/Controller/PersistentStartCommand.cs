@@ -8,6 +8,8 @@ using Chutpot.FPSParty.Menu;
 using strange.extensions.context.impl;
 using strange.extensions.mediation.impl;
 using strange.extensions.context.api;
+using UnityEngine.UI;
+using TMPro;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -33,6 +35,8 @@ namespace Chutpot.FPSParty.Persistent
         public SettingsModel SettingsModel { get; set; }
         [Inject]
         public FMODModel FMODModel { get; set; }
+        [Inject]
+        public PlayerModel PlayerModel { get; set; }
 
         private const string _mainCanvasAddress = "MainMenuCanvas";
 
@@ -48,6 +52,13 @@ namespace Chutpot.FPSParty.Persistent
             var go = MonoBehaviour.Instantiate(handle.Result);
             //Context.AddView(go.GetComponent<View>());
             Addressables.Release(handle);
+
+            if (Steamworks.SteamClient.IsValid)
+            {
+                var playerTag = Doozy.Runtime.UIManager.Components.UITag.GetFirstTag("MainMenuUI", "Player");
+                playerTag.GetComponent<RawImage>().texture = PlayerModel.ProfileImage.Value.Covert();
+                playerTag.GetComponentInChildren<TextMeshProUGUI>().text = PlayerModel.Name;
+            }
         }
     }
 }

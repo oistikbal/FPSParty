@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: UITagIdDatabase
   m_EditorClassIdentifier: 
   Database:
-    Items: []
+    Items:
+    - Category: MainMenuUI
+      Name: Player
+    - Category: None
+      Name: None

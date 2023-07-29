@@ -9764,8 +9764,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Id:
-    Category: None
-    Name: None
+    Category: MainMenuUI
+    Name: Player
     Custom: 0
 --- !u!114 &5313425910063481911
 MonoBehaviour:
