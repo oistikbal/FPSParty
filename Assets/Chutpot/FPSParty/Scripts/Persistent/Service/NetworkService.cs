@@ -59,6 +59,7 @@ namespace Chutpot.FPSParty.Persistent
 
         ~FPSLobby() 
         { 
+            NetworkManager.Singleton.Shutdown();
         }
     }
 
@@ -99,6 +100,7 @@ namespace Chutpot.FPSParty.Persistent
             }
 
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "HostCreate").OnSignal += OnHostCreateSignal;
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ExitLobby").OnSignal += signal => StopOrLeave();
 
             NetworkManager.Singleton.OnServerStarted += OnServerStarted;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
@@ -112,6 +114,8 @@ namespace Chutpot.FPSParty.Persistent
         private void OnHostCreateSignal(Signal signal)
         {
             signal.TryGetValue<HostCreate>(out var hostCreate);
+
+            _fpsLobby = new FPSLobby(hostCreate.name, hostCreate.isInvitationOnly, true);
         }
 
 
@@ -121,14 +125,15 @@ namespace Chutpot.FPSParty.Persistent
 
         private void OnClientConnected(ulong clientId)
         {
-            if (NetworkManager.Singleton.IsHost)
-            {
-                OnClientConnected(clientId);
-            }
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").SendSignal();
         }
 
         private void OnServerStarted()
         {
+            if (NetworkManager.Singleton.IsHost)
+            {
+                OnClientConnected(NetworkManager.Singleton.LocalClientId);
+            }
         }
 
 

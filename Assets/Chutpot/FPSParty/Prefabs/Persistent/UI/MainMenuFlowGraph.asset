@@ -152,9 +152,10 @@ MonoBehaviour:
     Capacity: 1
     Connections:
     - 3940dd51-3abf-4347-bd44-862b7cda3ef5
-    Value: '{"CanGoBack":true}'
+    - 814a2a14-52bd-469b-a221-578af5d06b06
+    Value: '{"CanGoBack":false}'
     ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.GoBackInputPortData,
-      Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     CanBeDeleted: 0
     CanBeReordered: 0
   OutputPorts:
@@ -200,6 +201,66 @@ MonoBehaviour:
   - Id:
       Category: MainMenuUI
       Name: PlayMenuView
+      Custom: 0
+    Mode: 0
+  OnEnterHideViews: []
+  OnExitShowViews: []
+  OnExitHideViews: []
+  OnEnterHideAllViews: 1
+  OnExitHideAllViews: 0
+--- !u!114 &-5057229874174319903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c01f9a7d07f5c04a9f277379e94a10b, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  FlowGraphId: d4b88831-e7bb-4833-830b-44833b310281
+  NodeId: 5ea552bd-b782-4f5a-90bc-c8cec5958027
+  NodeType: 0
+  NodeName: LobbyMenuView
+  NodeDescription: 
+  InputPorts:
+  - NodeId: 5ea552bd-b782-4f5a-90bc-c8cec5958027
+    PortId: 2be97056-24b7-4e4d-90e2-72986afc6fba
+    Direction: 0
+    Capacity: 1
+    Connections:
+    - 1a1cb47f-66e4-4af6-b283-05c6011442d5
+    Value: '{"CanGoBack":true}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.GoBackInputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  OutputPorts:
+  - NodeId: 5ea552bd-b782-4f5a-90bc-c8cec5958027
+    PortId: 814a2a14-52bd-469b-a221-578af5d06b06
+    Direction: 1
+    Capacity: 0
+    Connections:
+    - 8110af40-ba55-48a3-8354-631030dab2c9
+    Value: '{"Trigger":2,"TimeDelay":3.0,"SignalPayload":{"StreamId":{"Category":"None","Name":"None","Custom":false},"SignalValueType":0,"IntegerValue":0,"BooleanValue":false,"FloatValue":0.0,"StringValue":"","ColorValue":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"Vector2Value":{"x":0.0,"y":0.0},"Vector3Value":{"x":0.0,"y":0.0,"z":0.0},"Vector4Value":{"x":0.0,"y":0.0,"z":0.0,"w":0.0}},"ButtonId":{"Category":"LobbyMenuView","Name":"Exit","Custom":false},"ToggleId":{"Category":"None","Name":"None","Custom":false},"CommandToggle":2,"ViewId":{"Category":"None","Name":"None","Custom":false},"CommandShowHide":0}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.UIOutputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  RunUpdate: 0
+  RunFixedUpdate: 0
+  RunLateUpdate: 0
+  NodeState: 0
+  CanBeDeleted: 1
+  Passthrough: 0
+  ClearGraphHistory: 0
+  Position: {x: 556.9999, y: -232.34787}
+  OnEnterShowViews:
+  - Id:
+      Category: MainMenuUI
+      Name: LobbyView
       Custom: 0
     Mode: 0
   OnEnterHideViews: []
@@ -311,6 +372,72 @@ MonoBehaviour:
   ClearGraphHistory: 1
   Position: {x: 0, y: 0}
   SystemNodeType: 0
+--- !u!114 &-3003734314380497031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2479a69f56cf54c96de81c44e8ad1a, type: 3}
+  m_Name: Portal
+  m_EditorClassIdentifier: 
+  FlowGraphId: d4b88831-e7bb-4833-830b-44833b310281
+  NodeId: 1fe2c20a-ab51-4d0b-9a9f-498a229fa99d
+  NodeType: 1
+  NodeName: HostLobbyStream
+  NodeDescription: 
+  InputPorts: []
+  OutputPorts:
+  - NodeId: 1fe2c20a-ab51-4d0b-9a9f-498a229fa99d
+    PortId: 1a1cb47f-66e4-4af6-b283-05c6011442d5
+    Direction: 1
+    Capacity: 0
+    Connections:
+    - 2be97056-24b7-4e4d-90e2-72986afc6fba
+    Value: 
+    ValueTypeQualifiedName: 
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  RunUpdate: 0
+  RunFixedUpdate: 0
+  RunLateUpdate: 0
+  NodeState: 0
+  CanBeDeleted: 1
+  Passthrough: 1
+  ClearGraphHistory: 0
+  Position: {x: 188.00867, y: -298.4087}
+  Trigger: 0
+  SignalPayload:
+    StreamId:
+      Category: MainMenuUI
+      Name: HostCreate
+      Custom: 0
+    SignalValueType: 0
+    IntegerValue: 0
+    BooleanValue: 0
+    FloatValue: 0
+    StringValue: 
+    ColorValue: {r: 0, g: 0, b: 0, a: 0}
+    Vector2Value: {x: 0, y: 0}
+    Vector3Value: {x: 0, y: 0, z: 0}
+    Vector4Value: {x: 0, y: 0, z: 0, w: 0}
+  ButtonId:
+    Category: None
+    Name: None
+    Custom: 0
+  ToggleId:
+    Category: None
+    Name: None
+    Custom: 0
+  CommandToggle: 2
+  ViewId:
+    Category: None
+    Name: None
+    Custom: 0
+  CommandShowHide: 0
 --- !u!114 &-447589418015680304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,8 +509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02761efe598a45c98fa1baf4d446c6a7, type: 3}
   m_Name: MainMenuFlowGraph
   m_EditorClassIdentifier: 
-  EditorPosition: {x: 415, y: -184, z: 0}
-  EditorScale: {x: 1.3225, y: 1.3225, z: 1}
+  EditorPosition: {x: -111, y: 389, z: 0}
+  EditorScale: {x: 1.15, y: 1.15, z: 1}
   Id: d4b88831-e7bb-4833-830b-44833b310281
   GraphName: MainMenu
   GraphDescription: 
@@ -417,6 +544,8 @@ MonoBehaviour:
   - {fileID: 3313005859129401402}
   - {fileID: 7454721241748239734}
   - {fileID: -447589418015680304}
+  - {fileID: -3003734314380497031}
+  - {fileID: -5057229874174319903}
   RootNode: {fileID: -4025148984344986248}
   ActiveNode: {fileID: 0}
 --- !u!114 &810923115449334329

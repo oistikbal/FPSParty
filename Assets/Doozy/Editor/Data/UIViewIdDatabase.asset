@@ -17,6 +17,8 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: LoadingScreenView
     - Category: MainMenuUI
+      Name: LobbyView
+    - Category: MainMenuUI
       Name: MainMenuView
     - Category: MainMenuUI
       Name: OptionsMenuView

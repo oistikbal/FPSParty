@@ -14,7 +14,7 @@ namespace Chutpot.FPSParty.Persistent
         private UIToggle _toggle;
 
 
-        public void test()
+        public void SendSignal()
         {
             Doozy.Runtime.Signals.SignalsService.SendSignal<HostCreate>("MainMenuUI", "HostCreate", new HostCreate(_hostName.text, _toggle.isOn));
         }
