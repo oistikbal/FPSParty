@@ -47,7 +47,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7828488781824
-    m_Localized: Video
+    m_Localized: "G\xF6r\xFCnt\xFC"
     m_Metadata:
       m_Items: []
   - m_Id: 7846083887104
@@ -80,4 +80,5 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   references:
-    version: 1
+    version: 2
+    RefIds: []

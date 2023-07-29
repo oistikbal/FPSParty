@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a32318dec4495cb166bf98e60f7c0d, type: 3}
+  m_Name: _TextureGroup_Icons_Bindy
+  m_EditorClassIdentifier: 
+  GroupCategory: Bindy
+  GroupName: Icons
+  RemovePrefixFromTextureName: 
+  IgnoreTextureSettings: 0
+  Textures:
+  - TextureName: Bidirectional
+    TextureReference: {fileID: 2800000, guid: 1afec2cd927b51d40937d4cea067e2cb, type: 3}
+  - TextureName: Bind
+    TextureReference: {fileID: 2800000, guid: 7a815cae8cd049742913bf5a9cac4e63, type: 3}
+  - TextureName: Bindables
+    TextureReference: {fileID: 2800000, guid: 06f2663f0f8e8704281ea705b6db4cfa, type: 3}
+  - TextureName: Binder
+    TextureReference: {fileID: 2800000, guid: 88780faee422dd24081305837789fb66, type: 3}
+  - TextureName: Bindy
+    TextureReference: {fileID: 2800000, guid: ac043292441370441b68112ca02fa6f8, type: 3}
+  - TextureName: BindyDatabase
+    TextureReference: {fileID: 2800000, guid: 5864d985797728e4eb53c23f0384858e, type: 3}
+  - TextureName: FrameBased
+    TextureReference: {fileID: 2800000, guid: 457b966bb91da364e9ae85a72d93a46a, type: 3}
+  - TextureName: RealTime
+    TextureReference: {fileID: 2800000, guid: 79838cf90ce11df478ad8feab7c83dbc, type: 3}
+  - TextureName: Receiver
+    TextureReference: {fileID: 2800000, guid: dccfaf459c003a24087da7fefb4f6a1b, type: 3}
+  - TextureName: Sender
+    TextureReference: {fileID: 2800000, guid: 2347a4a0d7f43d745917d9b87af86ee2, type: 3}
+  - TextureName: TimeBased
+    TextureReference: {fileID: 2800000, guid: 8798b5edd6aac434f95ec7542110cf5e, type: 3}
+  - TextureName: Transformer
+    TextureReference: {fileID: 2800000, guid: 41490c469af912848a58a5f5c4442a9e, type: 3}

@@ -29,6 +29,7 @@ namespace Chutpot.FPSParty.Menu
             mediationBinder.Bind<GameMenuView>().To<GameMenuMediator>();
             mediationBinder.Bind<AudioMenuView>().To<AudioMenuMediator>();
             mediationBinder.Bind<MainMenuCanvasView>().To<MainMenuCanvasMediator>();
+            mediationBinder.Bind<HostMenuView>().To<HostMenuMediator>();
 
             injectionBinder.Bind<MenuShowSignal>().ToSingleton();
             injectionBinder.Bind<MenuHideSignal>().ToSingleton();

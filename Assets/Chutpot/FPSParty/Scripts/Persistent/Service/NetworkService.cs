@@ -9,6 +9,8 @@ using strange.extensions.mediation.impl;
 using Steamworks.Data;
 using Steamworks;
 using System.Linq.Expressions;
+using Unity.Netcode;
+using Netcode.Transports.Facepunch;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -20,6 +22,7 @@ namespace Chutpot.FPSParty.Persistent
         public PlayerModel PlayerModel { get; set; }
 
         private NetworkServiceView _networkServiceView;
+        private FacepunchTransport _facepunchTransport;
 
         private const string _networkServiceAddress = "NetworkService";
         private const string _eventSystemAddress = "EventSystem";
@@ -51,6 +54,7 @@ namespace Chutpot.FPSParty.Persistent
                 PlayerModel.ProfileImage = playerTask.Result;
                 PlayerModel.Name = SteamClient.Name;
                 _networkServiceView.GetComponentInChildren<Canvas>().enabled = false;
+                _facepunchTransport = _networkServiceView.GetComponentInChildren<FacepunchTransport>();
             }
         }
 
@@ -71,6 +75,16 @@ namespace Chutpot.FPSParty.Persistent
                 Debug.Log(e);
                 return null;
             }
+        }
+
+        public void StartHost(string hostName, bool isInvitationOnly)
+        {
+            NetworkManager.Singleton.StartHost();
+        }
+
+        public void StartClient(ulong targetID)
+        {
+
         }
     }
 }

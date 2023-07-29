@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866e8c8661bc423691f27ec91ab289ad, type: 3}
+  m_Name: _SelectableColorPalette_Bindy
+  m_EditorClassIdentifier: 
+  PaletteName: Bindy
+  SelectableColors:
+  - ColorName: Ticker
+    Normal:
+      ColorOnDark: {r: 0.7686275, g: 0.6117647, b: 1, a: 1}
+      ColorOnLight: {r: 0.3254902, g: 0.09019608, b: 0.6745098, a: 1}
+    Highlighted:
+      ColorOnDark: {r: 0.5722352, g: 0.48941174, b: 0.8, a: 1}
+      ColorOnLight: {r: 0.19681045, g: 0.07215686, b: 0.5396079, a: 1}
+    Pressed:
+      ColorOnDark: {r: 0.45778817, g: 0.39152938, b: 0.64, a: 1}
+      ColorOnLight: {r: 0.1771294, g: 0.064941175, b: 0.48564708, a: 1}
+    Selected:
+      ColorOnDark: {r: 0.5150117, g: 0.44047058, b: 0.72, a: 1}
+      ColorOnLight: {r: 0.2771294, g: 0.16494118, b: 0.5856471, a: 1}
+    Disabled:
+      ColorOnDark: {r: 0.7686275, g: 0.6117647, b: 1, a: 0.6}
+      ColorOnLight: {r: 0.3254902, g: 0.09019608, b: 0.6745098, a: 0.6}
+  - ColorName: Bidirectional
+    Normal:
+      ColorOnDark: {r: 1, g: 0.8196079, b: 0.5019608, a: 1}
+      ColorOnLight: {r: 0.6392157, g: 0.41960788, b: 0, a: 1}
+    Highlighted:
+      ColorOnDark: {r: 0.8, g: 0.61406535, b: 0.4015686, a: 1}
+      ColorOnLight: {r: 0.51137257, g: 0.27273205, b: 0, a: 1}
+    Pressed:
+      ColorOnDark: {r: 0.64, g: 0.49125227, b: 0.32125488, a: 1}
+      ColorOnLight: {r: 0.4602353, g: 0.24545884, b: 0, a: 1}
+    Selected:
+      ColorOnDark: {r: 0.72, g: 0.5526588, b: 0.36141172, a: 1}
+      ColorOnLight: {r: 0.5602353, g: 0.34545884, b: 0.1, a: 1}
+    Disabled:
+      ColorOnDark: {r: 1, g: 0.8196079, b: 0.5019608, a: 0.6}
+      ColorOnLight: {r: 0.6392157, g: 0.41960788, b: 0, a: 0.6}
+  - ColorName: Color
+    Normal:
+      ColorOnDark: {r: 0.8862746, g: 1, b: 0.7490196, a: 1}
+      ColorOnLight: {r: 0.45882356, g: 0.64705884, b: 0.15686275, a: 1}
+    Highlighted:
+      ColorOnDark: {r: 0.7364183, g: 0.8, b: 0.5992157, a: 1}
+      ColorOnLight: {r: 0.41307193, g: 0.5176471, b: 0.12549019, a: 1}
+    Pressed:
+      ColorOnDark: {r: 0.58913463, g: 0.64, b: 0.47937256, a: 1}
+      ColorOnLight: {r: 0.37176475, g: 0.4658824, b: 0.11294117, a: 1}
+    Selected:
+      ColorOnDark: {r: 0.66277647, g: 0.72, b: 0.5392941, a: 1}
+      ColorOnLight: {r: 0.47176474, g: 0.5658824, b: 0.21294117, a: 1}
+    Disabled:
+      ColorOnDark: {r: 0.8862746, g: 1, b: 0.7490196, a: 0.6}
+      ColorOnLight: {r: 0.45882356, g: 0.64705884, b: 0.15686275, a: 0.6}
+  - ColorName: Receiver
+    Normal:
+      ColorOnDark: {r: 1, g: 0.654902, b: 0.64705884, a: 1}
+      ColorOnLight: {r: 0.63529414, g: 0.1137255, b: 0.1137255, a: 1}
+    Highlighted:
+      ColorOnDark: {r: 0.8, g: 0.5176471, b: 0.5176471, a: 1}
+      ColorOnLight: {r: 0.50823534, g: 0.09098039, b: 0.09098039, a: 1}
+    Pressed:
+      ColorOnDark: {r: 0.64, g: 0.41411766, b: 0.41411766, a: 1}
+      ColorOnLight: {r: 0.4574118, g: 0.08188235, b: 0.08188235, a: 1}
+    Selected:
+      ColorOnDark: {r: 0.72, g: 0.4658824, b: 0.4658824, a: 1}
+      ColorOnLight: {r: 0.5574118, g: 0.18188235, b: 0.18188235, a: 1}
+    Disabled:
+      ColorOnDark: {r: 1, g: 0.654902, b: 0.64705884, a: 0.6}
+      ColorOnLight: {r: 0.63529414, g: 0.1137255, b: 0.1137255, a: 0.6}
+  - ColorName: Sender
+    Normal:
+      ColorOnDark: {r: 0.54509807, g: 0.8313726, b: 1, a: 1}
+      ColorOnLight: {r: 0.13333334, g: 0.40000004, b: 0.53333336, a: 1}
+    Highlighted:
+      ColorOnDark: {r: 0.43607846, g: 0.71508497, b: 0.8, a: 1}
+      ColorOnLight: {r: 0.10666666, g: 0.35200003, b: 0.42666668, a: 1}
+    Pressed:
+      ColorOnDark: {r: 0.34886277, g: 0.572068, b: 0.64, a: 1}
+      ColorOnLight: {r: 0.09599999, g: 0.31680003, b: 0.384, a: 1}
+    Selected:
+      ColorOnDark: {r: 0.3924706, g: 0.64357644, b: 0.72, a: 1}
+      ColorOnLight: {r: 0.196, g: 0.41680002, b: 0.484, a: 1}
+    Disabled:
+      ColorOnDark: {r: 0.54509807, g: 0.8313726, b: 1, a: 0.6}
+      ColorOnLight: {r: 0.13333334, g: 0.40000004, b: 0.53333336, a: 0.6}
