@@ -22,5 +22,7 @@ MonoBehaviour:
       Name: OptionsMenuView
     - Category: MainMenuUI
       Name: PlayMenuView
+    - Category: MainMenuUI
+      Name: SteamFailView
     - Category: None
       Name: None

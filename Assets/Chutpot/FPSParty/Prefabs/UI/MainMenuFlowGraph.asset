@@ -24,6 +24,8 @@ MonoBehaviour:
     Capacity: 1
     Connections:
     - bb47c3da-aa0e-4162-a4cf-e86a68b74e1e
+    - b7d7e775-23f1-44eb-ba18-09b316f33e77
+    - 02083668-2c04-4d1a-b073-c6251e2df384
     Value: 
     ValueTypeQualifiedName: 
     CanBeDeleted: 0
@@ -220,7 +222,7 @@ MonoBehaviour:
   FlowGraphId: d4b88831-e7bb-4833-830b-44833b310281
   NodeId: 1d6f833b-a32f-4109-a6f9-c84487504a25
   NodeType: 1
-  NodeName: Portal
+  NodeName: SteamFailSignal
   NodeDescription: 
   InputPorts: []
   OutputPorts:
@@ -228,7 +230,8 @@ MonoBehaviour:
     PortId: 570fcd8e-c437-48c8-863f-bf5789b7e54a
     Direction: 1
     Capacity: 0
-    Connections: []
+    Connections:
+    - 8c8dade7-5570-4b32-bc72-3ca39ba84415
     Value: 
     ValueTypeQualifiedName: 
     CanBeDeleted: 0
@@ -240,14 +243,14 @@ MonoBehaviour:
   CanBeDeleted: 1
   Passthrough: 1
   ClearGraphHistory: 0
-  Position: {x: -38, y: 190}
+  Position: {x: -184.4375, y: 288}
   Trigger: 0
   SignalPayload:
     StreamId:
-      Category: None
-      Name: None
+      Category: MainMenuUI
+      Name: SteamFail
       Custom: 0
-    SignalValueType: 3
+    SignalValueType: 0
     IntegerValue: 0
     BooleanValue: 0
     FloatValue: 0
@@ -308,6 +311,65 @@ MonoBehaviour:
   ClearGraphHistory: 1
   Position: {x: 0, y: 0}
   SystemNodeType: 0
+--- !u!114 &-447589418015680304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c01f9a7d07f5c04a9f277379e94a10b, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  FlowGraphId: d4b88831-e7bb-4833-830b-44833b310281
+  NodeId: f15f3851-2439-4fdd-8a02-9d2c0374f98d
+  NodeType: 0
+  NodeName: LoadingScreenView
+  NodeDescription: 
+  InputPorts:
+  - NodeId: f15f3851-2439-4fdd-8a02-9d2c0374f98d
+    PortId: 10b5b8e6-f02d-4dd3-bd61-ab51bfd94179
+    Direction: 0
+    Capacity: 1
+    Connections:
+    - 24c6dbba-d101-423a-b793-3b845689efe1
+    Value: '{"CanGoBack":false}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.GoBackInputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  OutputPorts:
+  - NodeId: f15f3851-2439-4fdd-8a02-9d2c0374f98d
+    PortId: 124df94d-2c89-4786-89ec-59b14741742b
+    Direction: 1
+    Capacity: 0
+    Connections: []
+    Value: '{"Trigger":0,"TimeDelay":3.0,"SignalPayload":{"StreamId":{"Category":"None","Name":"None","Custom":false},"SignalValueType":0,"IntegerValue":0,"BooleanValue":false,"FloatValue":0.0,"StringValue":"","ColorValue":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"Vector2Value":{"x":0.0,"y":0.0},"Vector3Value":{"x":0.0,"y":0.0,"z":0.0},"Vector4Value":{"x":0.0,"y":0.0,"z":0.0,"w":0.0}},"ButtonId":{"Category":"None","Name":"None","Custom":false},"ToggleId":{"Category":"None","Name":"None","Custom":false},"CommandToggle":2,"ViewId":{"Category":"None","Name":"None","Custom":false},"CommandShowHide":0}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.UIOutputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  RunUpdate: 0
+  RunFixedUpdate: 0
+  RunLateUpdate: 0
+  NodeState: 0
+  CanBeDeleted: 1
+  Passthrough: 0
+  ClearGraphHistory: 0
+  Position: {x: 1.0000144, y: 454.00003}
+  OnEnterShowViews:
+  - Id:
+      Category: MainMenuUI
+      Name: LoadingScreenView
+      Custom: 0
+    Mode: 0
+  OnEnterHideViews: []
+  OnExitShowViews: []
+  OnExitHideViews: []
+  OnEnterHideAllViews: 1
+  OnExitHideAllViews: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,8 +382,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02761efe598a45c98fa1baf4d446c6a7, type: 3}
   m_Name: MainMenuFlowGraph
   m_EditorClassIdentifier: 
-  EditorPosition: {x: 147, y: 144, z: 0}
-  EditorScale: {x: 1, y: 1, z: 1}
+  EditorPosition: {x: 415, y: -184, z: 0}
+  EditorScale: {x: 1.3225, y: 1.3225, z: 1}
   Id: d4b88831-e7bb-4833-830b-44833b310281
   GraphName: MainMenu
   GraphDescription: 
@@ -352,6 +414,9 @@ MonoBehaviour:
   - {fileID: -6258237636244340455}
   - {fileID: -7957431897135618579}
   - {fileID: -4528307643269711311}
+  - {fileID: 3313005859129401402}
+  - {fileID: 7454721241748239734}
+  - {fileID: -447589418015680304}
   RootNode: {fileID: -4025148984344986248}
   ActiveNode: {fileID: 0}
 --- !u!114 &810923115449334329
@@ -436,3 +501,140 @@ MonoBehaviour:
   OnExitHideViews: []
   OnEnterHideAllViews: 1
   OnExitHideAllViews: 0
+--- !u!114 &3313005859129401402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c01f9a7d07f5c04a9f277379e94a10b, type: 3}
+  m_Name: UI
+  m_EditorClassIdentifier: 
+  FlowGraphId: d4b88831-e7bb-4833-830b-44833b310281
+  NodeId: 70851b02-527a-4e9a-af68-fd168fbdaef1
+  NodeType: 0
+  NodeName: SteamFailView
+  NodeDescription: 
+  InputPorts:
+  - NodeId: 70851b02-527a-4e9a-af68-fd168fbdaef1
+    PortId: 8c8dade7-5570-4b32-bc72-3ca39ba84415
+    Direction: 0
+    Capacity: 1
+    Connections:
+    - 570fcd8e-c437-48c8-863f-bf5789b7e54a
+    Value: '{"CanGoBack":false}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.GoBackInputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  OutputPorts:
+  - NodeId: 70851b02-527a-4e9a-af68-fd168fbdaef1
+    PortId: b7d7e775-23f1-44eb-ba18-09b316f33e77
+    Direction: 1
+    Capacity: 0
+    Connections:
+    - 515e8d6e-41f0-4392-b05f-dfb1ff945dc6
+    Value: '{"Trigger":2,"TimeDelay":3.0,"SignalPayload":{"StreamId":{"Category":"None","Name":"None","Custom":false},"SignalValueType":0,"IntegerValue":0,"BooleanValue":false,"FloatValue":0.0,"StringValue":"","ColorValue":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"Vector2Value":{"x":0.0,"y":0.0},"Vector3Value":{"x":0.0,"y":0.0,"z":0.0},"Vector4Value":{"x":0.0,"y":0.0,"z":0.0,"w":0.0}},"ButtonId":{"Category":"MainMenuView","Name":"Exit","Custom":false},"ToggleId":{"Category":"None","Name":"None","Custom":false},"CommandToggle":2,"ViewId":{"Category":"None","Name":"None","Custom":false},"CommandShowHide":0}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.UIOutputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  - NodeId: 70851b02-527a-4e9a-af68-fd168fbdaef1
+    PortId: 02083668-2c04-4d1a-b073-c6251e2df384
+    Direction: 1
+    Capacity: 0
+    Connections:
+    - 515e8d6e-41f0-4392-b05f-dfb1ff945dc6
+    Value: '{"Trigger":0,"TimeDelay":15.0,"SignalPayload":{"StreamId":{"Category":"None","Name":"None","Custom":false},"SignalValueType":0,"IntegerValue":0,"BooleanValue":false,"FloatValue":0.0,"StringValue":"","ColorValue":{"r":0.0,"g":0.0,"b":0.0,"a":0.0},"Vector2Value":{"x":0.0,"y":0.0},"Vector3Value":{"x":0.0,"y":0.0,"z":0.0},"Vector4Value":{"x":0.0,"y":0.0,"z":0.0,"w":0.0}},"ButtonId":{"Category":"None","Name":"None","Custom":false},"ToggleId":{"Category":"None","Name":"None","Custom":false},"CommandToggle":2,"ViewId":{"Category":"None","Name":"None","Custom":false},"CommandShowHide":0}'
+    ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.UIOutputPortData,
+      DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    CanBeDeleted: 1
+    CanBeReordered: 1
+  RunUpdate: 0
+  RunFixedUpdate: 0
+  RunLateUpdate: 0
+  NodeState: 0
+  CanBeDeleted: 1
+  Passthrough: 0
+  ClearGraphHistory: 0
+  Position: {x: 0.94641113, y: 288}
+  OnEnterShowViews:
+  - Id:
+      Category: MainMenuUI
+      Name: SteamFailView
+      Custom: 0
+    Mode: 0
+  OnEnterHideViews: []
+  OnExitShowViews: []
+  OnExitHideViews: []
+  OnEnterHideAllViews: 1
+  OnExitHideAllViews: 0
+--- !u!114 &7454721241748239734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b2479a69f56cf54c96de81c44e8ad1a, type: 3}
+  m_Name: Portal
+  m_EditorClassIdentifier: 
+  FlowGraphId: d4b88831-e7bb-4833-830b-44833b310281
+  NodeId: 35bcbfb1-a9a8-42dc-9d0c-c93d5a4b8011
+  NodeType: 1
+  NodeName: LoadingScreenSignal
+  NodeDescription: 
+  InputPorts: []
+  OutputPorts:
+  - NodeId: 35bcbfb1-a9a8-42dc-9d0c-c93d5a4b8011
+    PortId: 24c6dbba-d101-423a-b793-3b845689efe1
+    Direction: 1
+    Capacity: 0
+    Connections:
+    - 10b5b8e6-f02d-4dd3-bd61-ab51bfd94179
+    Value: 
+    ValueTypeQualifiedName: 
+    CanBeDeleted: 0
+    CanBeReordered: 0
+  RunUpdate: 0
+  RunFixedUpdate: 0
+  RunLateUpdate: 0
+  NodeState: 0
+  CanBeDeleted: 1
+  Passthrough: 1
+  ClearGraphHistory: 0
+  Position: {x: -213, y: 454.00003}
+  Trigger: 0
+  SignalPayload:
+    StreamId:
+      Category: MainMenuUI
+      Name: LoadingScreen
+      Custom: 0
+    SignalValueType: 0
+    IntegerValue: 0
+    BooleanValue: 0
+    FloatValue: 0
+    StringValue: 
+    ColorValue: {r: 0, g: 0, b: 0, a: 0}
+    Vector2Value: {x: 0, y: 0}
+    Vector3Value: {x: 0, y: 0, z: 0}
+    Vector4Value: {x: 0, y: 0, z: 0, w: 0}
+  ButtonId:
+    Category: None
+    Name: None
+    Custom: 0
+  ToggleId:
+    Category: None
+    Name: None
+    Custom: 0
+  CommandToggle: 2
+  ViewId:
+    Category: None
+    Name: None
+    Custom: 0
+  CommandShowHide: 0

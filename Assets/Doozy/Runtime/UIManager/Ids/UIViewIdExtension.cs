@@ -29,7 +29,8 @@ namespace Doozy.Runtime.UIManager
             LoadingScreenView,
             MainMenuView,
             OptionsMenuView,
-            PlayMenuView
+            PlayMenuView,
+            SteamFailView
         }    
     }
 }

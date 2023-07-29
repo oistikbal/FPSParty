@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Database:
     Items:
+    - Category: MainMenuUI
+      Name: LoadingScreen
+    - Category: MainMenuUI
+      Name: SteamFail
     - Category: None
       Name: None
