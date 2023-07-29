@@ -19,6 +19,8 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: HostCreate
     - Category: MainMenuUI
+      Name: JoinLobby
+    - Category: MainMenuUI
       Name: LoadingScreen
     - Category: MainMenuUI
       Name: SteamFail

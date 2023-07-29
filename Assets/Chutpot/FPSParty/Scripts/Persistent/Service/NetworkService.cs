@@ -13,6 +13,7 @@ using Unity.Netcode;
 using Netcode.Transports.Facepunch;
 using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Containers;
+using DG.Tweening.Core.Easing;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -34,32 +35,34 @@ namespace Chutpot.FPSParty.Persistent
         }
     }
 
-    public struct FPSClient 
+    public enum FPSClientStatus
+    {
+        Off,
+        Unready,
+        Ready,
+        Loading,
+        InGame
+    }
+
+    public class FPSClient 
     {
         public ulong clientId;
         public string name;
+        public FPSClientStatus status;
     }
 
     public class FPSLobby
     {
-        public string ServerName;
+        public Lobby Lobby;
         public FPSClient[] Clients;
         public bool IsInvitationOnly;
         public bool IsHost;
 
         public FPSLobby(string serverName, bool isInvitationOnly, bool isHost)
         {
-            ServerName = serverName;
             IsInvitationOnly = isInvitationOnly;
             IsHost = isHost;
             Clients = new FPSClient[8];
-
-            NetworkManager.Singleton.StartHost();
-        }
-
-        ~FPSLobby() 
-        { 
-            NetworkManager.Singleton.Shutdown();
         }
     }
 
@@ -95,7 +98,6 @@ namespace Chutpot.FPSParty.Persistent
                 PlayerModel.Id = SteamClient.SteamId;
                 PlayerModel.ProfileImage = playerTask.Result;
                 PlayerModel.Name = SteamClient.Name;
-                _networkServiceView.GetComponentInChildren<Canvas>().enabled = false;
                 _facepunchTransport = _networkServiceView.GetComponentInChildren<FacepunchTransport>();
             }
 
@@ -105,20 +107,126 @@ namespace Chutpot.FPSParty.Persistent
             NetworkManager.Singleton.OnServerStarted += OnServerStarted;
             NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
             NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+
+            if (_facepunchTransport)
+            {
+                Steamworks.SteamMatchmaking.OnLobbyCreated += OnLobbyCreated;
+                Steamworks.SteamMatchmaking.OnLobbyEntered += OnLobbyEntered;
+                Steamworks.SteamMatchmaking.OnLobbyMemberJoined += OnLobbyMemberJoined;
+                Steamworks.SteamMatchmaking.OnLobbyMemberLeave += OnLobbyMemberLeave;
+                Steamworks.SteamMatchmaking.OnLobbyInvite += OnLobbyInvite;
+                Steamworks.SteamMatchmaking.OnLobbyGameCreated += OnLobbyGameCreated;
+                SteamFriends.OnGameLobbyJoinRequested += OnGameLobbyJoinRequested;  
+            }
         }
 
         ~NetworkService()
         {
         }
 
-        private void OnHostCreateSignal(Signal signal)
+
+        // ----------- Custom Actions
+
+
+        // Entry point of creating host
+        private async void OnHostCreateSignal(Signal signal)
         {
             signal.TryGetValue<HostCreate>(out var hostCreate);
 
             _fpsLobby = new FPSLobby(hostCreate.name, hostCreate.isInvitationOnly, true);
+
+            if (!NetworkManager.Singleton.StartHost())
+            {
+                var popup = UIPopup.Get("Popup");
+                popup.SetTexts("Failed create the server.");
+                popup.Show();
+                return;
+            }
+
+            if (_facepunchTransport)
+            {
+                UIPopup.ClearQueue();
+                var popup = UIPopup.Get("PopupBlock");
+                popup.SetTexts("Loading.");
+                popup.Show();
+                _fpsLobby.Lobby = (Lobby)await SteamMatchmaking.CreateLobbyAsync(8);
+                popup.Hide();
+            }
+
+        }
+
+        // ------------ Custom Actions
+
+
+        private async void OnGameLobbyJoinRequested(Lobby lobby, SteamId steamId)
+        {
+            UIPopup.ClearQueue();
+            var popup = UIPopup.Get("PopupBlock");
+            popup.SetTexts("Joining Friend's game.");
+            popup.Show();
+
+            RoomEnter joinedLobby = await lobby.Join();
+            popup.Hide();
+
+            if (joinedLobby != RoomEnter.Success)
+            {
+                Debug.Log("Failed to join lobby.");
+            }
+            else
+            {
+                _fpsLobby.Lobby = lobby;
+            }
         }
 
 
+
+        private void OnLobbyInvite(Friend friend, Lobby lobby)
+        {
+            Debug.Log($"Invite From {friend.Name}");
+        }
+
+        private void OnLobbyMemberLeave(Lobby lobby, Friend friend)
+        {
+        }
+
+        private void OnLobbyMemberJoined(Lobby lobby, Friend friend)
+        {
+
+        }
+
+        private void OnLobbyEntered(Lobby lobby)
+        {
+            if (NetworkManager.Singleton.IsHost)
+                return;
+
+            StartClient(_fpsLobby.Lobby.Owner.Id);
+        }
+
+
+        // Host
+
+        private void OnLobbyCreated(Result result, Lobby lobby)
+        {
+            if(result != Result.OK)
+            {
+                var popup = UIPopup.Get("Popup");
+                popup.SetTexts($"Failed create the server.\n Status: {result}");
+                popup.ShowFromQueue();
+            }
+
+            if (!_fpsLobby.IsInvitationOnly)
+                lobby.SetPublic();
+
+            lobby.SetJoinable(true);
+            lobby.SetGameServer(lobby.Owner.Id);
+            Debug.Log(lobby.Owner.Name);
+        }
+
+        private void OnLobbyGameCreated(Lobby lobby, uint arg2, ushort arg3, SteamId arg4)
+        {
+        }
+
+        //-------------- Unity Messages
         private void OnClientDisconnected(ulong clientId)
         {
         }
@@ -136,25 +244,25 @@ namespace Chutpot.FPSParty.Persistent
             }
         }
 
-
-
-        public void StartHost(string hostName, bool isInvitationOnly)
-        {
-            _fpsLobby = new FPSLobby(hostName, isInvitationOnly, true);
-        }
-
         public void StartClient(ulong targetID)
         {
-            if (_facepunchTransport)
+            _facepunchTransport.targetSteamId = targetID;
+            if (!NetworkManager.Singleton.StartClient())
             {
-                _facepunchTransport.targetSteamId = targetID;
+                var popup = UIPopup.Get("Popup");
+                popup.SetTexts("Failed join the game");
+                popup.Show();
             }
-
-            NetworkManager.Singleton.StartClient();
+            _fpsLobby = new FPSLobby("asd", false, false);
         }
+
+        //--------------- Unity Messages
 
         public void StopOrLeave()
         {
+            if(_fpsLobby.Lobby.Id != 0)
+                _fpsLobby.Lobby.Leave();
+
             NetworkManager.Singleton.Shutdown();
         }
 

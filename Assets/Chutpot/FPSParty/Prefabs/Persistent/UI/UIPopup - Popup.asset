@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0806a67463d44083a37a5d55be2b34ba, type: 3}
-  m_Name: PopupLink
+  m_Name: UIPopup - Popup
   m_EditorClassIdentifier: 
   PrefabName: Popup
   Prefab: {fileID: 7364637302344794157, guid: dc4e2b29925bc654ab182c9e8ecbe71b, type: 3}
