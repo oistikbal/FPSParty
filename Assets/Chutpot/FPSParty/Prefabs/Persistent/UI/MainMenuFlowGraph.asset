@@ -153,7 +153,7 @@ MonoBehaviour:
     Connections:
     - 3940dd51-3abf-4347-bd44-862b7cda3ef5
     - 814a2a14-52bd-469b-a221-578af5d06b06
-    Value: '{"CanGoBack":false}'
+    Value: '{"CanGoBack":true}'
     ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.GoBackInputPortData,
       DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     CanBeDeleted: 0
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02761efe598a45c98fa1baf4d446c6a7, type: 3}
   m_Name: MainMenuFlowGraph
   m_EditorClassIdentifier: 
-  EditorPosition: {x: -111, y: 389, z: 0}
+  EditorPosition: {x: 39, y: 183, z: 0}
   EditorScale: {x: 1.15, y: 1.15, z: 1}
   Id: d4b88831-e7bb-4833-830b-44833b310281
   GraphName: MainMenu
