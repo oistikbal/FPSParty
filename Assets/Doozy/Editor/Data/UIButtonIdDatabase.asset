@@ -33,6 +33,8 @@ MonoBehaviour:
     - Category: PlayMenuView
       Name: Back
     - Category: PlayMenuView
+      Name: Create
+    - Category: PlayMenuView
       Name: Host
     - Category: PlayMenuView
       Name: Join

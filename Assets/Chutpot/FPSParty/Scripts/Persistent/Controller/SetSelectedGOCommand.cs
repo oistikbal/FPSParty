@@ -10,12 +10,10 @@ namespace Chutpot.FPSParty.Menu
         [Inject]
         public IInputService InputService { get; set; }
 
-        [Inject]
-        public MenuEvent MenuEvent { get; set; }
 
         public override void Execute()
         {
-            InputService.SetSelectedGO((MenuEvent as MenuShowEvent).SelectedGO);
+            //InputService.SetSelectedGO((MenuEvent as MenuShowEvent).SelectedGO);
         }
     }
 }

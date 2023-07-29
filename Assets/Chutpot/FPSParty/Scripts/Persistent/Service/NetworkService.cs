@@ -11,15 +11,65 @@ using Steamworks;
 using System.Linq.Expressions;
 using Unity.Netcode;
 using Netcode.Transports.Facepunch;
+using Doozy.Runtime.Signals;
+using Doozy.Runtime.UIManager.Containers;
 
 namespace Chutpot.FPSParty.Persistent
 {
+    [Serializable]
+    public struct HostCreate
+    {
+        public string name;
+        public bool isInvitationOnly;
+
+        public HostCreate(string name, bool isInvitationOnly)
+        {
+            this.name = name;
+            this.isInvitationOnly = isInvitationOnly;
+        }
+
+        public override string ToString()
+        {
+            return "HostName: " + name + " invitation: " + isInvitationOnly.ToString();
+        }
+    }
+
+    public struct FPSClient 
+    {
+        public ulong clientId;
+        public string name;
+    }
+
+    public class FPSLobby
+    {
+        public string ServerName;
+        public FPSClient[] Clients;
+        public bool IsInvitationOnly;
+        public bool IsHost;
+
+        public FPSLobby(string serverName, bool isInvitationOnly, bool isHost)
+        {
+            ServerName = serverName;
+            IsInvitationOnly = isInvitationOnly;
+            IsHost = isHost;
+            Clients = new FPSClient[8];
+
+            NetworkManager.Singleton.StartHost();
+        }
+
+        ~FPSLobby() 
+        { 
+        }
+    }
+
     public class NetworkService
     {
         [Inject(ContextKeys.CONTEXT)]
         public IContext Context { get; set; }
         [Inject]
         public PlayerModel PlayerModel { get; set; }
+
+        private FPSLobby _fpsLobby;
 
         private NetworkServiceView _networkServiceView;
         private FacepunchTransport _facepunchTransport;
@@ -47,11 +97,62 @@ namespace Chutpot.FPSParty.Persistent
                 _networkServiceView.GetComponentInChildren<Canvas>().enabled = false;
                 _facepunchTransport = _networkServiceView.GetComponentInChildren<FacepunchTransport>();
             }
+
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "HostCreate").OnSignal += OnHostCreateSignal;
+
+            NetworkManager.Singleton.OnServerStarted += OnServerStarted;
+            NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
+            NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
         }
 
-        ~NetworkService() 
+        ~NetworkService()
         {
         }
+
+        private void OnHostCreateSignal(Signal signal)
+        {
+            signal.TryGetValue<HostCreate>(out var hostCreate);
+        }
+
+
+        private void OnClientDisconnected(ulong clientId)
+        {
+        }
+
+        private void OnClientConnected(ulong clientId)
+        {
+            if (NetworkManager.Singleton.IsHost)
+            {
+                OnClientConnected(clientId);
+            }
+        }
+
+        private void OnServerStarted()
+        {
+        }
+
+
+
+        public void StartHost(string hostName, bool isInvitationOnly)
+        {
+            _fpsLobby = new FPSLobby(hostName, isInvitationOnly, true);
+        }
+
+        public void StartClient(ulong targetID)
+        {
+            if (_facepunchTransport)
+            {
+                _facepunchTransport.targetSteamId = targetID;
+            }
+
+            NetworkManager.Singleton.StartClient();
+        }
+
+        public void StopOrLeave()
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
 
         public async Task<Steamworks.Data.Image?> GetAvatar(SteamId id)
         {
@@ -66,16 +167,6 @@ namespace Chutpot.FPSParty.Persistent
                 Debug.Log(e);
                 return null;
             }
-        }
-
-        public void StartHost(string hostName, bool isInvitationOnly)
-        {
-            NetworkManager.Singleton.StartHost();
-        }
-
-        public void StartClient(ulong targetID)
-        {
-
         }
     }
 }

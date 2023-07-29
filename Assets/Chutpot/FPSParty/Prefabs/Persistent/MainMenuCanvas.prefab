@@ -1,5 +1,73 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1556310800047887588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 576151360909932062}
+  - component: {fileID: 8008000778064496947}
+  - component: {fileID: 8731587543732885926}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &576151360909932062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556310800047887588}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -960, y: -540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5313425910386847015}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8008000778064496947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556310800047887588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &8731587543732885926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556310800047887588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &5313425909455056032
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,7 +98,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5313425910386847015}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -272,7 +340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OPTIONS
+  m_text: Options
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -448,7 +516,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: JOIN
+  m_text: Join
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -6192,7 +6260,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: DISPLAY
+  m_text: Display
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -6368,7 +6436,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: STEAM_FAIL
+  m_text: Greetings, oh mighty gamer! Our lord and savior, Gabe Newell, beckons you
+    to embrace the divine path of Steam!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -11298,7 +11367,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HOST_CREATE
+  m_text: Create
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -11555,7 +11624,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXIT
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -11731,7 +11800,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BACK
+  m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -14287,6 +14356,7 @@ GameObject:
   - component: {fileID: 5313425910386847014}
   - component: {fileID: 5313425910386847013}
   - component: {fileID: 5313425910386847012}
+  - component: {fileID: 4349196559331364504}
   m_Layer: 5
   m_Name: MainMenuCanvas
   m_TagString: Untagged
@@ -14306,13 +14376,14 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5313425911357325898}
   - {fileID: 5313425909455056033}
+  - {fileID: 5313425911357325898}
   - {fileID: 5313425911085662431}
   - {fileID: 5313425910770138952}
   - {fileID: 5313425909790868506}
   - {fileID: 5313425910415821254}
   - {fileID: 5313425910557850192}
+  - {fileID: 576151360909932062}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14382,6 +14453,22 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &4349196559331364504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313425910386847019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e555db85055743968af7ce57a3c13177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id:
+    Category: MainMenuUI
+    Name: Canvas
+    Custom: 0
 --- !u!1 &5313425910415821253
 GameObject:
   m_ObjectHideFlags: 0
@@ -18776,7 +18863,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LANGUAGE
+  m_text: Language
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -18897,6 +18984,8 @@ GameObject:
   - component: {fileID: 5313425910824024472}
   - component: {fileID: 5313425910824024479}
   - component: {fileID: 5313425910824024478}
+  - component: {fileID: 1590436398508704442}
+  - component: {fileID: 333067872273341787}
   m_Layer: 5
   m_Name: HostCreateButton
   m_TagString: Untagged
@@ -19027,14 +19116,45 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
   Behaviours:
-    Behaviours: []
+    Behaviours:
+    - EventName: PointerClick
+      Runners: []
+      Event:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 1590436398508704442}
+            m_TargetAssemblyTypeName: 
+            m_MethodName: 
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: 
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      BehaviourName: 4
+      Receiver:
+        ConnectionMode: 1
+        SignalProviderId:
+          Type: 0
+          Category: Pointer
+          Name: Click
+        ProviderReference: {fileID: 0}
+        StreamId:
+          Category: None
+          Name: None
+          Custom: 0
+      Cooldown: 0
+      Selectable: {fileID: 5313425910824024479}
     SignalSource: {fileID: 5313425910824024476}
     Selectable: {fileID: 5313425910824024479}
   Cooldown: 0
   DisableWhenInCooldown: 0
   Id:
-    Category: None
-    Name: None
+    Category: PlayMenuView
+    Name: Create
     Custom: 0
 --- !u!114 &5313425910824024478
 MonoBehaviour:
@@ -20401,6 +20521,56 @@ MonoBehaviour:
       ToCustomValue: 0
       FromOffset: 0
       ToOffset: 0.4
+--- !u!114 &1590436398508704442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313425910824024476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0a2329239da4b42a7090b91fe160c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hostName: {fileID: 5313425911073186669}
+  _toggle: {fileID: 5313425909718714744}
+--- !u!114 &333067872273341787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313425910824024476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 420ae4a59c20428f9889251f18433a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Callback:
+    EventName: Callback invoked every time the listener is triggered
+    Runners: []
+    Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1590436398508704442}
+          m_TargetAssemblyTypeName: Chutpot.FPSParty.Persistent.HostCreateButton,
+            Chutpot.FPSParty
+          m_MethodName: test
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  ButtonId:
+    Category: PlayMenuView
+    Name: Create
+    Custom: 0
+  MultiplayerInfo: {fileID: 0}
 --- !u!1 &5313425910887390552
 GameObject:
   m_ObjectHideFlags: 0
@@ -23449,7 +23619,6 @@ GameObject:
   - component: {fileID: 5313425911004362349}
   - component: {fileID: 5313425911004362348}
   - component: {fileID: 5313425911004362346}
-  - component: {fileID: 5313425911004362347}
   m_Layer: 5
   m_Name: HostContainer
   m_TagString: Untagged
@@ -24212,31 +24381,6 @@ MonoBehaviour:
     Name: Join
     Custom: 0
   MultiplayerInfo: {fileID: 0}
---- !u!114 &5313425911004362347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5313425911004362354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ec4976bef1d463b82e8013afa2cb347, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Callback:
-    EventName: Callback invoked every time the listener is triggered
-    Runners: []
-    Event:
-      m_PersistentCalls:
-        m_Calls: []
-  StreamId:
-    Category: None
-    Name: None
-    Custom: 0
-  OnSignal:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5313425911013591200
 GameObject:
   m_ObjectHideFlags: 0
@@ -26395,7 +26539,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: EXIT
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -27467,7 +27611,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SERVER_NAME
+  m_text: Server Name
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -27643,7 +27787,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HOST
+  m_text: Host
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -29335,7 +29479,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BACK
+  m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -31164,7 +31308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: FRIENDS_ONLY
+  m_text: Friends Only
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -32067,7 +32211,7 @@ RectTransform:
   - {fileID: 5313425910215686814}
   - {fileID: 5313425911275679278}
   m_Father: {fileID: 5313425910386847015}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -33056,7 +33200,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: AUDIO
+  m_text: Audio
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -33232,7 +33376,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PLAY
+  m_text: Play
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}

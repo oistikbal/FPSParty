@@ -13,9 +13,6 @@ namespace Chutpot.FPSParty.Persistent
 {
     public class NetworkServiceView : View
     {
-        [SerializeField]
-        private Button _exitButton;
-
         private NetworkManager _networkManager;
         private FacepunchTransport _facepunchTransport;
         private UnityTransport _unityTransport;
@@ -26,7 +23,6 @@ namespace Chutpot.FPSParty.Persistent
         {
             base.Awake();
             _networkManager = GetComponent<NetworkManager>();
-            _exitButton.onClick.AddListener(() => Application.Quit());
             _facepunchTransport = gameObject.AddComponent<FacepunchTransport>();
             if (SteamClient.IsValid)
             {
