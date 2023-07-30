@@ -40,3 +40,5 @@ MonoBehaviour:
       Name: Host
     - Category: PlayMenuView
       Name: Join
+    - Category: PlayMenuView
+      Name: Refresh
