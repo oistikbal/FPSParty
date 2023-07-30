@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4956980664546819564}
   - component: {fileID: 4956980664546819567}
   - component: {fileID: 4764312315972999369}
+  - component: {fileID: 9066868008131608462}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -91,3 +92,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e0e15a6df52cd479084cf46e6f9042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9066868008131608462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956980664546819566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b335a241f1c4e5da5d7c02f44f53bd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AutoConnect: 1
+  UIInputModule: {fileID: 4956980664546819567}
+  PlayerInput: {fileID: 0}
+  PlayerIndex: -42
+  InputActionName: 7
+  CustomInputActionName: 

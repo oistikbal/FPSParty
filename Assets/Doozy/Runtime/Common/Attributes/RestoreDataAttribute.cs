@@ -45,8 +45,9 @@ namespace Doozy.Runtime.Common.Attributes
     {
         public static void RestoreAll(bool silent = false)
         {
+#if UNITY_EDITOR
             if (!silent) EditorUtility.DisplayProgressBar("Restoring data...", "Getting editor targets...", 0.1f);
-
+#endif
             MethodInfo[] editorRestoreMethods =
                 ReflectionUtils
                     .doozyEditorAssembly
@@ -54,9 +55,9 @@ namespace Doozy.Runtime.Common.Attributes
                     .SelectMany(t => t.GetMethods())
                     .Where(m => m.GetCustomAttributes(typeof(RestoreDataAttribute), false).Length > 0)
                     .ToArray();
-
+#if UNITY_EDITOR
             if (!silent) EditorUtility.DisplayProgressBar("Restoring data...", "Getting runtime targets...", 0.2f);
-
+#endif
             MethodInfo[] runtimeRestoreMethods =
                 ReflectionUtils
                     .doozyRuntimeAssembly
@@ -72,7 +73,9 @@ namespace Doozy.Runtime.Common.Attributes
                 if (!silent)
                 {
                     float progress = 0.2f + 0.4f * i / editorRestoreMethodsCount;
+#if UNITY_EDITOR
                     EditorUtility.DisplayProgressBar("Restoring editor data...", $"{progress.Round(2) * 100}%", progress);
+#endif
                 }
                 method.Invoke(null, null);
             }
@@ -84,12 +87,15 @@ namespace Doozy.Runtime.Common.Attributes
                 if (!silent)
                 {
                     float progress = 0.6f + 0.4f * i / runtimeRestoreMethodsCount;
+#if UNITY_EDITOR
                     EditorUtility.DisplayProgressBar("Restoring runtime data...", $"{progress.Round(2) * 100}%", progress);
+#endif
                 }
                 method.Invoke(null, null);
             }
-
+#if UNITY_EDITOR
             if (!silent) EditorUtility.ClearProgressBar();
+#endif
         }
     }
 }

@@ -24,5 +24,7 @@ MonoBehaviour:
       Name: LoadingScreen
     - Category: MainMenuUI
       Name: SteamFail
+    - Category: MainMenuUI
+      Name: UpdateLobby
     - Category: None
       Name: None

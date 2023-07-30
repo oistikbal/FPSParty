@@ -1008,7 +1008,7 @@ MonoBehaviour:
     Name: Canvas
     Custom: 0
   OverrideSorting: 1
-  BlockBackButton: 0
+  BlockBackButton: 1
   RestoreSelectedAfterHide: 1
   HideOnAnyButton: 0
   HideOnBackButton: 0

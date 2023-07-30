@@ -17,6 +17,8 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: Canvas
     - Category: MainMenuUI
+      Name: LobbyHandler
+    - Category: MainMenuUI
       Name: Player
     - Category: None
       Name: None

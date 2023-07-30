@@ -16,7 +16,7 @@ namespace Chutpot.FPSParty.Persistent
 
         public void SendSignal()
         {
-            Doozy.Runtime.Signals.SignalsService.SendSignal<HostCreate>("MainMenuUI", "HostCreate", new HostCreate(_hostName.text, _toggle.isOn));
+            Doozy.Runtime.Signals.SignalsService.SendSignal<HostCreateData>("MainMenuUI", "HostCreate", new HostCreateData(_hostName.text, _toggle.isOn));
         }
     }
 }

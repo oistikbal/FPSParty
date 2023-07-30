@@ -43,8 +43,9 @@ namespace Doozy.Runtime.Common.Attributes
     {
         public static void DefineAll(bool silent = false)
         {
+#if UNITY_EDITOR
             if (!silent) EditorUtility.DisplayProgressBar("Defining symbols...", "Getting editor targets...", 0.1f);
-
+#endif
             MethodInfo[] editorDefineMethods =
                 ReflectionUtils
                     .doozyEditorAssembly
@@ -53,8 +54,9 @@ namespace Doozy.Runtime.Common.Attributes
                     .Where(m => m.GetCustomAttributes(typeof(DefineSymbolsAttribute), false).Length > 0)
                     .ToArray();
 
+#if UNITY_EDITOR
             if (!silent) EditorUtility.DisplayProgressBar("Defining symbols...", "Getting runtime targets...", 0.2f);
-
+#endif
             MethodInfo[] runtimeDefineMethods =
                 ReflectionUtils
                     .doozyRuntimeAssembly
@@ -70,7 +72,9 @@ namespace Doozy.Runtime.Common.Attributes
                 if (!silent)
                 {
                     float progress = 0.2f + 0.4f * i / editorDefineMethodsCount;
+#if UNITY_EDITOR
                     EditorUtility.DisplayProgressBar("Defining symbols...", $"{progress.Round(2) * 100}%", progress);
+#endif
                 }
                 method.Invoke(null, null);
             }
@@ -82,12 +86,16 @@ namespace Doozy.Runtime.Common.Attributes
                 if (!silent)
                 {
                     float progress = 0.6f + 0.4f * i / runtimeDefineMethodsCount;
+#if UNITY_EDITOR
                     EditorUtility.DisplayProgressBar("Defining symbols...", $"{progress.Round(2) * 100}%", progress);
+#endif
                 }
                 method.Invoke(null, null);
             }
-            
+
+#if UNITY_EDITOR
             if (!silent) EditorUtility.ClearProgressBar();
+#endif
         }
     }
 }

@@ -45,8 +45,10 @@ namespace Doozy.Runtime.Common.Attributes
     {
         public static void RefreshAll(bool silent = false)
         {
-            if (!silent) EditorUtility.DisplayProgressBar("Refreshing data...", "Getting editor targets...", 0.1f);
+#if UNITY_EDITOR
 
+            if (!silent) EditorUtility.DisplayProgressBar("Refreshing data...", "Getting editor targets...", 0.1f);
+#endif
             MethodInfo[] editorRefreshMethods =
                 ReflectionUtils
                     .doozyEditorAssembly
@@ -54,9 +56,10 @@ namespace Doozy.Runtime.Common.Attributes
                     .SelectMany(t => t.GetMethods())
                     .Where(m => m.GetCustomAttributes(typeof(RefreshDataAttribute), false).Length > 0)
                     .ToArray();
+#if UNITY_EDITOR
 
             if (!silent) EditorUtility.DisplayProgressBar("Refreshing data...", "Getting runtime targets...", 0.2f);
-
+#endif
             MethodInfo[] runtimeRefreshMethods =
                 ReflectionUtils
                     .doozyRuntimeAssembly
@@ -73,7 +76,10 @@ namespace Doozy.Runtime.Common.Attributes
                 if (!silent)
                 {
                     float progress = 0.2f + (0.8f * i / editorRefreshMethodsCount);
+#if UNITY_EDITOR
+
                     EditorUtility.DisplayProgressBar("Refreshing data...", $"{progress.Round(2) * 100}%", progress);
+#endif
                 }
                 method.Invoke(null, null);
             }
@@ -84,8 +90,10 @@ namespace Doozy.Runtime.Common.Attributes
                 MethodInfo method = runtimeRefreshMethods[i];
                 if (!silent)
                 {
+#if UNITY_EDITOR
                     float progress = 0.2f + (0.8f * i / runtimeRefreshMethodsCount);
                     EditorUtility.DisplayProgressBar("Refreshing data...", $"{progress.Round(2) * 100}%", progress);
+#endif
                 }
                 method.Invoke(null, null);
             }
