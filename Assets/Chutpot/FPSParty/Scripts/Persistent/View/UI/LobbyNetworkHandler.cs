@@ -57,6 +57,8 @@ namespace Chutpot.FPSParty.Persistent
         //This lobby never updated at Client!
         public Lobby Lobby;
 
+        private const int MaxPlayer = 8;
+
         private void Awake()
         {
             _clients = new NetworkList<FPSClient>();
@@ -67,7 +69,6 @@ namespace Chutpot.FPSParty.Persistent
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-            _clients.OnListChanged += OnClientsChanged;
             if (IsHost)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
@@ -107,51 +108,58 @@ namespace Chutpot.FPSParty.Persistent
 
         private void OnClientDisconnect(ulong id)
         {
-            FPSClient client = new FPSClient(id, FPSClientStatus.Off, 0);
-            _clients.Insert((int)id, client);
+            _clients.RemoveAt(_clients.IndexOf(FindClientIndex(_clients.GetEnumerator(), id)));
+            SendDisconnectedClientRpc(id);
         }
 
         private void OnClientConnected(ulong id)
         {
+            if(NetworkManager.Singleton.ConnectedClients.Count >= 8)
+            {
+                NetworkManager.Singleton.DisconnectClient(id);
+            }
+
             ulong steamId = 0;
             if (Lobby.Id.Value != 0)
             {
                 steamId = Lobby.Members.ElementAt((int)id).Id.Value;
             }
 
+            Debug.Log(id);
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
             _clients.Insert((int)id, client);
-        }
-
-        private void OnClientsChanged(NetworkListEvent<FPSClient> changeEvent)
-        {
-            _updateLobbyStream.SendSignal<NetworkListEvent<FPSClient>>(changeEvent);
-        }
-
-        [ClientRpc]
-        public void UpdateClientRpc(ulong id, ClientRpcParams clientRpcParams = default)
-        {
-            ulong steamId = 0;
-            if (Lobby.Id.Value != 0)
-            {
-                steamId = Lobby.Members.ElementAt((int)id).Id.Value;
-            }
-
-            FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
-            _clients.Insert((int)id, client);
+            SendClientsClientRpc();
         }
 
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
-        public void GetClientsServerRpc()
+        private void GetClientsServerRpc()
         {
             SendClientsClientRpc();
         }
 
 
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
-        public void SendClientsClientRpc()
+        private void SendClientsClientRpc()
         {
             _updateLobbyStream.SendSignal<IEnumerator<FPSClient>>(_clients.GetEnumerator());
         }
+
+        [ClientRpc(Delivery = RpcDelivery.Reliable)]
+        private void SendDisconnectedClientRpc(ulong id)
+        {
+            _updateLobbyStream.SendSignal<ulong>(id);
+        }
+
+        private FPSClient FindClientIndex(IEnumerator<FPSClient> clients, ulong clientId) 
+        {
+            while (clients.MoveNext())
+            {
+                if (clients.Current.Id == clientId)
+                    return clients.Current;
+            }
+
+            return new FPSClient();
+        }
+
     }
 }

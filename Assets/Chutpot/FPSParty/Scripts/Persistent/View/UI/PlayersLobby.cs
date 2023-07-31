@@ -1,4 +1,3 @@
-using Chutpot.FPSParty.Persistent;
 using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Components;
 using Steamworks;
@@ -13,9 +12,8 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace Chutpot.FPSParty
+namespace Chutpot.FPSParty.Persistent
 {
 
     public class PlayersLobby : MonoBehaviour
@@ -28,34 +26,33 @@ namespace Chutpot.FPSParty
         private GameObject[] _playersGO;
 
         private Texture _defaultImage;
+        private readonly Dictionary<ulong, GameObject> _activePlayersGO = new Dictionary<ulong, GameObject>(8);
+        private readonly Queue<GameObject> _freeGO = new Queue<GameObject>();
 
         private void Start()
         {
+            RestartLobby();
             _defaultImage = _playerImages[0].texture;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdateLobby").OnSignal += OnUpdateLobby;
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").OnSignal += OnLobbyDisconnect;
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").OnSignal += signal => RestartLobby();
         }
 
         private void OnUpdateLobby(Signal signal)
         {    
-            if (signal.TryGetValue<NetworkListEvent<FPSClient>>(out NetworkListEvent<FPSClient> fpsClient))
-            {
-                UpdateClient(fpsClient.Value);
-            }
-            else if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> clients))
+            //When Players Gets Updated
+            if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> clients))
             {
                 while(clients.MoveNext())
                 {
                     UpdateClient(clients.Current);
                 }
             }
-        }
-
-        private void OnLobbyDisconnect(Signal signal)
-        {
-            foreach(var player in _playersGO)
+            //When a clien disconnects
+            else if(signal.TryGetValue<ulong>(out ulong id))
             {
-                player.SetActive(false);
+                _freeGO.Enqueue(_activePlayersGO[id]);
+                _activePlayersGO[id].SetActive(false);
+                _activePlayersGO.Remove(id);
             }
         }
 
@@ -65,27 +62,39 @@ namespace Chutpot.FPSParty
             {
                 //Update client when firstly logged on or when doesnt have and name for speacially when host create server
                 case FPSClientStatus.Unready:
-                    if ((SteamClient.IsValid && !_playersGO[fpsClient.Id].activeSelf) || string.IsNullOrEmpty(_playerNames[fpsClient.Id].text))
+                    if (SteamClient.IsValid && !_activePlayersGO.ContainsKey(fpsClient.Id))
                     {
+                        _activePlayersGO[fpsClient.Id] = _freeGO.Dequeue();
                         var steamId = new SteamId();
                         steamId.Value = fpsClient.SteamId;
                         var steamClient = new Friend(steamId);
-                        _playersGO[fpsClient.Id].SetActive(true);
+                        _activePlayersGO[fpsClient.Id].SetActive(true);
 
                         _playerNames[fpsClient.Id].text = steamClient.Name;
                         _playerImages[fpsClient.Id].texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
                     }
-                    else
+                    else if(!_activePlayersGO.ContainsKey(fpsClient.Id))
                     {
-                        _playersGO[fpsClient.Id].SetActive(true);
+                        _activePlayersGO[fpsClient.Id] = _freeGO.Dequeue();
+                        _activePlayersGO[fpsClient.Id].SetActive(true);
                     }
-                    break;
-                case FPSClientStatus.Off:
-                    _playersGO[fpsClient.Id].SetActive(false);
                     break;
                 default:
                     break;
             }
+        }
+
+        private void RestartLobby()
+        {
+            _freeGO.Clear();
+            _activePlayersGO.Clear();
+
+            foreach (var playerGo in _playersGO)
+                _freeGO.Enqueue(playerGo);
+
+            foreach (var player in _playersGO)
+                player.SetActive(false);
+
         }
 
         /*

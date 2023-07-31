@@ -172,7 +172,6 @@ namespace Chutpot.FPSParty.Persistent
             
             lobby.SetJoinable(true);
             lobby.SetGameServer(lobby.Owner.Id);
-            _lobbyHandler.UpdateClientRpc(0);
         }
 
         private void OnLobbyGameCreated(Lobby lobby, uint arg2, ushort arg3, SteamId arg4)

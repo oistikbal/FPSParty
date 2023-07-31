@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Chutpot.FPSParty
+namespace Chutpot.FPSParty.Persistent
 {
     public class LobbyJoin : MonoBehaviour
     {
