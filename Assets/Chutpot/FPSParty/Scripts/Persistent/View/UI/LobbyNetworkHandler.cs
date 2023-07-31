@@ -75,11 +75,13 @@ namespace Chutpot.FPSParty.Persistent
                 NetworkManager.Singleton.OnServerStarted += OnServerStarted;
 
 
-                foreach(var client in NetworkManager.Singleton.ConnectedClientsIds)
+                foreach (var client in NetworkManager.Singleton.ConnectedClientsIds)
                 {
                     OnClientConnected(client);
                 }
             }
+
+            GetClientsServerRpc();
         }
 
         public override void OnNetworkDespawn()
@@ -112,7 +114,7 @@ namespace Chutpot.FPSParty.Persistent
         private void OnClientConnected(ulong id)
         {
             ulong steamId = 0;
-            if(Lobby.Id.Value != 0)
+            if (Lobby.Id.Value != 0)
             {
                 steamId = Lobby.Members.ElementAt((int)id).Id.Value;
             }
@@ -137,6 +139,19 @@ namespace Chutpot.FPSParty.Persistent
 
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
             _clients.Insert((int)id, client);
+        }
+
+        [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
+        public void GetClientsServerRpc()
+        {
+            SendClientsClientRpc();
+        }
+
+
+        [ClientRpc(Delivery = RpcDelivery.Reliable)]
+        public void SendClientsClientRpc()
+        {
+            _updateLobbyStream.SendSignal<IEnumerator<FPSClient>>(_clients.GetEnumerator());
         }
     }
 }

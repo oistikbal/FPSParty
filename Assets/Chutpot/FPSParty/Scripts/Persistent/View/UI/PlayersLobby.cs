@@ -40,31 +40,14 @@ namespace Chutpot.FPSParty
         {    
             if (signal.TryGetValue<NetworkListEvent<FPSClient>>(out NetworkListEvent<FPSClient> fpsClient))
             {
-                switch (fpsClient.Value.Status)
+                UpdateClient(fpsClient.Value);
+            }
+            else if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> clients))
+            {
+                while(clients.MoveNext())
                 {
-                    //Update client when firstly logged on or when doesnt have and name for speacially when host create server
-                    case FPSClientStatus.Unready:
-                        if ((SteamClient.IsValid && !_playersGO[fpsClient.Index].activeSelf) || string.IsNullOrEmpty(_playerNames[fpsClient.Index].text))
-                        {
-                            var steamId = new SteamId();
-                            steamId.Value = fpsClient.Value.SteamId;
-                            var steamClient = new Friend(steamId);
-                            _playersGO[fpsClient.Index].SetActive(true);
-
-                            _playerNames[fpsClient.Index].text = steamClient.Name;
-                            _playerImages[fpsClient.Index].texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
-                        }
-                        else
-                        {
-                            _playersGO[fpsClient.Index].SetActive(true);
-                        }
-                        break;
-                    case FPSClientStatus.Off:
-                        _playersGO[fpsClient.Index].SetActive(false);
-                        break;
-                    default:
-                        break;
-                } 
+                    UpdateClient(clients.Current);
+                }
             }
         }
 
@@ -73,6 +56,35 @@ namespace Chutpot.FPSParty
             foreach(var player in _playersGO)
             {
                 player.SetActive(false);
+            }
+        }
+
+        private void UpdateClient(FPSClient fpsClient)
+        {
+            switch (fpsClient.Status)
+            {
+                //Update client when firstly logged on or when doesnt have and name for speacially when host create server
+                case FPSClientStatus.Unready:
+                    if ((SteamClient.IsValid && !_playersGO[fpsClient.Id].activeSelf) || string.IsNullOrEmpty(_playerNames[fpsClient.Id].text))
+                    {
+                        var steamId = new SteamId();
+                        steamId.Value = fpsClient.SteamId;
+                        var steamClient = new Friend(steamId);
+                        _playersGO[fpsClient.Id].SetActive(true);
+
+                        _playerNames[fpsClient.Id].text = steamClient.Name;
+                        _playerImages[fpsClient.Id].texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
+                    }
+                    else
+                    {
+                        _playersGO[fpsClient.Id].SetActive(true);
+                    }
+                    break;
+                case FPSClientStatus.Off:
+                    _playersGO[fpsClient.Id].SetActive(false);
+                    break;
+                default:
+                    break;
             }
         }
 
