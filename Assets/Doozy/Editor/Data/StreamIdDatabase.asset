@@ -37,6 +37,6 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: SteamFail
     - Category: MainMenuUI
-      Name: UpdateLobby
+      Name: UpdatePlayers
     - Category: None
       Name: None

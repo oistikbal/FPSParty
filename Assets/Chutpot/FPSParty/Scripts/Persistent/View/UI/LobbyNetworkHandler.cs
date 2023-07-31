@@ -47,11 +47,14 @@ namespace Chutpot.FPSParty.Persistent
         }
     }
 
+
     public class LobbyNetworkHandler : NetworkBehaviour
     {
-
+        //Network
         private NetworkList<FPSClient> _clients;
-        SignalStream _updateLobbyStream;
+
+        //Client
+        SignalStream _updatePlayerStream;
         SignalStream _disconnectStream;
 
         //This lobby never updated at Client!
@@ -62,7 +65,7 @@ namespace Chutpot.FPSParty.Persistent
         private void Awake()
         {
             _clients = new NetworkList<FPSClient>();
-            _updateLobbyStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdateLobby");
+            _updatePlayerStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayers");
             _disconnectStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect");
         }
 
@@ -140,13 +143,13 @@ namespace Chutpot.FPSParty.Persistent
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
         public void SendClientsClientRpc()
         {
-            _updateLobbyStream.SendSignal<IEnumerator<FPSClient>>(_clients.GetEnumerator());
+            _updatePlayerStream.SendSignal<IEnumerator<FPSClient>>(_clients.GetEnumerator());
         }
 
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
         public void SendDisconnectedClientRpc(ulong id)
         {
-            _updateLobbyStream.SendSignal<ulong>(id);
+            _updatePlayerStream.SendSignal<ulong>(id);
         }
 
         private FPSClient FindClientIndex(IEnumerator<FPSClient> clients, ulong clientId) 

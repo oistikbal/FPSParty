@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Chutpot.FPSParty.Persistent
 {
-    public class JoinUI : MonoBehaviour
+    public class LobbyList : MonoBehaviour
     {
         [SerializeField]
         private GameObject _lobbyContent;
