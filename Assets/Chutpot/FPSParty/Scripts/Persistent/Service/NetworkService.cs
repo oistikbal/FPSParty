@@ -86,10 +86,18 @@ namespace Chutpot.FPSParty.Persistent
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").OnSignal += signal => 
             {
                 signal.TryGetValue<Lobby>(out Lobby lobby);
+                {
+
+                }
                 if (_facepunchTransport)
+                {
                     lobby.Join();
+                }
                 else
+                {
                     StartClient(0);
+                }
+
             };
 
             if (_facepunchTransport)
@@ -140,6 +148,7 @@ namespace Chutpot.FPSParty.Persistent
                 popup.SetTexts("Creating lobby...");
                 popup.Show();
                 _lobby = (Lobby)await SteamMatchmaking.CreateLobbyAsync(8);
+                _lobbyHandler.Lobby = _lobby;
                 popup.Hide();
             }
         }
@@ -163,6 +172,7 @@ namespace Chutpot.FPSParty.Persistent
             
             lobby.SetJoinable(true);
             lobby.SetGameServer(lobby.Owner.Id);
+            _lobbyHandler.UpdateClientRpc(0);
         }
 
         private void OnLobbyGameCreated(Lobby lobby, uint arg2, ushort arg3, SteamId arg4)
@@ -225,12 +235,14 @@ namespace Chutpot.FPSParty.Persistent
         //-------------- Unity Messages
         private void OnClientDisconnected(ulong clientId)
         {
+            Debug.Log("OnClientDisconnected");
         }
 
         private void OnClientConnected(ulong clientId)
         {
             Debug.Log("OnClientConnected");
-            if (!_facepunchTransport)
+            //Send host UI to lobby;
+            if (clientId == 0)
             {
                 Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccesfull").SendSignal();
             }
@@ -250,8 +262,11 @@ namespace Chutpot.FPSParty.Persistent
             Debug.Log("StartClient");
             if (_facepunchTransport)
             {
-                Debug.Log(targetID);
                 _facepunchTransport.targetSteamId = targetID;
+            }
+            else
+            {
+                Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccesfull").SendSignal();
             }
 
             if (!NetworkManager.Singleton.StartClient())

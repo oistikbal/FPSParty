@@ -67,7 +67,7 @@ MonoBehaviour:
     EnableSceneManagement: 0
     ForceSamePrefabs: 1
     RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 120
+    NetworkIdRecycleDelay: 0
     RpcHashSize: 0
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
