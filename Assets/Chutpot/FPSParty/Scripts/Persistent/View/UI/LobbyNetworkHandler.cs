@@ -105,7 +105,6 @@ namespace Chutpot.FPSParty.Persistent
 
         private void OnClientDisconnect(ulong id)
         {
-            Debug.Log(id);
             FPSClient client = new FPSClient(id, FPSClientStatus.Off, 0);
             _clients.Insert((int)id, client);
         }
@@ -119,7 +118,7 @@ namespace Chutpot.FPSParty.Persistent
             }
 
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
-            _clients.Add(client);
+            _clients.Insert((int)id, client);
         }
 
         private void OnClientsChanged(NetworkListEvent<FPSClient> changeEvent)
@@ -137,7 +136,7 @@ namespace Chutpot.FPSParty.Persistent
             }
 
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
-            _clients.Insert(0, client);
+            _clients.Insert((int)id, client);
         }
     }
 }

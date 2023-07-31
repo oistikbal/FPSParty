@@ -7,7 +7,7 @@ using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.Bindy.Transformers;
 using Doozy.Runtime.UIElements.Extensions;
 using UnityEditor;
-using UnityEditor.UIElements;
+
 namespace Doozy.Editor.Bindy.Editors.Transformers
 {
     [CustomEditor(typeof(FileSizeTransformer), true)]
@@ -27,7 +27,7 @@ namespace Doozy.Editor.Bindy.Editors.Transformers
 
         protected override void InitializeCustomInspector()
         {
-            IntegerField unitSizeIntegerField =
+            UnityEngine.UIElements.IntegerField unitSizeIntegerField =
                 DesignUtils.NewIntegerField(propertyUnitSize)
                     .SetStyleFlexGrow(1)
                     .SetTooltip

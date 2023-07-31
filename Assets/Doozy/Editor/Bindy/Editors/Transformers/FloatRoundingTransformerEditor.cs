@@ -7,7 +7,7 @@ using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.Bindy.Transformers;
 using Doozy.Runtime.UIElements.Extensions;
 using UnityEditor;
-using UnityEditor.UIElements;
+
 
 namespace Doozy.Editor.Bindy.Editors.Transformers
 {
@@ -26,7 +26,7 @@ namespace Doozy.Editor.Bindy.Editors.Transformers
         
         protected override void InitializeCustomInspector()
         {
-            IntegerField decimalPlacesField =
+            UnityEngine.UIElements.IntegerField decimalPlacesField =
                 DesignUtils.NewIntegerField(propertyDecimalPlaces)
                     .SetStyleFlexGrow(1)
                     .SetTooltip("The number of decimal places to round the float value to");

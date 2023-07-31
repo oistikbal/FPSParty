@@ -7,7 +7,7 @@ using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.Bindy.Transformers;
 using Doozy.Runtime.UIElements.Extensions;
 using UnityEditor;
-using UnityEditor.UIElements;
+
 
 namespace Doozy.Editor.Bindy.Editors.Transformers
 {
@@ -28,7 +28,7 @@ namespace Doozy.Editor.Bindy.Editors.Transformers
         
         protected override void InitializeCustomInspector()
         {
-            EnumField componentEnumField =
+            UnityEngine.UIElements.EnumField componentEnumField =
                 DesignUtils.NewEnumField(propertyComponent)
                     .SetStyleFlexGrow(1)
                     .SetTooltip("The component of the Rect value to return as a float");
@@ -38,7 +38,7 @@ namespace Doozy.Editor.Bindy.Editors.Transformers
                     .SetLabelText("Component")
                     .AddFieldContent(componentEnumField);
 
-            IntegerField decimalPlacesIntegerField =
+            UnityEngine.UIElements.IntegerField decimalPlacesIntegerField =
                DesignUtils.NewIntegerField(propertyDecimalPlaces)
                         .SetStyleFlexGrow(1)
                         .SetTooltip("The number of decimal places to round the float value to");

@@ -7,7 +7,7 @@ using Doozy.Editor.EditorUI.Utils;
 using Doozy.Runtime.Bindy.Transformers;
 using Doozy.Runtime.UIElements.Extensions;
 using UnityEditor;
-using UnityEditor.UIElements;
+
 
 namespace Doozy.Editor.Bindy.Editors.Transformers
 {
@@ -28,7 +28,7 @@ namespace Doozy.Editor.Bindy.Editors.Transformers
         
         protected override void InitializeCustomInspector()
         {
-            EnumField axisEnumField =
+            UnityEngine.UIElements.EnumField axisEnumField =
                 DesignUtils.NewEnumField(propertyAxis)
                     .SetStyleFlexGrow(1)
                     .SetTooltip("The axis to use when converting the Vector3 value to a float value");
@@ -38,7 +38,7 @@ namespace Doozy.Editor.Bindy.Editors.Transformers
                     .SetLabelText("Axis")
                     .AddFieldContent(axisEnumField);
             
-            IntegerField decimalPlacesIntegerField =
+            UnityEngine.UIElements.IntegerField decimalPlacesIntegerField =
                 DesignUtils.NewIntegerField(propertyDecimalPlaces)
                     .SetStyleFlexGrow(1)
                     .SetTooltip("The number of decimal places to use when converting the Vector3 value to a float value");
