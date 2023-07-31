@@ -25,9 +25,15 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: LoadingScreen
     - Category: MainMenuUI
+      Name: MapChange
+    - Category: MainMenuUI
       Name: OnDisconnect
     - Category: MainMenuUI
+      Name: ReadyButton
+    - Category: MainMenuUI
       Name: RefreshLobby
+    - Category: MainMenuUI
+      Name: StartLobby
     - Category: MainMenuUI
       Name: SteamFail
     - Category: MainMenuUI

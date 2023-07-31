@@ -197,7 +197,7 @@ MonoBehaviour:
   CanBeDeleted: 1
   Passthrough: 0
   ClearGraphHistory: 0
-  Position: {x: 562.3403, y: -57.74106}
+  Position: {x: 562, y: -58.000034}
   OnEnterShowViews:
   - Id:
       Category: MainMenuUI
@@ -233,7 +233,7 @@ MonoBehaviour:
     Capacity: 1
     Connections:
     - 1a1cb47f-66e4-4af6-b283-05c6011442d5
-    Value: '{"CanGoBack":true}'
+    Value: '{"CanGoBack":false}'
     ValueTypeQualifiedName: Doozy.Runtime.UIManager.Nodes.PortData.GoBackInputPortData,
       DoozyRuntime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     CanBeDeleted: 0
@@ -255,9 +255,9 @@ MonoBehaviour:
   RunLateUpdate: 0
   NodeState: 0
   CanBeDeleted: 1
-  Passthrough: 0
-  ClearGraphHistory: 0
-  Position: {x: 536.95654, y: -218.99998}
+  Passthrough: 1
+  ClearGraphHistory: 1
+  Position: {x: 539.6087, y: -220.5}
   OnEnterShowViews:
   - Id:
       Category: MainMenuUI
@@ -409,7 +409,7 @@ MonoBehaviour:
   CanBeDeleted: 1
   Passthrough: 1
   ClearGraphHistory: 0
-  Position: {x: 187, y: -298}
+  Position: {x: 188, y: -299}
   Trigger: 0
   SignalPayload:
     StreamId:
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02761efe598a45c98fa1baf4d446c6a7, type: 3}
   m_Name: MainMenuFlowGraph
   m_EditorClassIdentifier: 
-  EditorPosition: {x: 123, y: 329, z: 0}
+  EditorPosition: {x: 281, y: 297, z: 0}
   EditorScale: {x: 0.8695652, y: 0.8695652, z: 1}
   Id: d4b88831-e7bb-4833-830b-44833b310281
   GraphName: MainMenu
