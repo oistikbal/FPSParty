@@ -81,6 +81,7 @@ namespace Chutpot.FPSParty.Persistent
                 _unityTransport = _networkServiceView.GetComponentInChildren<UnityTransport>();
             }
 
+
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "HostCreate").OnSignal += OnHostCreateSignal;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ExitLobby").OnSignal += signal => StopOrLeave();
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").OnSignal += signal => 
@@ -293,6 +294,7 @@ namespace Chutpot.FPSParty.Persistent
             }
 
             NetworkManager.Singleton.Shutdown();
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").SendSignal();
         }
 
 

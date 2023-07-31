@@ -125,7 +125,6 @@ namespace Chutpot.FPSParty.Persistent
                 steamId = Lobby.Members.ElementAt((int)id).Id.Value;
             }
 
-            Debug.Log(id);
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
             _clients.Insert((int)id, client);
             SendClientsClientRpc();
