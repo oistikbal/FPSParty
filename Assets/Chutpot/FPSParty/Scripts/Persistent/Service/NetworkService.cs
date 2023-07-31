@@ -14,6 +14,7 @@ using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Containers;
 using Steamworks.ServerList;
 using Doozy.Runtime.UIManager.Components;
+using Unity.Netcode.Transports.UTP;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -44,6 +45,7 @@ namespace Chutpot.FPSParty.Persistent
 
         private NetworkServiceView _networkServiceView;
         private FacepunchTransport _facepunchTransport;
+        private UnityTransport _unityTransport;
 
         private const string _networkServiceAddress = "NetworkService";
         private const string _lobbyNetworkHandlerAddress = "LobbyNetworkHandler";
@@ -74,9 +76,18 @@ namespace Chutpot.FPSParty.Persistent
                 PlayerModel.Name = SteamClient.Name;
                 _facepunchTransport = _networkServiceView.GetComponentInChildren<FacepunchTransport>();
             }
+            else
+            {
+                _unityTransport = _networkServiceView.GetComponentInChildren<UnityTransport>();
+            }
 
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "HostCreate").OnSignal += OnHostCreateSignal;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ExitLobby").OnSignal += signal => StopOrLeave();
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").OnSignal += signal => 
+            {
+                signal.TryGetValue<uint>(out uint id);
+                StartClient(id);
+            };
 
             if (_facepunchTransport)
             {
@@ -201,7 +212,7 @@ namespace Chutpot.FPSParty.Persistent
             Debug.Log("OnLobbyEntered");
             _lobby = lobby;
             //Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdateLobby").SendSignal<FPSLobby>(_fpsLobby);
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").SendSignal();
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccefull").SendSignal();
             if (NetworkManager.Singleton.IsHost)
                 return;
 
@@ -220,7 +231,7 @@ namespace Chutpot.FPSParty.Persistent
             Debug.Log("OnClientConnected");
             if (!_facepunchTransport)
             {
-                Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").SendSignal();
+                Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccesfull").SendSignal();
             }
         }
 
@@ -252,10 +263,10 @@ namespace Chutpot.FPSParty.Persistent
 
         public void StopOrLeave()
         {
-            /*
-            if(_fpsLobby.Lobby.Id != 0)
-                _fpsLobby.Lobby.Leave();
-            */
+            
+            if(_lobby.Id != 0)
+                _lobby.Leave();
+            
 
             if (NetworkManager.Singleton.IsHost)
             {

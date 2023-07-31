@@ -21,6 +21,8 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: JoinLobby
     - Category: MainMenuUI
+      Name: JoinLobbySuccesfull
+    - Category: MainMenuUI
       Name: LoadingScreen
     - Category: MainMenuUI
       Name: RefreshLobby

@@ -1187,7 +1187,7 @@ MonoBehaviour:
   OverrideSorting: 1
   BlockBackButton: 0
   RestoreSelectedAfterHide: 1
-  HideOnAnyButton: 1
+  HideOnAnyButton: 0
   HideOnBackButton: 1
   HideOnClickContainer: 0
   HideOnClickOverlay: 0
@@ -1196,8 +1196,7 @@ MonoBehaviour:
   Labels:
   - {fileID: 2434405026612332996}
   Images: []
-  Buttons:
-  - {fileID: 8829951979968486115}
+  Buttons: []
 --- !u!1 &7916572202574166433
 GameObject:
   m_ObjectHideFlags: 0
@@ -1224,7 +1223,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7916572202574166433}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1340,14 +1339,46 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
   Behaviours:
-    Behaviours: []
+    Behaviours:
+    - EventName: PointerClick
+      Runners: []
+      Event:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 461478325636188252}
+            m_TargetAssemblyTypeName: Doozy.Runtime.UIManager.Containers.UIPopup,
+              DoozyRuntime
+            m_MethodName: Hide
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      BehaviourName: 4
+      Receiver:
+        ConnectionMode: 1
+        SignalProviderId:
+          Type: 0
+          Category: Pointer
+          Name: Click
+        ProviderReference: {fileID: 0}
+        StreamId:
+          Category: None
+          Name: None
+          Custom: 0
+      Cooldown: 0
+      Selectable: {fileID: 8829951979968486115}
     SignalSource: {fileID: 7916572202574166433}
     Selectable: {fileID: 8829951979968486115}
   Cooldown: 0
   DisableWhenInCooldown: 0
   Id:
-    Category: PlayMenuView
-    Name: Join
+    Category: None
+    Name: None
     Custom: 0
 --- !u!114 &2187881848281331309
 MonoBehaviour:
@@ -1428,12 +1459,12 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 175, y: -28, z: 0}
-      ToValue: {x: 175, y: -28, z: 0}
-      CurrentValue: {x: 175, y: -28, z: 0}
+      FromValue: {x: 0, y: -118, z: 0}
+      ToValue: {x: 0, y: -118, z: 0}
+      CurrentValue: {x: 0, y: -118, z: 0}
       Enabled: 1
       AnimationType: 5
-      StartPosition: {x: 175, y: -28, z: 0}
+      StartPosition: {x: 0, y: -118, z: 0}
       FromReferenceValue: 1
       ToReferenceValue: 0
       FromCustomValue: {x: 0, y: 0, z: 0}
@@ -1559,7 +1590,7 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 1.2, y: 1.2, z: 1}
+      FromValue: {x: 0.9, y: 0.9, z: 1}
       ToValue: {x: 1, y: 1, z: 1}
       CurrentValue: {x: 1, y: 1, z: 1}
       Enabled: 1
@@ -1698,12 +1729,12 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 175, y: -28, z: 0}
-      ToValue: {x: 175, y: -26, z: 0}
-      CurrentValue: {x: 175, y: -28, z: 0}
+      FromValue: {x: 0, y: -118, z: 0}
+      ToValue: {x: 0, y: -116, z: 0}
+      CurrentValue: {x: 0, y: -118, z: 0}
       Enabled: 0
       AnimationType: 6
-      StartPosition: {x: 175, y: -28, z: 0}
+      StartPosition: {x: 0, y: -118, z: 0}
       FromReferenceValue: 0
       ToReferenceValue: 0
       FromCustomValue: {x: 0, y: 0, z: 0}
@@ -1829,7 +1860,7 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 1.2, y: 1.2, z: 1}
+      FromValue: {x: 1, y: 1, z: 1}
       ToValue: {x: 1.2, y: 1.2, z: 1}
       CurrentValue: {x: 1.2, y: 1.2, z: 1}
       Enabled: 1
@@ -1968,12 +1999,12 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 175, y: -28, z: 0}
-      ToValue: {x: 175, y: -20, z: 0}
-      CurrentValue: {x: 175, y: -28, z: 0}
+      FromValue: {x: 0, y: -118, z: 0}
+      ToValue: {x: 0, y: -110, z: 0}
+      CurrentValue: {x: 0, y: -118, z: 0}
       Enabled: 0
       AnimationType: 6
-      StartPosition: {x: 175, y: -28, z: 0}
+      StartPosition: {x: 0, y: -118, z: 0}
       FromReferenceValue: 1
       ToReferenceValue: 0
       FromCustomValue: {x: 0, y: 0, z: 0}
@@ -2238,12 +2269,12 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 175, y: -28, z: 0}
-      ToValue: {x: 175, y: -26, z: 0}
-      CurrentValue: {x: 175, y: -28, z: 0}
+      FromValue: {x: 0, y: -118, z: 0}
+      ToValue: {x: 0, y: -116, z: 0}
+      CurrentValue: {x: 0, y: -118, z: 0}
       Enabled: 0
       AnimationType: 4
-      StartPosition: {x: 175, y: -28, z: 0}
+      StartPosition: {x: 0, y: -118, z: 0}
       FromReferenceValue: 0
       ToReferenceValue: 0
       FromCustomValue: {x: 0, y: 0, z: 0}
@@ -2508,12 +2539,12 @@ MonoBehaviour:
         Vibration: 8
         Elasticity: 1
         FadeOutShake: 0
-      FromValue: {x: 175, y: -28, z: 0}
-      ToValue: {x: 175, y: -28, z: 0}
+      FromValue: {x: 0, y: -118, z: 0}
+      ToValue: {x: 0, y: -118, z: 0}
       CurrentValue: {x: 0, y: 0, z: 0}
       Enabled: 1
       AnimationType: 5
-      StartPosition: {x: 175, y: -28, z: 0}
+      StartPosition: {x: 0, y: -118, z: 0}
       FromReferenceValue: 1
       ToReferenceValue: 0
       FromCustomValue: {x: 0, y: 0, z: 0}

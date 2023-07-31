@@ -655,7 +655,7 @@ MonoBehaviour:
   MultiplayerInfo: {fileID: 0}
   IsOn: 0
   CurrentUISelectionState: 0
-  DeselectAfterPress: 0
+  DeselectAfterPress: 1
   OnSelectionStateChangedCallback:
     m_PersistentCalls:
       m_Calls: []
@@ -707,8 +707,8 @@ MonoBehaviour:
   Cooldown: 0
   DisableWhenInCooldown: 0
   Id:
-    Category: PlayMenuView
-    Name: Join
+    Category: None
+    Name: None
     Custom: 0
 --- !u!114 &6945380939447536010
 MonoBehaviour:

@@ -24,9 +24,6 @@ namespace Chutpot.FPSParty.Persistent
 
             SignalsService.GetStream("MainMenuUI", "RefreshLobby").OnSignal += OnRefresh;
 
-            if (!SteamClient.IsValid) 
-            {
-            }
         }
 
         private void OnRefresh(Signal signal)
@@ -43,6 +40,10 @@ namespace Chutpot.FPSParty.Persistent
 
                 query.RequestAsync().ContinueWith(OnContinue, TaskScheduler.FromCurrentSynchronizationContext());
             }
+            else
+            {
+                 _lobbies[0].gameObject.SetActive(true);
+            }
         }
 
         private void OnContinue(Task<Lobby[]> taskLobby)
@@ -52,8 +53,7 @@ namespace Chutpot.FPSParty.Persistent
             for (int i = 0; i < lobbies.Length; i++)
             {
                 _lobbies[i].SetLobby(lobbies[i]);
-            }
-            
+            }   
         }
     }
 }
