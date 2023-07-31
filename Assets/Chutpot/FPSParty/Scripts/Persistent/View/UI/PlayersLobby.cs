@@ -65,9 +65,9 @@ namespace Chutpot.FPSParty.Persistent
                         var steamId = new SteamId();
                         steamId.Value = fpsClient.SteamId;
                         var steamClient = new Friend(steamId);
+                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
                         _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
 
-                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
                         _playerCards[_seatedPlayers[fpsClient.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
                     }
                     else if(!_seatedPlayers.ContainsKey(fpsClient.Id))

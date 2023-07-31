@@ -114,7 +114,7 @@ namespace Chutpot.FPSParty.Persistent
 
         private void OnClientConnected(ulong id)
         {
-            if(NetworkManager.Singleton.ConnectedClients.Count >= 8)
+            if(NetworkManager.Singleton.ConnectedClients.Count >= LobbyNetworkHandler.MaxPlayer)
             {
                 NetworkManager.Singleton.DisconnectClient(id);
             }
@@ -122,7 +122,7 @@ namespace Chutpot.FPSParty.Persistent
             ulong steamId = 0;
             if (Lobby.Id.Value != 0)
             {
-                steamId = Lobby.Members.ElementAt((int)id).Id.Value;
+                steamId = Lobby.Members.ElementAt((int)Lobby.MemberCount -1).Id.Value;
             }
 
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
@@ -131,20 +131,20 @@ namespace Chutpot.FPSParty.Persistent
         }
 
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
-        private void GetClientsServerRpc()
+        public void GetClientsServerRpc()
         {
             SendClientsClientRpc();
         }
 
 
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
-        private void SendClientsClientRpc()
+        public void SendClientsClientRpc()
         {
             _updateLobbyStream.SendSignal<IEnumerator<FPSClient>>(_clients.GetEnumerator());
         }
 
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
-        private void SendDisconnectedClientRpc(ulong id)
+        public void SendDisconnectedClientRpc(ulong id)
         {
             _updateLobbyStream.SendSignal<ulong>(id);
         }

@@ -148,9 +148,20 @@ namespace Chutpot.FPSParty.Persistent
                 var popup = UIPopup.Get("PopupBlock");
                 popup.SetTexts("Creating lobby...");
                 popup.Show();
+
+                _lobbyHandler = MonoBehaviour.Instantiate(_lobbyHandlerPrefab).GetComponent<LobbyNetworkHandler>();
+
                 _lobby = (Lobby)await SteamMatchmaking.CreateLobbyAsync(8);
                 _lobbyHandler.Lobby = _lobby;
+                _lobbyHandler.GetComponent<NetworkObject>().Spawn();
+                _lobbyHandler.SendClientsClientRpc();
                 popup.Hide();
+            }
+            else
+            {
+                _lobbyHandler = MonoBehaviour.Instantiate(_lobbyHandlerPrefab).GetComponent<LobbyNetworkHandler>();
+                _lobbyHandler.GetComponent<NetworkObject>().Spawn();
+                _lobbyHandler.SendClientsClientRpc();
             }
         }
 
@@ -232,7 +243,7 @@ namespace Chutpot.FPSParty.Persistent
         }
 
 
-        //-------------- Unity Messages
+        //-------------- NetworkManager Messages
         private void OnClientDisconnected(ulong clientId)
         {
             Debug.Log("OnClientDisconnected");
@@ -251,11 +262,9 @@ namespace Chutpot.FPSParty.Persistent
         private void OnServerStarted()
         {
             Debug.Log("OnServerStarted");
-            _lobbyHandler = MonoBehaviour.Instantiate(_lobbyHandlerPrefab).GetComponent<LobbyNetworkHandler>();
-            _lobbyHandler.GetComponent<NetworkObject>().Spawn();
         }
 
-        //--------------- Unity Messages
+        //--------------- NetworkManager Messages
 
         public void StartClient(ulong targetID)
         {
@@ -269,11 +278,22 @@ namespace Chutpot.FPSParty.Persistent
                 Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccesfull").SendSignal();
             }
 
-            if (!NetworkManager.Singleton.StartClient())
+
+            try
+            {
+                if (!NetworkManager.Singleton.StartClient())
+                {
+                    var popup = UIPopup.Get("Popup");
+                    popup.SetTexts("Failed to join the game");
+                    popup.Show();
+                }
+            }
+            catch(Exception e)
             {
                 var popup = UIPopup.Get("Popup");
                 popup.SetTexts("Failed to join the game");
                 popup.Show();
+                Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ExitLobby").SendSignal();
             }
         }
 
