@@ -85,8 +85,11 @@ namespace Chutpot.FPSParty.Persistent
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ExitLobby").OnSignal += signal => StopOrLeave();
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").OnSignal += signal => 
             {
-                signal.TryGetValue<uint>(out uint id);
-                StartClient(id);
+                signal.TryGetValue<Lobby>(out Lobby lobby);
+                if (_facepunchTransport)
+                    lobby.Join();
+                else
+                    StartClient(0);
             };
 
             if (_facepunchTransport)
@@ -206,18 +209,16 @@ namespace Chutpot.FPSParty.Persistent
             _lobby = lobby;
         }
 
-        //entry point of facepunch client initialization
         private void OnLobbyEntered(Lobby lobby)
         {
             Debug.Log("OnLobbyEntered");
             _lobby = lobby;
-            //Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdateLobby").SendSignal<FPSLobby>(_fpsLobby);
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccefull").SendSignal();
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccesfull").SendSignal();
             if (NetworkManager.Singleton.IsHost)
                 return;
 
-            //set facepunchTransport Target ID and initialize NetworkManagerClient, 
-            StartClient(lobby.Owner.Id);
+            //Start Client for non-host
+            StartClient(lobby.Owner.Id.Value);
         }
 
 
@@ -246,8 +247,10 @@ namespace Chutpot.FPSParty.Persistent
 
         public void StartClient(ulong targetID)
         {
+            Debug.Log("StartClient");
             if (_facepunchTransport)
             {
+                Debug.Log(targetID);
                 _facepunchTransport.targetSteamId = targetID;
             }
 

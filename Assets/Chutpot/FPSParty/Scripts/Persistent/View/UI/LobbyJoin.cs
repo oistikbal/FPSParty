@@ -53,8 +53,7 @@ namespace Chutpot.FPSParty
 
         private void OnJoinClick()
         {
-            Debug.Log("dsadsa");
-            _joinStream.SendSignal(_lobby.Id.AccountId);
+            _joinStream.SendSignal(_lobby);
         }
     }
 }
