@@ -57,7 +57,7 @@ namespace Chutpot.FPSParty.Persistent
         //This lobby never updated at Client!
         public Lobby Lobby;
 
-        private const int MaxPlayer = 8;
+        public const int MaxPlayer = 8;
 
         private void Awake()
         {

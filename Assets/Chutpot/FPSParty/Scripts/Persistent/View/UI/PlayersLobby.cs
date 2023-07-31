@@ -12,27 +12,24 @@ using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
+using Utils;
 
 namespace Chutpot.FPSParty.Persistent
 {
-
     public class PlayersLobby : MonoBehaviour
     {
-        [SerializeField]
-        private TextMeshProUGUI[] _playerNames;
-        [SerializeField]
-        private RawImage[] _playerImages;
-        [SerializeField]
-        private GameObject[] _playersGO;
-
+        private PlayerCard[] _playerCards;
         private Texture _defaultImage;
-        private readonly Dictionary<ulong, GameObject> _activePlayersGO = new Dictionary<ulong, GameObject>(8);
-        private readonly Queue<GameObject> _freeGO = new Queue<GameObject>();
+
+        //clientId, Index pair
+        private readonly Dictionary<ulong, int> _seatedPlayers = new Dictionary<ulong, int>(8);
+        private readonly PriorityQueue<int, int> _freeSeats = new PriorityQueue<int, int>(8);
 
         private void Start()
         {
             RestartLobby();
-            _defaultImage = _playerImages[0].texture;
+            _playerCards = GetComponentsInChildren<PlayerCard>(true);
+            _defaultImage = _playerCards[0].Image.texture;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdateLobby").OnSignal += OnUpdateLobby;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").OnSignal += signal => RestartLobby();
         }
@@ -47,12 +44,12 @@ namespace Chutpot.FPSParty.Persistent
                     UpdateClient(clients.Current);
                 }
             }
-            //When a clien disconnects
+            //When a client disconnects
             else if(signal.TryGetValue<ulong>(out ulong id))
             {
-                _freeGO.Enqueue(_activePlayersGO[id]);
-                _activePlayersGO[id].SetActive(false);
-                _activePlayersGO.Remove(id);
+                _freeSeats.Enqueue(_seatedPlayers[id], _seatedPlayers[id]);
+                _playerCards[_seatedPlayers[id]].gameObject.SetActive(false);
+                _seatedPlayers.Remove(id);
             }
         }
 
@@ -62,21 +59,21 @@ namespace Chutpot.FPSParty.Persistent
             {
                 //Update client when firstly logged on or when doesnt have and name for speacially when host create server
                 case FPSClientStatus.Unready:
-                    if (SteamClient.IsValid && !_activePlayersGO.ContainsKey(fpsClient.Id))
+                    if (SteamClient.IsValid && !_seatedPlayers.ContainsKey(fpsClient.Id))
                     {
-                        _activePlayersGO[fpsClient.Id] = _freeGO.Dequeue();
+                        _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
                         var steamId = new SteamId();
                         steamId.Value = fpsClient.SteamId;
                         var steamClient = new Friend(steamId);
-                        _activePlayersGO[fpsClient.Id].SetActive(true);
+                        _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
 
-                        _playerNames[fpsClient.Id].text = steamClient.Name;
-                        _playerImages[fpsClient.Id].texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
+                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
+                        _playerCards[_seatedPlayers[fpsClient.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
                     }
-                    else if(!_activePlayersGO.ContainsKey(fpsClient.Id))
+                    else if(!_seatedPlayers.ContainsKey(fpsClient.Id))
                     {
-                        _activePlayersGO[fpsClient.Id] = _freeGO.Dequeue();
-                        _activePlayersGO[fpsClient.Id].SetActive(true);
+                        _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
+                        _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
                     }
                     break;
                 default:
@@ -86,14 +83,14 @@ namespace Chutpot.FPSParty.Persistent
 
         private void RestartLobby()
         {
-            _freeGO.Clear();
-            _activePlayersGO.Clear();
+            _freeSeats?.Clear();
+            _seatedPlayers?.Clear();
 
-            foreach (var playerGo in _playersGO)
-                _freeGO.Enqueue(playerGo);
+            for (int i = 0; i < LobbyNetworkHandler.MaxPlayer; i++)
+                _freeSeats.Enqueue(i,i);
 
-            foreach (var player in _playersGO)
-                player.SetActive(false);
+            foreach (var seatedPlayer in _seatedPlayers)
+                _playerCards[seatedPlayer.Value].gameObject.SetActive(false);
 
         }
 
