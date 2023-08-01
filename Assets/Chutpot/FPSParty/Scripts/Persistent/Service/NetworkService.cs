@@ -160,7 +160,6 @@ namespace Chutpot.FPSParty.Persistent
                 else
                      _lobby.SetData("Name", hostCreate.name);
                 _lobbyHandler.Lobby = _lobby;
-                _lobbyHandler.GetComponent<NetworkObject>().Spawn();
                 popup.Hide();
             }
             else
@@ -182,13 +181,12 @@ namespace Chutpot.FPSParty.Persistent
                 popup.ShowFromQueue();
             }
 
-            
-            
             if (!_hostCreateData.isInvitationOnly)
                 lobby.SetPublic();
             
             lobby.SetJoinable(true);
             lobby.SetGameServer(lobby.Owner.Id);
+            _lobbyHandler.GetComponent<NetworkObject>().Spawn();
         }
 
         private void OnLobbyGameCreated(Lobby lobby, uint arg2, ushort arg3, SteamId arg4)

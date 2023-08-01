@@ -30,51 +30,89 @@ namespace Chutpot.FPSParty.Persistent
             _playerCards = GetComponentsInChildren<PlayerCard>(true);
             _defaultImage = _playerCards[0].Image.texture;
             RestartLobby();
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayers").OnSignal += OnUpdateLobby;
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayer").OnSignal += OnUpdateLobby;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").OnSignal += signal => RestartLobby();
         }
 
         private void OnUpdateLobby(Signal signal)
         {    
-            //When Players Gets Updated
-            if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> clients))
+            if (signal.TryGetValue<NetworkListEvent<FPSClient>>(out NetworkListEvent<FPSClient> fpsClient))
             {
-                while(clients.MoveNext())
-                {
-                    UpdateClient(clients.Current);
-                }
+                UpdateClient(fpsClient);
             }
-            //When a client disconnects
-            else if(signal.TryGetValue<ulong>(out ulong id))
+            else if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> fpsClients))
             {
-                _freeSeats.Enqueue(_seatedPlayers[id], _seatedPlayers[id]);
-                _playerCards[_seatedPlayers[id]].gameObject.SetActive(false);
-                _seatedPlayers.Remove(id);
+                UpdateClients(fpsClients);
             }
         }
 
-        private void UpdateClient(FPSClient fpsClient)
+        private void UpdateClients(IEnumerator<FPSClient> fpsClients)
         {
-            switch (fpsClient.Status)
+            while(fpsClients.MoveNext()) { }
             {
-                //Update client when firstly logged on or when doesnt have and name for speacially when host create server
-                case FPSClientStatus.Unready:
-                    if (SteamClient.IsValid && !_seatedPlayers.ContainsKey(fpsClient.Id))
-                    {
-                        _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
-                        var steamId = new SteamId();
-                        steamId.Value = fpsClient.SteamId;
-                        var steamClient = new Friend(steamId);
-                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
-                        _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
+                var fpsClient = fpsClients.Current;
+                if (SteamClient.IsValid && !_seatedPlayers.ContainsKey(fpsClient.Id))
+                {
+                    _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
+                    var steamId = new SteamId();
+                    steamId.Value = fpsClient.SteamId;
+                    var steamClient = new Friend(steamId);
+                    _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
+                    _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
+                    if (fpsClient.Status == FPSClientStatus.Unready)
+                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = false;
+                    else
+                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = true;
+                    _playerCards[_seatedPlayers[fpsClient.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
+                }
+                else if (!_seatedPlayers.ContainsKey(fpsClient.Id))
+                {
+                    _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
+                    _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
+                    if (fpsClient.Status == FPSClientStatus.Unready)
+                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = false;
+                    else
+                        _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = true;
+                }
+            }
+        }
 
-                        _playerCards[_seatedPlayers[fpsClient.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
-                    }
-                    else if(!_seatedPlayers.ContainsKey(fpsClient.Id))
+        private void UpdateClient(NetworkListEvent<FPSClient> fpsClient)
+        {
+            switch (fpsClient.Type)
+            {
+                case NetworkListEvent<FPSClient>.EventType.Add:
+                    if (SteamClient.IsValid && !_seatedPlayers.ContainsKey(fpsClient.Value.Id))
                     {
-                        _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
-                        _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
+                        _seatedPlayers[fpsClient.Value.Id] = _freeSeats.Dequeue();
+                        var steamId = new SteamId();
+                        steamId.Value = fpsClient.Value.SteamId;
+                        var steamClient = new Friend(steamId);
+                        Debug.Log(steamId.Value);
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerName.text = steamClient.Name;
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].gameObject.SetActive(true);
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerStatus.isOn = false;
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
+                        break;
                     }
+                    else if(!_seatedPlayers.ContainsKey(fpsClient.Value.Id))
+                    {
+                        _seatedPlayers[fpsClient.Value.Id] = _freeSeats.Dequeue();
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].gameObject.SetActive(true);
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerStatus.isOn = false;
+                        break;
+                    }
+                    break;
+                case NetworkListEvent<FPSClient>.EventType.Remove:
+                    _freeSeats.Enqueue(_seatedPlayers[fpsClient.Value.Id], _seatedPlayers[fpsClient.Value.Id]);
+                    _playerCards[_seatedPlayers[fpsClient.Value.Id]].gameObject.SetActive(false);
+                    _seatedPlayers.Remove(fpsClient.Value.Id);
+                    break;
+                case NetworkListEvent<FPSClient>.EventType.Value:
+                    if (fpsClient.Value.Status == FPSClientStatus.Unready)
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerStatus.isOn = false;
+                    else if(fpsClient.Value.Status == FPSClientStatus.Ready)
+                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerStatus.isOn = true;
                     break;
                 default:
                     break;
@@ -83,7 +121,6 @@ namespace Chutpot.FPSParty.Persistent
 
         private void RestartLobby()
         {
-            Debug.Log("RestartLobby");
             _freeSeats?.Clear();
             _seatedPlayers?.Clear();
 
@@ -91,7 +128,10 @@ namespace Chutpot.FPSParty.Persistent
                 _freeSeats.Enqueue(i,i);
 
             for(int i = 0; i < LobbyNetworkHandler.MaxPlayer; i++)
+            {
                 _playerCards[i].gameObject.SetActive(false);
+            }
+
 
         }
 

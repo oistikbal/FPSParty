@@ -26,7 +26,7 @@ namespace Chutpot.FPSParty.Persistent
 
     public enum FPSMap : byte
     {
-        Default,
+        Random,
         Dust2
     }
 
@@ -86,6 +86,8 @@ namespace Chutpot.FPSParty.Persistent
         private TextMeshProUGUI _lobbyName;
         private TextMeshProUGUI _mapName;
         private UnityEngine.UI.Image _mapImage;
+        [SerializeField]
+        private Sprite[] _coverImages;
 
         //Host
 
@@ -97,22 +99,25 @@ namespace Chutpot.FPSParty.Persistent
         private void Awake()
         {
             _lobbyName = UITag.GetFirstTag("MainMenuUI", "LobbyName").GetComponentInChildren<TextMeshProUGUI>();
-            _mapName = UITag.GetFirstTag("MainMenuUI", "Map").GetComponentInChildren<TextMeshProUGUI>();
-            _mapImage = UITag.GetFirstTag("MainMenuUI", "Map").GetComponentInChildren<UnityEngine.UI.Image>();
+            _mapName = UITag.GetFirstTag("MainMenuUI", "MapName").GetComponent<TextMeshProUGUI>();
+            _mapImage = UITag.GetFirstTag("MainMenuUI", "MapImage").GetComponent<UnityEngine.UI.Image>();
 
             _clients = new NetworkList<FPSClient>();
             _lobby = new NetworkVariable<FPSLobby>();
 
-            _lobby.OnValueChanged += OnLobbyUpdated;
-            _clients.OnListChanged += changeEvent => UpdatePlayers(_clients.GetEnumerator());
-
-            _updatePlayerStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayers");
+            _updatePlayerStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayer");
             _disconnectStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect");
+
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "MapChange").OnSignal += signal => UpdateMapServerRpc();
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ReadyButton").OnSignal += signal => UpdatePlayerStatusServerRpc();
         }
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
+            _clients.OnListChanged += changeEvent => UpdatePlayer(changeEvent);
+            _lobby.OnValueChanged += OnLobbyUpdated;
+
             if (IsHost)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnected;
@@ -123,7 +128,7 @@ namespace Chutpot.FPSParty.Persistent
                 if (Lobby.Id != 0)
                     fpsLobby.LobbyName = Lobby.GetData("Name");
 
-                fpsLobby.Map = FPSMap.Default;
+                fpsLobby.Map = FPSMap.Random;
                 _lobby.Value = fpsLobby;
 
                 foreach (var client in NetworkManager.Singleton.ConnectedClientsIds)
@@ -150,11 +155,6 @@ namespace Chutpot.FPSParty.Persistent
             _disconnectStream.SendSignal();
         }
 
-        public override void OnDestroy()
-        {
-            base.OnDestroy();
-        }
-
         private void OnServerStarted()
         {
         }
@@ -163,8 +163,8 @@ namespace Chutpot.FPSParty.Persistent
         {
             if(id != NetworkManager.LocalClientId) 
             {
-                _clients.RemoveAt(_clients.IndexOf(FindClientIndex(_clients.GetEnumerator(), id)));
-                SendDisconnectedClientRpc(id);
+                if (!_clients.Remove(FindClientIndex(_clients.GetEnumerator(), id)))
+                    Debug.LogError("Tried remove a non-existing client!");
             }
         }
 
@@ -182,13 +182,7 @@ namespace Chutpot.FPSParty.Persistent
             }
 
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);
-            _clients.Insert((int)id, client);
-        }
-
-        [ClientRpc(Delivery = RpcDelivery.Reliable)]
-        public void SendDisconnectedClientRpc(ulong id)
-        {
-            UpdateDisconnectedPlayer(id);
+            _clients.Add(client);
         }
 
         private void OnLobbyUpdated(FPSLobby oldLobby, FPSLobby newLobby)
@@ -200,19 +194,44 @@ namespace Chutpot.FPSParty.Persistent
         {
             _lobbyName.text = newLobby.LobbyName.ToString();
             _mapName.text = newLobby.Map.ToString();
+            _mapImage.sprite = _coverImages[(int)newLobby.Map];
         }
 
-        private void UpdateDisconnectedPlayer(ulong id)
+        private void UpdatePlayer(NetworkListEvent<FPSClient> changeEvent)
         {
-            _updatePlayerStream.SendSignal<ulong>(id);
+            _updatePlayerStream.SendSignal<NetworkListEvent<FPSClient>>(changeEvent);
         }
 
-        private void UpdatePlayers(IEnumerator<FPSClient> _players)
+        private void UpdatePlayers(IEnumerator<FPSClient> fpsClients)
         {
-            _updatePlayerStream.SendSignal<IEnumerator<FPSClient>>(_players);
+            _updatePlayerStream.SendSignal<IEnumerator<FPSClient>>(fpsClients);
         }
 
-        private FPSClient FindClientIndex(IEnumerator<FPSClient> clients, ulong clientId) 
+        [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
+        private void UpdatePlayerStatusServerRpc(ServerRpcParams rpcParams = default)
+        {
+            var client = FindClientIndex(_clients.GetEnumerator(), rpcParams.Receive.SenderClientId);
+            if (client.Status == FPSClientStatus.Unready)
+                client.Status = FPSClientStatus.Ready;
+            else if (client.Status == FPSClientStatus.Ready)
+                client.Status = FPSClientStatus.Unready;
+
+            _clients[_clients.IndexOf(FindClientIndex(_clients.GetEnumerator(), rpcParams.Receive.SenderClientId))] = client;
+        }
+
+        [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = true)]
+        private void UpdateMapServerRpc()
+        {
+            var map = _lobby.Value.Map;
+            map = map + 1;
+            if (map > Enum.GetValues(typeof(FPSMap)).Cast<FPSMap>().Last())
+                map = FPSMap.Random;
+            var lobby = _lobby.Value;
+            lobby.Map = map;
+            _lobby.Value = lobby;
+        }
+
+        private FPSClient FindClientIndex(IEnumerator<FPSClient> clients, ulong clientId)
         {
             while (clients.MoveNext())
             {
@@ -222,6 +241,5 @@ namespace Chutpot.FPSParty.Persistent
 
             return new FPSClient();
         }
-
     }
 }

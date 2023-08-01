@@ -1970,7 +1970,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &4904792563554147570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9236,7 +9236,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &2114665621630637450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9543,7 +9543,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &2945337591615053839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14517,7 +14517,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: {fileID: 5362181780965794884}
   Image: {fileID: 1440333217604305861}
-  PlayerStatus: {fileID: 0}
+  PlayerStatus: {fileID: 5840183739430754889}
 --- !u!1 &3157966658008310065
 GameObject:
   m_ObjectHideFlags: 0
@@ -18382,7 +18382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: {fileID: 5939488672216779166}
   Image: {fileID: 760070985264090810}
-  PlayerStatus: {fileID: 0}
+  PlayerStatus: {fileID: 1540881976585785941}
 --- !u!1 &3285178252092164200
 GameObject:
   m_ObjectHideFlags: 0
@@ -18525,7 +18525,38 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
   Behaviours:
-    Behaviours: []
+    Behaviours:
+    - EventName: PointerClick
+      Runners: []
+      Event:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 828369336755038759}
+            m_TargetAssemblyTypeName: Doozy.Runtime.Signals.SignalSender, DoozyRuntime
+            m_MethodName: SendSignal
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      BehaviourName: 4
+      Receiver:
+        ConnectionMode: 1
+        SignalProviderId:
+          Type: 0
+          Category: Pointer
+          Name: Click
+        ProviderReference: {fileID: 0}
+        StreamId:
+          Category: None
+          Name: None
+          Custom: 0
+      Cooldown: 0
+      Selectable: {fileID: 5298019637150894902}
     SignalSource: {fileID: 3285178252092164200}
     Selectable: {fileID: 5298019637150894902}
   Cooldown: 0
@@ -22923,7 +22954,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &7208108034887525972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23390,7 +23421,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &4469417787409282596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27030,7 +27061,19 @@ MonoBehaviour:
       Runners: []
       Event:
         m_PersistentCalls:
-          m_Calls: []
+          m_Calls:
+          - m_Target: {fileID: 7253144797575727464}
+            m_TargetAssemblyTypeName: Doozy.Runtime.Signals.SignalSender, DoozyRuntime
+            m_MethodName: SendSignal
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
       BehaviourName: 4
       Receiver:
         ConnectionMode: 1
@@ -28826,7 +28869,38 @@ MonoBehaviour:
         m_PersistentCalls:
           m_Calls: []
   Behaviours:
-    Behaviours: []
+    Behaviours:
+    - EventName: Selected
+      Runners: []
+      Event:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 4920068575068258355}
+            m_TargetAssemblyTypeName: Doozy.Runtime.Signals.SignalSender, DoozyRuntime
+            m_MethodName: SendSignal
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      BehaviourName: 10
+      Receiver:
+        ConnectionMode: 1
+        SignalProviderId:
+          Type: 0
+          Category: UI
+          Name: Selected
+        ProviderReference: {fileID: 0}
+        StreamId:
+          Category: None
+          Name: None
+          Custom: 0
+      Cooldown: 0
+      Selectable: {fileID: 4069522363508167876}
     SignalSource: {fileID: 5201625158306831941}
     Selectable: {fileID: 4069522363508167876}
   Cooldown: 0
@@ -30256,7 +30330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Id:
     Category: MainMenuUI
-    Name: Canvas
+    Name: MapImage
     Custom: 0
 --- !u!1 &5313425909455056032
 GameObject:
@@ -64152,7 +64226,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &7626595324089265147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68295,7 +68369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: {fileID: 8173967173526055321}
   Image: {fileID: 7106293178062752264}
-  PlayerStatus: {fileID: 0}
+  PlayerStatus: {fileID: 8618926124597878834}
 --- !u!1 &5782711282137464823
 GameObject:
   m_ObjectHideFlags: 0
@@ -73206,8 +73280,9 @@ GameObject:
   - component: {fileID: 6175464534584865484}
   - component: {fileID: 4919404252456067052}
   - component: {fileID: 3893918180912455595}
+  - component: {fileID: 5835075894863358653}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MapName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73329,6 +73404,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5835075894863358653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925068224732800010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e555db85055743968af7ce57a3c13177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Id:
+    Category: MainMenuUI
+    Name: MapName
+    Custom: 0
 --- !u!1 &8356312924851365621
 GameObject:
   m_ObjectHideFlags: 0
@@ -73340,7 +73431,6 @@ GameObject:
   - component: {fileID: 7606841105526002687}
   - component: {fileID: 650591465932645827}
   - component: {fileID: 8507826136199710326}
-  - component: {fileID: 2425856601007344160}
   m_Layer: 5
   m_Name: Map
   m_TagString: Untagged
@@ -73407,22 +73497,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2425856601007344160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8356312924851365621}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e555db85055743968af7ce57a3c13177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Id:
-    Category: MainMenuUI
-    Name: Map
-    Custom: 0
 --- !u!1 &8357646435905510947
 GameObject:
   m_ObjectHideFlags: 0
@@ -73812,7 +73886,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &4754179600058120252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77094,7 +77168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerName: {fileID: 999640710162582931}
   Image: {fileID: 7756174976212030203}
-  PlayerStatus: {fileID: 0}
+  PlayerStatus: {fileID: 1632100029742727920}
 --- !u!1 &9121623267942428896
 GameObject:
   m_ObjectHideFlags: 0
@@ -79739,7 +79813,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ToggleGroup: {fileID: 0}
-  IsLocked: 1
+  IsLocked: 0
 --- !u!114 &601821003524495133
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,7 +19,9 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: LobbyName
     - Category: MainMenuUI
-      Name: Map
+      Name: MapImage
+    - Category: MainMenuUI
+      Name: MapName
     - Category: MainMenuUI
       Name: Player
     - Category: None
