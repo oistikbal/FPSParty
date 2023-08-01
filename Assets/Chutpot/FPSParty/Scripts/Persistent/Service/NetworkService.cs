@@ -82,6 +82,7 @@ namespace Chutpot.FPSParty.Persistent
             }
 
 
+            NetworkManager.Singleton.OnClientStopped += x => Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").SendSignal();
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "HostCreate").OnSignal += OnHostCreateSignal;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ExitLobby").OnSignal += signal => StopOrLeave();
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobby").OnSignal += signal => 
@@ -112,6 +113,7 @@ namespace Chutpot.FPSParty.Persistent
                 SteamFriends.OnGameLobbyJoinRequested += OnGameLobbyJoinRequested;  
             }
         }
+
 
         ~NetworkService()
         {
@@ -152,16 +154,19 @@ namespace Chutpot.FPSParty.Persistent
                 _lobbyHandler = MonoBehaviour.Instantiate(_lobbyHandlerPrefab).GetComponent<LobbyNetworkHandler>();
 
                 _lobby = (Lobby)await SteamMatchmaking.CreateLobbyAsync(8);
+
+                if (hostCreate.name == string.Empty)
+                    _lobby.SetData("Name", _lobby.Owner.Name + "`s lobby");
+                else
+                     _lobby.SetData("Name", hostCreate.name);
                 _lobbyHandler.Lobby = _lobby;
                 _lobbyHandler.GetComponent<NetworkObject>().Spawn();
-                _lobbyHandler.SendClientsClientRpc();
                 popup.Hide();
             }
             else
             {
                 _lobbyHandler = MonoBehaviour.Instantiate(_lobbyHandlerPrefab).GetComponent<LobbyNetworkHandler>();
                 _lobbyHandler.GetComponent<NetworkObject>().Spawn();
-                _lobbyHandler.SendClientsClientRpc();
             }
         }
 
@@ -313,8 +318,8 @@ namespace Chutpot.FPSParty.Persistent
                 NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
             }
 
-            NetworkManager.Singleton.Shutdown();
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").SendSignal();
+            NetworkManager.Singleton.Shutdown();
         }
 
 

@@ -27,10 +27,10 @@ namespace Chutpot.FPSParty.Persistent
 
         private void Start()
         {
-            RestartLobby();
             _playerCards = GetComponentsInChildren<PlayerCard>(true);
             _defaultImage = _playerCards[0].Image.texture;
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdateLobby").OnSignal += OnUpdateLobby;
+            RestartLobby();
+            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayers").OnSignal += OnUpdateLobby;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").OnSignal += signal => RestartLobby();
         }
 
@@ -83,14 +83,15 @@ namespace Chutpot.FPSParty.Persistent
 
         private void RestartLobby()
         {
+            Debug.Log("RestartLobby");
             _freeSeats?.Clear();
             _seatedPlayers?.Clear();
 
             for (int i = 0; i < LobbyNetworkHandler.MaxPlayer; i++)
                 _freeSeats.Enqueue(i,i);
 
-            foreach (var seatedPlayer in _seatedPlayers)
-                _playerCards[seatedPlayer.Value].gameObject.SetActive(false);
+            for(int i = 0; i < LobbyNetworkHandler.MaxPlayer; i++)
+                _playerCards[i].gameObject.SetActive(false);
 
         }
 
