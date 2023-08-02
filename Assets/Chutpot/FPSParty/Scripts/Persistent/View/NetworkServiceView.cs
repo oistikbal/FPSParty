@@ -17,7 +17,7 @@ namespace Chutpot.FPSParty.Persistent
         private FacepunchTransport _facepunchTransport;
         private UnityTransport _unityTransport;
 
-        public bool IsSteamInitialized { get; protected set; }
+        public Action Initialized;
 
         protected override void Awake()
         {
@@ -26,34 +26,17 @@ namespace Chutpot.FPSParty.Persistent
             _facepunchTransport = gameObject.AddComponent<FacepunchTransport>();
             if (SteamClient.IsValid)
             {
-                IsSteamInitialized = true;
                 _networkManager.NetworkConfig.NetworkTransport = _facepunchTransport;
             }
             else 
             {
-                IsSteamInitialized = false;
                 Destroy(_facepunchTransport);
                 _unityTransport = gameObject.AddComponent<UnityTransport>();
                 _networkManager.NetworkConfig.NetworkTransport = _unityTransport;
-#if !(!UNITY_EDITOR || !DEVELOPMENT_BUILD)
-                StartCoroutine(SendSteamFail());
-#endif
             }
 
+            Initialized?.Invoke();
+
         }
-
-        private IEnumerator SendSteamFail()
-        {
-            //Wait until MainMenuInitializes
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
-            yield return new WaitForEndOfFrame();
-
-            if(!IsSteamInitialized)
-            {
-                Doozy.Runtime.Signals.SignalsService.SendSignal("MainMenuUI", "SteamFail");
-            }
-        }
-
     }
 }

@@ -22,16 +22,15 @@ namespace Chutpot.FPSParty.Persistent
         private Texture _defaultImage;
 
         //clientId, Index pair
-        private readonly Dictionary<ulong, int> _seatedPlayers = new Dictionary<ulong, int>(8);
-        private readonly PriorityQueue<int, int> _freeSeats = new PriorityQueue<int, int>(8);
+        private readonly Dictionary<ulong, int> _seatedPlayers = new Dictionary<ulong, int>(LobbyNetworkHandler.MaxPlayer);
+        private readonly PriorityQueue<int, int> _freeSeats = new PriorityQueue<int, int>(LobbyNetworkHandler.MaxPlayer);
 
         private void Start()
         {
             _playerCards = GetComponentsInChildren<PlayerCard>(true);
-            _defaultImage = _playerCards[0].Image.texture;
             RestartLobby();
+            _defaultImage = _playerCards[0].Image.texture;
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "UpdatePlayer").OnSignal += OnUpdateLobby;
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "OnDisconnect").OnSignal += signal => RestartLobby();
         }
 
         private void OnUpdateLobby(Signal signal)
@@ -42,6 +41,7 @@ namespace Chutpot.FPSParty.Persistent
             }
             else if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> fpsClients))
             {
+                RestartLobby();
                 UpdateClients(fpsClients);
             }
         }
@@ -57,6 +57,7 @@ namespace Chutpot.FPSParty.Persistent
                     var steamId = new SteamId();
                     steamId.Value = fpsClient.SteamId;
                     var steamClient = new Friend(steamId);
+                    Debug.Log(fpsClient.SteamId);
                     _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
                     _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
                     if (fpsClient.Status == FPSClientStatus.Unready)
@@ -88,7 +89,6 @@ namespace Chutpot.FPSParty.Persistent
                         var steamId = new SteamId();
                         steamId.Value = fpsClient.Value.SteamId;
                         var steamClient = new Friend(steamId);
-                        Debug.Log(steamId.Value);
                         _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerName.text = steamClient.Name;
                         _playerCards[_seatedPlayers[fpsClient.Value.Id]].gameObject.SetActive(true);
                         _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerStatus.isOn = false;

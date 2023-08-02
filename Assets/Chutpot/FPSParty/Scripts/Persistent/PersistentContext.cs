@@ -21,7 +21,7 @@ namespace Chutpot.FPSParty.Persistent
             injectionBinder.Bind<IInputService>().To<InputService>().CrossContext().ToSingleton();
             injectionBinder.Bind<FMODService>().CrossContext().ToSingleton();
             injectionBinder.Bind<GameSettingsService>().CrossContext().ToSingleton();
-            injectionBinder.Bind<NetworkService>().CrossContext().ToSingleton();
+            injectionBinder.Bind<AbstractNetworkService>().CrossContext().ToSingleton();
             injectionBinder.Bind<EventSystemModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<InputModel>().CrossContext().ToSingleton();
             injectionBinder.Bind<SettingsModel>().CrossContext().ToSingleton();
