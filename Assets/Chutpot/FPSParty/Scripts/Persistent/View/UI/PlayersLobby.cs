@@ -39,28 +39,26 @@ namespace Chutpot.FPSParty.Persistent
             {
                 UpdateClient(fpsClient);
             }
-            else if(signal.TryGetValue<IEnumerator<FPSClient>>(out IEnumerator<FPSClient> fpsClients))
+            else if(signal.TryGetValue<NetworkList<FPSClient>>(out NetworkList<FPSClient> fpsClients))
             {
                 RestartLobby();
                 UpdateClients(fpsClients);
             }
         }
 
-        private void UpdateClients(IEnumerator<FPSClient> fpsClients)
+        private void UpdateClients(NetworkList<FPSClient> fpsClients)
         {
-            while(fpsClients.MoveNext()) { }
+            foreach(var fpsClient in fpsClients)
             {
-                var fpsClient = fpsClients.Current;
                 if (SteamClient.IsValid && !_seatedPlayers.ContainsKey(fpsClient.Id))
                 {
                     _seatedPlayers[fpsClient.Id] = _freeSeats.Dequeue();
                     var steamId = new SteamId();
                     steamId.Value = fpsClient.SteamId;
                     var steamClient = new Friend(steamId);
-                    Debug.Log(fpsClient.SteamId);
                     _playerCards[_seatedPlayers[fpsClient.Id]].PlayerName.text = steamClient.Name;
                     _playerCards[_seatedPlayers[fpsClient.Id]].gameObject.SetActive(true);
-                    if (fpsClient.Status == FPSClientStatus.Unready)
+                    if(fpsClient.Status == FPSClientStatus.Unready)
                         _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = false;
                     else
                         _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = true;

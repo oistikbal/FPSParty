@@ -1,6 +1,7 @@
 using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Components;
 using Doozy.Runtime.UIManager.Containers;
+using Steamworks;
 using Steamworks.Data;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -100,6 +102,8 @@ namespace Chutpot.FPSParty.Persistent
         private SignalStream _startLobbyStream;
         private SignalStream _readyButtonStream;
 
+        private bool _isLobbyInitialized;
+
         //Host, these values never gets updated at client
         public Lobby Lobby;
         [HideInInspector]
@@ -131,7 +135,7 @@ namespace Chutpot.FPSParty.Persistent
             _startLobbyStream.OnSignal += signal => { if (IsHost) StartGameServerRpc(); };
             _readyButtonStream.OnSignal += signal => UpdatePlayerStatusServerRpc();
 
-            _clients.OnListChanged += changeEvent => UpdatePlayer(changeEvent);
+            _clients.OnListChanged += changeEvent => { UpdatePlayer(changeEvent); };
             _lobby.OnValueChanged += OnLobbyUpdated;
 
             if (IsHost)
@@ -153,11 +157,6 @@ namespace Chutpot.FPSParty.Persistent
                     OnClientConnected(client);
                 }
             }
-
-            //Update Lobby and Clients locally
-            UpdateLobby(_lobby.Value);
-            if(!IsOwner)
-                UpdatePlayers(_clients.GetEnumerator());
         }
 
 
@@ -282,10 +281,10 @@ namespace Chutpot.FPSParty.Persistent
 
         private FPSClient FindClientWithIndex(IEnumerator<FPSClient> clients, ulong targetClientId)
         {
-            while (clients.MoveNext())
-            {
-                if (clients.Current.Id == targetClientId)
-                    return clients.Current;
+            foreach (var client in _clients) 
+            { 
+                if (client.Id == targetClientId)
+                    return client;
             }
 
             return new FPSClient();
@@ -306,12 +305,20 @@ namespace Chutpot.FPSParty.Persistent
 
         private void UpdatePlayer(NetworkListEvent<FPSClient> changeEvent)
         {
+            if (!_isLobbyInitialized)
+            {
+                _isLobbyInitialized = true;
+                UpdatePlayers();
+                UpdateLobby(_lobby.Value);
+                return;
+            }
+
             _updatePlayerStream.SendSignal<NetworkListEvent<FPSClient>>(changeEvent);
         }
 
-        private void UpdatePlayers(IEnumerator<FPSClient> fpsClients)
+        private void UpdatePlayers()
         {
-            _updatePlayerStream.SendSignal<IEnumerator<FPSClient>>(fpsClients);
+            _updatePlayerStream.SendSignal<NetworkList<FPSClient>>(_clients);
         }
     }
 }
