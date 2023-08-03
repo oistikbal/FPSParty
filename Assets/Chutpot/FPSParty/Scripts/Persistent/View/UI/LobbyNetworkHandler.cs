@@ -103,8 +103,12 @@ namespace Chutpot.FPSParty.Persistent
         private SignalStream _mapChangeStream;
         private SignalStream _startLobbyStream;
         private SignalStream _readyButtonStream;
+        private SignalStream _loadGameStream;
+        private SignalStream _gameLoadedStream;
+        private SignalStream _startGameStream;
 
         private bool _isLobbyInitialized;
+        private bool _isGameStarted;
 
         //Host, these values never gets updated at client
         public Lobby SteamLobby;
@@ -128,6 +132,10 @@ namespace Chutpot.FPSParty.Persistent
             _mapChangeStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "MapChange");
             _startLobbyStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "StartLobby");
             _readyButtonStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "ReadyButton");
+
+            _loadGameStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadGame");
+            _gameLoadedStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "GameLoaded");
+            _startGameStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "StartGame");
         }
 
         public override void OnNetworkSpawn()
@@ -137,6 +145,7 @@ namespace Chutpot.FPSParty.Persistent
             _mapChangeStream.OnSignal += signal => { if (IsHost) UpdateMapServerRpc(); };
             _startLobbyStream.OnSignal += signal => { if (IsHost) StartGameServerRpc(); };
             _readyButtonStream.OnSignal += signal => UpdatePlayerStatusServerRpc();
+            _gameLoadedStream.OnSignal += signal => UpdateLoadingStatusServerRpc();
 
             _clients.OnListChanged += changeEvent => { UpdatePlayer(changeEvent); };
             _lobby.OnValueChanged += OnLobbyUpdated;
@@ -169,6 +178,7 @@ namespace Chutpot.FPSParty.Persistent
             _mapChangeStream.Close();
             _startLobbyStream.Close();
             _readyButtonStream.Close();
+            _gameLoadedStream.Close();
 
             base.OnNetworkDespawn();
             if (IsHost)
@@ -257,7 +267,10 @@ namespace Chutpot.FPSParty.Persistent
             //Start game
             if(readyPlayer >= _clients.Count)
             {
-                Debug.Log("started game");
+                var lobby = _lobby.Value;
+                lobby.GameStatus = FPSGameStatus.Loading;
+                _lobby.Value = lobby;
+
                 _loadingPlayersCount = readyPlayer;
                 LoadGameClientRpc();
             }
@@ -266,15 +279,39 @@ namespace Chutpot.FPSParty.Persistent
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
         private void LoadGameClientRpc()
         {
-            Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadGame").SendSignal<FPSMap>(_lobby.Value.Map);
+            _isGameStarted = false;
+            _loadGameStream.SendSignal<FPSMap>(_lobby.Value.Map);
         }
 
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
-        public void UpdateLoadingStatusServerRpc()
+        public void UpdateLoadingStatusServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            if (_lobby.Value.GameStatus == FPSGameStatus.Loading)
-                _loadingPlayersCount--;
+            Debug.Log("UpdateLoadingStatusServerRpc");
+
+            if (_lobby.Value.GameStatus != FPSGameStatus.Loading)
+                return;
+
+            _loadingPlayersCount--;
+            if (_loadingPlayersCount == 0)
+            {
+                var lobby = _lobby.Value;
+                lobby.GameStatus = FPSGameStatus.Started;
+                StartGameClientRpc();
+                Debug.Log("GameStarted");
+            }
         }
+
+        [ClientRpc(Delivery = RpcDelivery.Reliable)]
+        public void StartGameClientRpc()
+        {
+            if (!_isGameStarted)
+            {
+                Debug.Log("StartGameClientRpc");
+                _isGameStarted = true;
+                _startGameStream.SendSignal();
+            }
+        }
+
 
         private FPSClient FindClientWithIndex(IEnumerator<FPSClient> clients, ulong targetClientId)
         {

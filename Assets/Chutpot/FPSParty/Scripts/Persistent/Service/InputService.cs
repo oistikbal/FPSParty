@@ -33,6 +33,7 @@ namespace Chutpot.FPSParty.Persistent
             _playerActionMap = new PlayerActionMap();
             //_playerMap.LoadBindingOverridesFromJson(SettingsModel.Settings.Input);
             _playerActionMap.Enable(); //currently set enable for testing, need to change
+            _playerActionMap.Player.Disable();
 
             InputModel.PlayerActionMap = _playerActionMap;
 

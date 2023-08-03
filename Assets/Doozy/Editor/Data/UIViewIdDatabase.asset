@@ -15,6 +15,10 @@ MonoBehaviour:
   Database:
     Items:
     - Category: MainMenuUI
+      Name: BackgroundView
+    - Category: MainMenuUI
+      Name: GameView
+    - Category: MainMenuUI
       Name: LoadingScreenView
     - Category: MainMenuUI
       Name: LobbyView

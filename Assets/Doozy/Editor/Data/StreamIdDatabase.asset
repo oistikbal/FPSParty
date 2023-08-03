@@ -15,7 +15,13 @@ MonoBehaviour:
   Database:
     Items:
     - Category: MainMenuUI
+      Name: Escape
+    - Category: MainMenuUI
       Name: ExitLobby
+    - Category: MainMenuUI
+      Name: GameLoaded
+    - Category: MainMenuUI
+      Name: GameStarted
     - Category: MainMenuUI
       Name: HostCreate
     - Category: MainMenuUI
@@ -30,6 +36,8 @@ MonoBehaviour:
       Name: MapChange
     - Category: MainMenuUI
       Name: OnDisconnect
+    - Category: MainMenuUI
+      Name: Options
     - Category: MainMenuUI
       Name: ReadyButton
     - Category: MainMenuUI

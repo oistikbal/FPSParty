@@ -19,6 +19,7 @@ namespace Chutpot.FPSParty.Persistent
     {
         private SceneInstance _currentInstance;
         private SignalStream _loadingScreenStream;
+        private SignalStream _gameLoadedStream;
         private Progressor _loadingScreenProgressor;
         public Signal<LoadingScreenStatus> LoadingScreenSignal { get; private set; }
 
@@ -27,6 +28,7 @@ namespace Chutpot.FPSParty.Persistent
             base.Awake();
             LoadingScreenSignal = new Signal<LoadingScreenStatus>();
             _loadingScreenStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadingScreen");
+            _gameLoadedStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "GameLoaded");
         }
 
         protected override void Start()
@@ -49,7 +51,7 @@ namespace Chutpot.FPSParty.Persistent
             popup.AutoHideAfterShowDelay = 1f;
             popup.Show();
             yield return new WaitForSeconds(1);
-            _loadingScreenStream.SendSignal<bool>(true);
+            _loadingScreenStream.SendSignal();
             yield return new WaitForSeconds(0.5f);
             if (_currentInstance.Scene.isLoaded)
             {
@@ -63,8 +65,7 @@ namespace Chutpot.FPSParty.Persistent
                 yield return null;
             }
             _loadingScreenProgressor.PlayToValue(1);
-            _loadingScreenStream.SendSignal<bool>(false);
-            yield return new WaitForSeconds(1);
+            _gameLoadedStream.SendSignal();
 
             _currentInstance = handle.Result;
             _currentInstance.ActivateAsync();

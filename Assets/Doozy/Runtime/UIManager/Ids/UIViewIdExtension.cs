@@ -26,6 +26,8 @@ namespace Doozy.Runtime.UIManager
     {
         public enum MainMenuUI
         {
+            BackgroundView,
+            GameView,
             LoadingScreenView,
             LobbyView,
             MainMenuView,
