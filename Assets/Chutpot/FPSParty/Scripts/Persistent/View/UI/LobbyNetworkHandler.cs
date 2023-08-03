@@ -5,6 +5,7 @@ using Netcode.Transports.Facepunch;
 using Steamworks;
 using Steamworks.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -111,10 +112,13 @@ namespace Chutpot.FPSParty.Persistent
         private bool _isGameStarted;
 
         //Host, these values never gets updated at client
-        public Lobby SteamLobby;
         [HideInInspector]
         public int _loadingPlayersCount;
+        public Lobby SteamLobby;
+        private Coroutine _timeoutCoroutine;
 
+
+        public const int TimeouTime = 30;
         public const int MaxPlayer = 8;
 
         private void Awake()
@@ -272,6 +276,7 @@ namespace Chutpot.FPSParty.Persistent
                 _lobby.Value = lobby;
 
                 _loadingPlayersCount = readyPlayer;
+                _timeoutCoroutine = StartCoroutine(Timeout());
                 LoadGameClientRpc();
             }
         }
@@ -292,12 +297,15 @@ namespace Chutpot.FPSParty.Persistent
                 return;
 
             _loadingPlayersCount--;
-            if (_loadingPlayersCount == 0)
+            if (_loadingPlayersCount == 0 || _timeoutCoroutine == null)
             {
+                if(_timeoutCoroutine != null)
+                    StopCoroutine(Timeout());
+
+                _timeoutCoroutine = null;
                 var lobby = _lobby.Value;
                 lobby.GameStatus = FPSGameStatus.Started;
                 StartGameClientRpc();
-                Debug.Log("GameStarted");
             }
         }
 
@@ -306,7 +314,6 @@ namespace Chutpot.FPSParty.Persistent
         {
             if (!_isGameStarted)
             {
-                Debug.Log("StartGameClientRpc");
                 _isGameStarted = true;
                 _startGameStream.SendSignal();
             }
@@ -353,6 +360,12 @@ namespace Chutpot.FPSParty.Persistent
         private void UpdatePlayers()
         {
             _updatePlayerStream.SendSignal<NetworkList<FPSClient>>(_clients);
+        }
+
+        private IEnumerator Timeout()
+        {
+            yield return new WaitForSecondsRealtime(TimeouTime);
+            UpdateLoadingStatusServerRpc();
         }
     }
 }
