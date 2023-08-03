@@ -8,32 +8,31 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using strange.extensions.mediation.impl;
 using strange.extensions.signal.impl;
 using DG.Tweening;
+using Doozy.Runtime.UIManager.Containers;
+using Doozy.Runtime.Signals;
+using Doozy.Runtime.Reactor;
+using System.Linq;
 
 namespace Chutpot.FPSParty.Persistent
 {
     public class LoadingScreenView : View
     {
-        [SerializeField]
-        private CanvasGroup _panelGroup;
-        [SerializeField]
-        private Canvas _canvas;
-
         private SceneInstance _currentInstance;
-
+        private SignalStream _loadingScreenStream;
+        private Progressor _loadingScreenProgressor;
         public Signal<LoadingScreenStatus> LoadingScreenSignal { get; private set; }
-
-        protected Tween FadeInTween { get; set; }
-        protected Tween FadeOutTween { get; set; }
-
 
         protected override void Awake()
         {
+            base.Awake();
             LoadingScreenSignal = new Signal<LoadingScreenStatus>();
-            FadeOutTween = DOTween.To(ApplyAlpha, 1f, 0f, 0.75f).SetEase(Ease.InQuad);
-            FadeInTween = DOTween.To(ApplyAlpha, 0f, 1f, 0.75f).SetEase(Ease.InQuad);
+            _loadingScreenStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadingScreen");
+        }
 
-            FadeInTween.SetUpdate(true);
-            FadeOutTween.SetUpdate(true);
+        protected override void Start()
+        {
+            base.Start();
+            _loadingScreenProgressor = Progressor.GetProgressors("MainMenuUI", "LoadingScreen").First();
         }
 
         public void LoadScene(string sceneAddress) 
@@ -43,45 +42,32 @@ namespace Chutpot.FPSParty.Persistent
 
         private IEnumerator LoadSceneCoroutine(string sceneReferance)
         {
-            yield return FadeIn();
-
+            UIPopup.ClearQueue();
+            var popup = UIPopup.Get("PopupBlock");
+            popup.SetTexts("Game is Starting...");
+            popup.AutoHideAfterShow = true;
+            popup.AutoHideAfterShowDelay = 1f;
+            popup.Show();
+            yield return new WaitForSeconds(1);
+            _loadingScreenStream.SendSignal<bool>(true);
+            yield return new WaitForSeconds(0.5f);
             if (_currentInstance.Scene.isLoaded)
             {
                 yield return Addressables.UnloadSceneAsync(_currentInstance); // Wait until old scene unloads
             }
 
             AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(sceneReferance, UnityEngine.SceneManagement.LoadSceneMode.Additive, false);
-            yield return handle; // Wait until new scene loads;
-            yield return FadeOut();
+            while (!handle.IsDone)
+            {
+                _loadingScreenProgressor.PlayToValue(handle.PercentComplete);
+                yield return null;
+            }
+            _loadingScreenProgressor.PlayToValue(1);
+            _loadingScreenStream.SendSignal<bool>(false);
+            yield return new WaitForSeconds(1);
 
             _currentInstance = handle.Result;
             _currentInstance.ActivateAsync();
-        }
-
-        private void ApplyAlpha(float alpha)
-        {
-            _panelGroup.alpha = alpha;
-        }
-
-        private IEnumerator FadeIn() 
-        {
-            _canvas.enabled = true;
-            LoadingScreenSignal.Dispatch(LoadingScreenStatus.Awake);
-            _panelGroup.alpha = 0f;
-            FadeInTween.Rewind(false);
-            FadeInTween.Play();
-            yield return FadeInTween.WaitForCompletion();
-            LoadingScreenSignal.Dispatch(LoadingScreenStatus.In);
-        }
-
-        private IEnumerator FadeOut()
-        {
-            _panelGroup.alpha = 0f;
-            FadeOutTween.Rewind(false);
-            FadeOutTween.Play();
-            yield return FadeOutTween.WaitForCompletion();
-            _canvas.enabled = false;
-            LoadingScreenSignal.Dispatch(LoadingScreenStatus.Out);
         }
     }
 }

@@ -52,6 +52,26 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42bce41d646470b419aff724fa658aad
+    m_Address: Assets/Chutpot/FPSParty/Images/BgRenderTexture.renderTexture
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9604b2361a8b3a141abd25fc3be7acdf
+    m_Address: Assets/Chutpot/FPSParty/Images/default_pp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a216d38e72b1034e94ef8aba66fc3fa
+    m_Address: Assets/Chutpot/FPSParty/Images/Gabe-Newell.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1a0b1f60dcbea34f807eab495335969
+    m_Address: Assets/Chutpot/FPSParty/Images/loading-bg.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 318fb6f7d9a3acc45ab9a85c88dfa9fe, type: 2}
   m_SchemaSet:

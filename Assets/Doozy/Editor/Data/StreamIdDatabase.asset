@@ -23,6 +23,8 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: JoinLobbySuccesfull
     - Category: MainMenuUI
+      Name: LoadGame
+    - Category: MainMenuUI
       Name: LoadingScreen
     - Category: MainMenuUI
       Name: MapChange

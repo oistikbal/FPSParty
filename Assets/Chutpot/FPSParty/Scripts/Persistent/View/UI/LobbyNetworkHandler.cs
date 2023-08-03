@@ -109,7 +109,7 @@ namespace Chutpot.FPSParty.Persistent
         //Host, these values never gets updated at client
         public Lobby SteamLobby;
         [HideInInspector]
-        public int _unreadyPlayersCount;
+        public int _loadingPlayersCount;
 
         public const int MaxPlayer = 8;
 
@@ -248,17 +248,17 @@ namespace Chutpot.FPSParty.Persistent
                 return;
 
             int readyPlayer = 0;
-            var fpsClients = _clients.GetEnumerator();
-            while(fpsClients.MoveNext())
-            {
-                if(fpsClients.Current.Status == FPSClientStatus.Ready)
+            foreach(var fpclient in _clients) 
+            { 
+                if(fpclient.Status == FPSClientStatus.Ready)
                     readyPlayer++;
             }
 
             //Start game
             if(readyPlayer >= _clients.Count)
             {
-                _unreadyPlayersCount = _clients.Count;
+                Debug.Log("started game");
+                _loadingPlayersCount = readyPlayer;
                 LoadGameClientRpc();
             }
         }
@@ -266,12 +266,6 @@ namespace Chutpot.FPSParty.Persistent
         [ClientRpc(Delivery = RpcDelivery.Reliable)]
         private void LoadGameClientRpc()
         {
-            UIPopup.ClearQueue();
-            var popup = UIPopup.Get("PopupBlock");
-            popup.SetTexts("Game is Starting...");
-            popup.AutoHideAfterShow = true;
-            popup.AutoHideAfterShowDelay = 1f;
-            popup.Show();
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadGame").SendSignal<FPSMap>(_lobby.Value.Map);
         }
 
@@ -279,7 +273,7 @@ namespace Chutpot.FPSParty.Persistent
         public void UpdateLoadingStatusServerRpc()
         {
             if (_lobby.Value.GameStatus == FPSGameStatus.Loading)
-                _unreadyPlayersCount--;
+                _loadingPlayersCount--;
         }
 
         private FPSClient FindClientWithIndex(IEnumerator<FPSClient> clients, ulong targetClientId)

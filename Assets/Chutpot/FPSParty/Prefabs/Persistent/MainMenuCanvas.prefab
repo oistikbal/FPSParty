@@ -45620,7 +45620,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 100%
+  m_text: '%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
   m_sharedMaterial: {fileID: 2161716815603945000, guid: 74cdce38918c07f46a3d3032eebc3d2c, type: 2}
@@ -45740,9 +45740,9 @@ RectTransform:
   - {fileID: 5313425910485355153}
   m_Father: {fileID: 5313425910415821254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -256}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -69, y: 74}
   m_SizeDelta: {x: 128, y: 128}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5313425910493701284
@@ -45757,7 +45757,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df95d88ef9fa408d87cef78c6ed9859f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ProgressTargets: []
+  ProgressTargets:
+  - {fileID: 5313425910485355154}
   ProgressorTargets: []
   FromValue: 0
   ToValue: 1
@@ -46772,7 +46773,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 469f76dec12d5264bb8dbeb9c7dda4cc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a1a0b1f60dcbea34f807eab495335969, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
