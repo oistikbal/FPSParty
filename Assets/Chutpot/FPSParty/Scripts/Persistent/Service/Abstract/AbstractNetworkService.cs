@@ -69,17 +69,18 @@ namespace Chutpot.FPSParty.Persistent
 
         protected virtual void OnClientStopped(bool obj)
         {
-
         }
 
         protected virtual void OnClientDisconnected(ulong clientId)
         {
             Debug.Log("OnClientDisconnected");
+            Debug.Log(clientId);
         }
 
         protected virtual void OnClientConnected(ulong clientId)
         {
             Debug.Log("OnClientConnected");
+            Debug.Log(clientId);
         }
 
         protected virtual void OnServerStarted()

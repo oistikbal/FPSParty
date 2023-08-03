@@ -38,6 +38,20 @@ namespace Chutpot.FPSParty.Persistent
             SteamFriends.OnGameLobbyJoinRequested += OnGameLobbyJoinRequested;
         }
 
+        protected override void StartClient()
+        {
+            base.StartClient();
+        }
+
+        protected override void StopOrLeave()
+        {
+            base.StopOrLeave();
+            if (_lobby.Id != 0)
+                _lobby.Leave();
+
+            _lobby = new Lobby();
+        }
+
         protected override void OnClientStopped(bool obj)
         {
             base.OnClientStopped(obj);
@@ -47,6 +61,7 @@ namespace Chutpot.FPSParty.Persistent
         protected override void OnClientStarted()
         {
             base.OnClientStarted();
+
             Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "JoinLobbySuccesfull").SendSignal();
         }
 
@@ -60,7 +75,7 @@ namespace Chutpot.FPSParty.Persistent
 
             UIPopup.ClearQueue();
             var popup = UIPopup.Get("PopupBlock");
-            popup.SetTexts("Joining the game.");
+            popup.SetTexts("Joining the game...");
             popup.Show();
 
             RoomEnter joinedLobby = await lobby.Join();
@@ -74,18 +89,8 @@ namespace Chutpot.FPSParty.Persistent
             else
             {
                 _lobby = lobby;
-                _facepunchTransport.targetSteamId = _lobby.Id;
-                StartClient();
+                _facepunchTransport.targetSteamId = _lobby.Owner.Id;
             }
-        }
-
-        protected override void StopOrLeave()
-        {
-            base.StopOrLeave();
-            if (_lobby.Id != 0)
-                _lobby.Leave();
-
-            _lobby = new Lobby();
         }
 
         protected override async void OnHostCreateSignal(Signal signal)
@@ -101,11 +106,6 @@ namespace Chutpot.FPSParty.Persistent
             popup.Show();
 
             _lobby = (Lobby)await SteamMatchmaking.CreateLobbyAsync(LobbyNetworkHandler.MaxPlayer);
-
-            if (hostCreate.name == string.Empty)
-                _lobby.SetData("Name", _lobby.Owner.Name + "`s lobby");
-            else
-                _lobby.SetData("Name", hostCreate.name);
             popup.Hide();
         }
 
@@ -122,9 +122,13 @@ namespace Chutpot.FPSParty.Persistent
             if (!_hostCreateData.isInvitationOnly)
                 lobby.SetPublic();
 
+            if (_hostCreateData.name == string.Empty)
+                _lobby.SetData("Name", _lobby.Owner.Name + "`s lobby");
+            else
+                _lobby.SetData("Name", _hostCreateData.name);
             lobby.SetJoinable(true);
             lobby.SetGameServer(lobby.Owner.Id);
-            _lobbyHandler.Lobby = lobby;
+            _lobbyHandler.SteamLobby = lobby;
         }
 
         private void OnLobbyGameCreated(Lobby lobby, uint arg2, ushort arg3, SteamId arg4)
@@ -136,7 +140,8 @@ namespace Chutpot.FPSParty.Persistent
 
         private async void OnGameLobbyJoinRequested(Lobby lobby, SteamId steamId)
         {
-            StopOrLeave();
+            if (NetworkManager.Singleton.IsConnectedClient)
+                StopOrLeave();
 
             UIPopup.ClearQueue();
             var popup = UIPopup.Get("PopupBlock");
@@ -149,10 +154,12 @@ namespace Chutpot.FPSParty.Persistent
             if (joinedLobby != RoomEnter.Success)
             {
                 Debug.Log("Failed to join lobby.");
+                StopOrLeave();
             }
             else
             {
                 _lobby = lobby;
+                _facepunchTransport.targetSteamId = _lobby.Owner.Id;
             }
         }
 
@@ -163,26 +170,25 @@ namespace Chutpot.FPSParty.Persistent
 
         private void OnLobbyMemberLeave(Lobby lobby, Friend friend)
         {
-            _lobby = lobby;
+            Debug.Log("OnLobbyMemberLeave");
+            Debug.Log(friend.Name);
         }
 
         private void OnLobbyMemberJoined(Lobby lobby, Friend friend)
         {
             Debug.Log("OnLobbyMemberJoined");
+            Debug.Log(friend.Name);
         }
 
         private void OnLobbyEntered(Lobby lobby)
         {
             Debug.Log("OnLobbyEntered");
-            _lobby = lobby;
             if (NetworkManager.Singleton.IsHost)
                 return;
 
             //Start Client for non-host
-            UITag.GetFirstTag("MainMenuUI", "LobbyHandler").GetComponent<LobbyNetworkHandler>().Lobby = _lobby;
             StartClient();
         }
-
 
         public async Task<Steamworks.Data.Image?> GetAvatar(SteamId id)
         {

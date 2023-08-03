@@ -1,6 +1,7 @@
 using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Components;
 using Doozy.Runtime.UIManager.Containers;
+using Netcode.Transports.Facepunch;
 using Steamworks;
 using Steamworks.Data;
 using System;
@@ -51,12 +52,13 @@ namespace Chutpot.FPSParty.Persistent
 
         public bool Equals(FPSClient other)
         {
-            return Id == other.Id && Status == other.Status;
+            return Id == other.Id && Status == other.Status && SteamId == other.SteamId;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref Id);
+            serializer.SerializeValue(ref SteamId);
             serializer.SerializeValue(ref Status);
         }
     }
@@ -105,7 +107,7 @@ namespace Chutpot.FPSParty.Persistent
         private bool _isLobbyInitialized;
 
         //Host, these values never gets updated at client
-        public Lobby Lobby;
+        public Lobby SteamLobby;
         [HideInInspector]
         public int _unreadyPlayersCount;
 
@@ -113,6 +115,7 @@ namespace Chutpot.FPSParty.Persistent
 
         private void Awake()
         {
+            _isLobbyInitialized = false;
             _lobbyName = UITag.GetFirstTag("MainMenuUI", "LobbyName").GetComponentInChildren<TextMeshProUGUI>();
             _mapName = UITag.GetFirstTag("MainMenuUI", "MapName").GetComponent<TextMeshProUGUI>();
             _mapImage = UITag.GetFirstTag("MainMenuUI", "MapImage").GetComponent<UnityEngine.UI.Image>();
@@ -145,8 +148,8 @@ namespace Chutpot.FPSParty.Persistent
                 NetworkManager.Singleton.OnServerStarted += OnServerStarted;
 
                 var fpsLobby = new FPSLobby();
-                if (Lobby.Id != 0)
-                    fpsLobby.LobbyName = Lobby.GetData("Name");
+                if (SteamLobby.Id != 0)
+                    fpsLobby.LobbyName = SteamLobby.GetData("Name");
 
                 fpsLobby.GameStatus = FPSGameStatus.Lobby;
                 fpsLobby.Map = FPSMap.Random;
@@ -202,9 +205,9 @@ namespace Chutpot.FPSParty.Persistent
             }
 
             ulong steamId = 0;
-            if (Lobby.Id.Value != 0)
+            if (SteamLobby.Id.Value != 0)
             {
-                steamId = Lobby.Members.ElementAt((int)Lobby.MemberCount -1).Id.Value;
+                steamId = SteamLobby.Members.ElementAt((int)SteamLobby.MemberCount -1).Id.Value;
             }
 
             FPSClient client = new FPSClient(id, FPSClientStatus.Unready, steamId);

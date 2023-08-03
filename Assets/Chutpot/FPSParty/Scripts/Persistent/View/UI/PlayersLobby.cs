@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -62,7 +63,7 @@ namespace Chutpot.FPSParty.Persistent
                         _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = false;
                     else
                         _playerCards[_seatedPlayers[fpsClient.Id]].PlayerStatus.isOn = true;
-                    _playerCards[_seatedPlayers[fpsClient.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
+                    GetImage(steamClient, _playerCards[_seatedPlayers[fpsClient.Id]].Image);
                 }
                 else if (!_seatedPlayers.ContainsKey(fpsClient.Id))
                 {
@@ -90,7 +91,7 @@ namespace Chutpot.FPSParty.Persistent
                         _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerName.text = steamClient.Name;
                         _playerCards[_seatedPlayers[fpsClient.Value.Id]].gameObject.SetActive(true);
                         _playerCards[_seatedPlayers[fpsClient.Value.Id]].PlayerStatus.isOn = false;
-                        _playerCards[_seatedPlayers[fpsClient.Value.Id]].Image.texture = steamClient.GetMediumAvatarAsync().Result.Value.Covert();
+                        GetImage(steamClient, _playerCards[_seatedPlayers[fpsClient.Value.Id]].Image);
                         break;
                     }
                     else if(!_seatedPlayers.ContainsKey(fpsClient.Value.Id))
@@ -133,11 +134,11 @@ namespace Chutpot.FPSParty.Persistent
 
         }
 
-        /*
-        private void GetImage(Task<Steamworks.Data.Image?> image)
+        private async void GetImage(Friend steamClient, RawImage image)
         {
-            _image.texture = image.Result.Value.Covert();
+            var tex = await steamClient.GetMediumAvatarAsync();
+            image.texture = tex.Value.Covert();
         }
-        */
+
     }
 }

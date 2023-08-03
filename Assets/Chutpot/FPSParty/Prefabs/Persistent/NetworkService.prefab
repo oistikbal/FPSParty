@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6722979859322972004}
-  - component: {fileID: 6722979859322972027}
+  - component: {fileID: 5529830542404740131}
   - component: {fileID: 2970543832570229569}
   m_Layer: 0
   m_Name: NetworkService
@@ -33,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6722979859322972027
+--- !u!114 &5529830542404740131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -51,25 +51,25 @@ MonoBehaviour:
     PlayerPrefab: {fileID: 0}
     Prefabs:
       NetworkPrefabsLists:
-      - {fileID: 11400000, guid: 18980428d93a2ed439375e13b7a44495, type: 2}
-    TickRate: 50
+      - {fileID: 11400000, guid: 764db642340c2c648ac1d5d5ff4c1a9d, type: 2}
+    TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
     ConnectionData: 
     EnableTimeResync: 0
     TimeResyncInterval: 30
     EnsureNetworkVariableLengthSafety: 0
-    EnableSceneManagement: 0
+    EnableSceneManagement: 1
     ForceSamePrefabs: 1
-    RecycleNetworkIds: 1
-    NetworkIdRecycleDelay: 0
+    RecycleNetworkIds: 0
+    NetworkIdRecycleDelay: 120
     RpcHashSize: 0
     LoadSceneTimeOut: 120
     SpawnTimeout: 1
     EnableNetworkLogs: 1
     OldPrefabList: []
   RunInBackground: 1
-  LogLevel: 1
+  LogLevel: 0
 --- !u!114 &2970543832570229569
 MonoBehaviour:
   m_ObjectHideFlags: 0
