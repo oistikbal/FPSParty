@@ -33,7 +33,7 @@ namespace Chutpot.FPSParty.Game
         public override void OnNetworkDespawn()
         {
             base.OnNetworkDespawn();
-            if (IsHost)
+            if (IsHost && !NetworkManager.Singleton.ShutdownInProgress)
             {
                 NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
                 TerminatePlayers();
@@ -57,8 +57,9 @@ namespace Chutpot.FPSParty.Game
         public void InitializePlayer(ulong id)
         {
             _players.Add(id, Instantiate(_playerNetworkPrefab.GetComponent<NetworkObject>()));
-            _players[id].SpawnAsPlayerObject(id);
             _players[id].GetComponent<Rigidbody>().position = Vector3.one + Vector3.up * 3f;
+            _players[id].Spawn();
+            _players[id].ChangeOwnership(id);
         }
 
         private void TerminatePlayers()

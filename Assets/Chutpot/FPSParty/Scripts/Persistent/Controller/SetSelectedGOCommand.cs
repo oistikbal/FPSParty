@@ -8,7 +8,7 @@ namespace Chutpot.FPSParty.Menu
     public class SetSelectedGONavigationCommand : Command
     {
         [Inject]
-        public IInputService InputService { get; set; }
+        public InputService InputService { get; set; }
 
 
         public override void Execute()

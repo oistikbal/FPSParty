@@ -1,4 +1,5 @@
 using Chutpot.FPSParty;
+using Doozy.Runtime.Signals;
 using strange.extensions.context.api;
 using strange.extensions.mediation.impl;
 using System;
@@ -10,7 +11,7 @@ using UnityEngine.InputSystem.UI;
 
 namespace Chutpot.FPSParty.Persistent
 {
-    public class InputService : IInputService
+    public class InputService
     {
         [Inject(ContextKeys.CONTEXT)]
         public IContext Context { get; set; }
@@ -32,8 +33,6 @@ namespace Chutpot.FPSParty.Persistent
         {
             _playerActionMap = new PlayerActionMap();
             //_playerMap.LoadBindingOverridesFromJson(SettingsModel.Settings.Input);
-            _playerActionMap.Enable(); //currently set enable for testing, need to change
-            _playerActionMap.Player.Disable();
 
             InputModel.PlayerActionMap = _playerActionMap;
 
@@ -43,6 +42,8 @@ namespace Chutpot.FPSParty.Persistent
             Context.AddView(go.GetComponent<View>());
             EventSystemModel.EventSystem = go.GetComponent<EventSystem>();
             EventSystemModel.EventSystem.GetComponent<InputSystemUIInputModule>().actionsAsset = _playerActionMap.asset;
+
+            SignalStream.Get("MainMenuUI", "Background").OnSignal += OnBackground;
         }
 
         private void BindKeyboard(string bindName, Action<InputActionRebindingExtensions.RebindingOperation> handle)
@@ -78,28 +79,20 @@ namespace Chutpot.FPSParty.Persistent
             EventSystemModel.EventSystem.SetSelectedGameObject(go);
         }
 
-        public void SetDefaultInputActive(bool isActive)
+        public void OnBackground(Signal signal)
         {
-            if (isActive) 
+            signal.TryGetValue<bool>(out bool isBackgroundOpen);
+            if (isBackgroundOpen)
             {
                 _playerActionMap.UI.Enable();
-            }
-            else 
-            {
-                _playerActionMap.UI.Disable();
-            }
-        }
-
-        public void SetPlayerInputActive(bool isActive)
-        {
-            if (isActive)
-            {
-                _playerActionMap.Player.Enable();
+                _playerActionMap.Player.Disable();
             }
             else
             {
-                _playerActionMap.Player.Disable();
+                _playerActionMap.UI.Disable();
+                _playerActionMap.Player.Enable();
             }
+
         }
     }
 }

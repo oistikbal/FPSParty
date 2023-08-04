@@ -8,7 +8,7 @@ namespace Chutpot.FPSParty.Menu
     public class SetSelectedGOPointerCommand : Command
     {
         [Inject]
-        public IInputService InputService { get; set; }
+        public InputService InputService { get; set; }
 
         [Inject]
         public GameObject GameObject { get; set; }

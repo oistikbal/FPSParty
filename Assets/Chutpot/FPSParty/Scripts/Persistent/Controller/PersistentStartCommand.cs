@@ -23,7 +23,7 @@ namespace Chutpot.FPSParty.Persistent
         [Inject]
         public ISettingsService SettingsService { get; set; }
         [Inject]
-        public IInputService InputService { get; set; }
+        public InputService InputService { get; set; }
         [Inject]
         public SceneService SceneService { get; set; }
         [Inject]
