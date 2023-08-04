@@ -19,9 +19,16 @@ namespace Chutpot.FPSParty.Persistent
         protected override void Awake()
         {
             base.Awake();
-            _cinemachineBrain = GetComponent<CinemachineBrain>();
+            //Initialize cinemachinebrain from here, initializing from prefab doesnt work.
+
             OnCameraActivatedEvent = new UnityEvent<ICinemachineCamera, ICinemachineCamera>();
             OnCameraCutEvent = new UnityEvent<CinemachineBrain>();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
+            _cinemachineBrain = gameObject.AddComponent<CinemachineBrain>();
         }
 
         protected override void OnEnable()

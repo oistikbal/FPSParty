@@ -114,17 +114,16 @@ namespace Chutpot.FPSParty.Persistent
         private bool _isGameStarted;
 
         //Host, these values never gets updated at client
-        private Coroutine _timeoutCoroutine;
-        private GameNetworkHandler _gameNetworkHandler;
-        private GameObject _gameNetworkHandlerPrefab;
-        private NetworkObject _gameNetworObject;
-
-        private const string _gameNetworkHandlerAddress = "GameNetworkHandler";
-
         [HideInInspector]
         public int _loadingPlayersCount;
         [HideInInspector]
         public Lobby SteamLobby;
+
+        private Coroutine _timeoutCoroutine;
+        private GameNetworkHandler _gameNetworkHandler;
+        private GameObject _gameNetworkHandlerPrefab;
+        private NetworkObject _gameNetworObject;
+        private const string _gameNetworkHandlerAddress = "GameNetworkHandler";
 
         public const int TimeouTime = 30;
         public const int MaxPlayer = 8;
@@ -191,12 +190,12 @@ namespace Chutpot.FPSParty.Persistent
         //Host
         public override void OnNetworkDespawn()
         {
+            base.OnNetworkDespawn();
             _mapChangeStream.Close();
             _startLobbyStream.Close();
             _readyButtonStream.Close();
             _gameLoadedStream.Close();
 
-            base.OnNetworkDespawn();
             if (IsHost)
             {
                 NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnected;
@@ -243,10 +242,15 @@ namespace Chutpot.FPSParty.Persistent
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
         private void UpdatePlayerStatusServerRpc(ServerRpcParams rpcParams = default)
         {
-            if (_lobby.Value.LobbyStatus != FPSLobbyStatus.Lobby)
-                return;
-
             var client = FindClientWithIndex(_clients.GetEnumerator(), rpcParams.Receive.SenderClientId);
+
+            if (_lobby.Value.LobbyStatus == FPSLobbyStatus.Loading || _lobby.Value.LobbyStatus == FPSLobbyStatus.Started && client.Status == FPSClientStatus.Unready)
+            {
+
+                return;
+            }
+
+            client = FindClientWithIndex(_clients.GetEnumerator(), rpcParams.Receive.SenderClientId);
             if (client.Status == FPSClientStatus.Unready)
                 client.Status = FPSClientStatus.Ready;
             else if (client.Status == FPSClientStatus.Ready)
@@ -307,8 +311,10 @@ namespace Chutpot.FPSParty.Persistent
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
         public void UpdateLoadingStatusServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            if (_lobby.Value.LobbyStatus != FPSLobbyStatus.Loading)
+            if (_lobby.Value.LobbyStatus == FPSLobbyStatus.Started)
+            {
                 return;
+            }
 
             _loadingPlayersCount--;
             if (_loadingPlayersCount == 0 || _timeoutCoroutine == null)
@@ -317,11 +323,16 @@ namespace Chutpot.FPSParty.Persistent
                     StopCoroutine(Timeout());
 
                 _timeoutCoroutine = null;
+
                 var lobby = _lobby.Value;
                 lobby.LobbyStatus = FPSLobbyStatus.Started;
+                _lobby.Value = lobby;
+
                 _gameNetworkHandler = Instantiate(_gameNetworkHandlerPrefab).GetComponent<GameNetworkHandler>();
                 _gameNetworObject = _gameNetworkHandler.GetComponent<NetworkObject>();
                 _gameNetworObject.Spawn();
+                _gameNetworkHandler.InitializePlayers();
+
                 StartGameClientRpc();
             }
         }

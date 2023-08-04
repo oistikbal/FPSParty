@@ -27,11 +27,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7c9fdc0d99f6b1e4ea448ee6b8ef529d
-    m_Address: VirtualCameras
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1e8a8dcda3874f74680482de4457504f
     m_Address: NetworkService
     m_ReadOnly: 0
@@ -99,6 +94,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a1a0b1f60dcbea34f807eab495335969
     m_Address: Assets/Chutpot/FPSParty/Images/loading-bg.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6657e701d6d9e2d4ca477ffdc51c51c7
+    m_Address: PlayerNetwork
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -8,15 +8,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.TextCore.Text;
 
-namespace Chutpot.FPSParty
+namespace Chutpot.FPSParty.Game
 {
     public class Player : NetworkBehaviour
     {
         private PlayerController _playerController;
         private PlayerActionMap _playerActionMap;
         private CinemachineVirtualCamera _virtualCamera;
-        private Camera _camera;
-
         private Vector2 _moveInput;
         private Vector2 _cameraInput;
         private bool _jumpInput;
@@ -26,39 +24,53 @@ namespace Chutpot.FPSParty
             _playerActionMap = new PlayerActionMap();
             _playerActionMap.Enable();
             _playerController = GetComponent<PlayerController>();
-            _camera = FindObjectOfType<Camera>();
-            _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+            _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
             _virtualCamera.Follow = transform;
+            GetComponent<Rigidbody>().position = Vector3.one * 2f;
         }
 
-        private void Start()
+        public override void OnNetworkSpawn()
         {
-            FindObjectOfType<InputSystemUIInputModule>().actionsAsset = _playerActionMap.asset;
+            base.OnNetworkSpawn();
+
         }
 
-        private void Update()
+        public override void OnNetworkDespawn()
         {
-            HandleCharacterInput();
-        }
-        
+            base.OnNetworkDespawn();
 
-        private void OnEnable()
+        }
+
+        public override void OnGainedOwnership()
         {
+            base.OnGainedOwnership();
             _playerActionMap.Player.Movement.performed += OnMovementPerformed;
             _playerActionMap.Player.Movement.canceled += OnMovementCanceled;
             _playerActionMap.Player.Jump.performed += OnJumpPerformed;
             _playerActionMap.Player.Jump.canceled += OnJumpCancelled;
+
+            _playerController.enabled = true;
+            _virtualCamera.m_Priority = 1;
         }
 
-
-        private void OnDisable()
+        public override void OnLostOwnership()
         {
+            base.OnLostOwnership();
             _playerActionMap.Player.Movement.performed -= OnMovementPerformed;
             _playerActionMap.Player.Movement.canceled -= OnMovementCanceled;
             _playerActionMap.Player.Jump.performed -= OnJumpPerformed;
             _playerActionMap.Player.Jump.canceled -= OnJumpCancelled;
+
+            _playerController.enabled = false;
+            _virtualCamera.m_Priority = 0;
         }
 
+        private void Update()
+        {
+            if(IsOwner)
+                HandleCharacterInput();
+        }
+        
 
         private void OnJumpCancelled(InputAction.CallbackContext obj)
         {
@@ -83,12 +95,13 @@ namespace Chutpot.FPSParty
 
         private void HandleCharacterInput()
         {
+            Debug.Log("dasdas");
             PlayerCharacterInputs characterInputs = new PlayerCharacterInputs();
 
             // Build the CharacterInputs struct
             characterInputs.MoveAxisForward = _moveInput.y;
             characterInputs.MoveAxisRight = _moveInput.x;
-            characterInputs.CameraRotation = _camera.transform.rotation;
+            characterInputs.CameraRotation = _virtualCamera.State.FinalOrientation;
             characterInputs.JumpDown = _jumpInput;
             characterInputs.CrouchDown = false;
             characterInputs.CrouchUp = true;

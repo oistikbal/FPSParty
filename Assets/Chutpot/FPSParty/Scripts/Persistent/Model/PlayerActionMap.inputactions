@@ -25,12 +25,12 @@
                 },
                 {
                     "name": "Camera",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "802e1286-4f36-45c7-9057-09a6577a6162",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
