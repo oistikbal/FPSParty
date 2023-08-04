@@ -2,6 +2,7 @@ using Chutpot.FPSParty.Persistent;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -12,20 +13,17 @@ namespace Chutpot.FPSParty.Game
         //Host
         // ClientId, PlayerNetwork pair
         private Dictionary<ulong, NetworkObject> _players;
+        [SerializeField]
         private GameObject _playerNetworkPrefab;
+
 
         private const string _playerNetworkAddress = "PlayerNetwork";
 
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-
             if (IsHost)
             {
-                var handle = Addressables.LoadAssetAsync<GameObject>(_playerNetworkAddress);
-                _playerNetworkPrefab = handle.WaitForCompletion();
-                Addressables.Release(handle);
-
                 _players = new Dictionary<ulong, NetworkObject>();
                 NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
             }
@@ -56,10 +54,8 @@ namespace Chutpot.FPSParty.Game
 
         public void InitializePlayer(ulong id)
         {
-            _players.Add(id, Instantiate(_playerNetworkPrefab.GetComponent<NetworkObject>()));
-            _players[id].GetComponent<Rigidbody>().position = Vector3.one + Vector3.up * 3f;
-            _players[id].Spawn();
-            _players[id].ChangeOwnership(id);
+            _players.Add(id, Instantiate(_playerNetworkPrefab, Vector3.up * 3f + Vector3.forward * id * 3f, Quaternion.identity).GetComponent<NetworkObject>());
+            _players[id].SpawnWithOwnership(id);
         }
 
         private void TerminatePlayers()

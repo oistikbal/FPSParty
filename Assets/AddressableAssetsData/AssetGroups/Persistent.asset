@@ -37,16 +37,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6f6bf054ad6b0134fb7e8e69980a544e
-    m_Address: GameNetworkHandler
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 58ce8709694564f4c8d23da42524f9e0
-    m_Address: LobbyNetworkHandler
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 932f90036fd4cc74084cc82b90623801
     m_Address: MainMenuCanvas
     m_ReadOnly: 0
@@ -97,8 +87,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6657e701d6d9e2d4ca477ffdc51c51c7
-    m_Address: PlayerNetwork
+  - m_GUID: 58ce8709694564f4c8d23da42524f9e0
+    m_Address: LobbyNetworkHandler
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

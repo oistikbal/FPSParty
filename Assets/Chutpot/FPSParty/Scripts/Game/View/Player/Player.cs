@@ -15,29 +15,37 @@ namespace Chutpot.FPSParty.Game
 {
     public class Player : NetworkBehaviour
     {
-        private InputModel _inputModel;
+        NetworkVariable<Quaternion> _cameraRotation;
 
+        private InputModel _inputModel;
         private SignalStream _escapeStream;
         private PlayerController _playerController;
+        private KinematicCharacterMotor _kinematicCharacterMotor;
         private PlayerActionMap _playerActionMap;
         private CinemachineVirtualCamera _virtualCamera;
+        private Rigidbody _rigidbody;
         private Vector2 _moveInput;
         private Vector2 _cameraInput;
         private bool _jumpInput;
 
         private void Awake()
         {
+            _rigidbody = GetComponent<Rigidbody>();
+            _cameraRotation = new NetworkVariable<Quaternion>(default,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
             _inputModel = ((PersistentContext)FindObjectOfType<PersistentContextView>().context).injectionBinder.GetInstance<InputModel>();
             _playerActionMap = _inputModel.PlayerActionMap;
             _playerController = GetComponent<PlayerController>();
+            _kinematicCharacterMotor = GetComponent<KinematicCharacterMotor>();
             _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
             _escapeStream = SignalStream.Get("MainMenuUI", "Escape");
         }
 
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
-
+            if (IsOwner)
+                OnGainedOwnership();
         }
 
         public override void OnNetworkDespawn()
@@ -55,7 +63,10 @@ namespace Chutpot.FPSParty.Game
             _playerActionMap.Player.Jump.canceled += OnJumpCancelled;
             _playerActionMap.Player.Escape.performed += OnEscapePerformed;
 
+            _rigidbody.useGravity = true;
+            _rigidbody.isKinematic = true;
             _playerController.enabled = true;
+            _kinematicCharacterMotor.enabled = true;
             _virtualCamera.m_Priority = 1;
         }
 
@@ -69,15 +80,22 @@ namespace Chutpot.FPSParty.Game
             _playerActionMap.Player.Jump.canceled -= OnJumpCancelled;
             _playerActionMap.Player.Escape.performed -= OnEscapePerformed;
 
+            _rigidbody.useGravity = false;
+            _rigidbody.isKinematic = false;
             _playerController.enabled = false;
+            _kinematicCharacterMotor.enabled = false;
             _virtualCamera.m_Priority = 0;
             
         }
 
         private void Update()
         {
-            if(IsOwner)
+            if (IsOwner)
+            {
+                _cameraRotation.Value = _virtualCamera.State.FinalOrientation;
                 HandleCharacterInput();
+            }
+
         }
         
 

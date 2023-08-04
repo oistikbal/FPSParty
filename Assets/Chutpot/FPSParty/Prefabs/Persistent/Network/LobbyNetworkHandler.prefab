@@ -54,6 +54,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 4498963134dc6be429b6eeb0d28c1675, type: 3}
   - {fileID: 21300000, guid: 33d3fb0533265f346bad30c619a625eb, type: 3}
   _loadingPlayersCount: 0
+  _gameNetworkHandlerPrefab: {fileID: 2725828664827777767, guid: 6f6bf054ad6b0134fb7e8e69980a544e, type: 3}
 --- !u!114 &1992184180331405186
 MonoBehaviour:
   m_ObjectHideFlags: 0

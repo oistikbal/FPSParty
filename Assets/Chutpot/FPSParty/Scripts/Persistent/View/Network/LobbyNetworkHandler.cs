@@ -121,9 +121,10 @@ namespace Chutpot.FPSParty.Persistent
 
         private Coroutine _timeoutCoroutine;
         private GameNetworkHandler _gameNetworkHandler;
+        [SerializeField]
         private GameObject _gameNetworkHandlerPrefab;
         private NetworkObject _gameNetworObject;
-        private const string _gameNetworkHandlerAddress = "GameNetworkHandler";
+
 
         public const int TimeouTime = 30;
         public const int MaxPlayer = 8;
@@ -147,10 +148,6 @@ namespace Chutpot.FPSParty.Persistent
             _loadGameStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadGame");
             _gameLoadedStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "GameLoaded");
             _startGameStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "StartGame");
-
-            var handle = Addressables.LoadAssetAsync<GameObject>(_gameNetworkHandlerAddress);
-            _gameNetworkHandlerPrefab = handle.WaitForCompletion();
-            Addressables.Release(handle);
         }
 
         public override void OnNetworkSpawn()

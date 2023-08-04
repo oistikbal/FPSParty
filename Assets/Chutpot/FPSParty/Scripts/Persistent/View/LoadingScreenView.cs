@@ -12,11 +12,13 @@ using Doozy.Runtime.UIManager.Containers;
 using Doozy.Runtime.Signals;
 using Doozy.Runtime.Reactor;
 using System.Linq;
+using Unity.Netcode;
 
 namespace Chutpot.FPSParty.Persistent
 {
     public class LoadingScreenView : View
     {
+        private AsyncOperationHandle<SceneInstance> _sceneHandle;
         private SceneInstance _currentInstance;
         private SignalStream _loadingScreenStream;
         private SignalStream _gameLoadedStream;
@@ -35,6 +37,13 @@ namespace Chutpot.FPSParty.Persistent
         {
             base.Start();
             _loadingScreenProgressor = Progressor.GetProgressors("MainMenuUI", "LoadingScreen").First();
+            NetworkManager.Singleton.OnClientStopped += OnClientStopped;
+        }
+
+        private void OnClientStopped(bool obj)
+        {
+            if(_currentInstance.Scene.isLoaded)
+                _sceneHandle = Addressables.UnloadSceneAsync(_currentInstance);
         }
 
         public void LoadScene(string sceneAddress) 
@@ -53,9 +62,14 @@ namespace Chutpot.FPSParty.Persistent
             yield return new WaitForSeconds(1);
             _loadingScreenStream.SendSignal();
             yield return new WaitForSeconds(0.5f);
-            if (_currentInstance.Scene.isLoaded)
+            if (!_sceneHandle.IsDone)
             {
-                yield return Addressables.UnloadSceneAsync(_currentInstance); // Wait until old scene unloads
+                yield return _sceneHandle;
+            }
+            else if (_currentInstance.Scene.isLoaded)
+            {
+                _sceneHandle = Addressables.UnloadSceneAsync(_currentInstance);
+                yield return _sceneHandle; // Wait until old scene unloads
             }
 
             AsyncOperationHandle<SceneInstance> handle = Addressables.LoadSceneAsync(sceneReferance, UnityEngine.SceneManagement.LoadSceneMode.Additive, false);
