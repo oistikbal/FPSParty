@@ -1,3 +1,4 @@
+using Chutpot.FPSParty.Game;
 using Doozy.Runtime.Signals;
 using Doozy.Runtime.UIManager.Components;
 using Doozy.Runtime.UIManager.Containers;
@@ -12,6 +13,7 @@ using TMPro;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UIElements;
 
 namespace Chutpot.FPSParty.Persistent
@@ -31,7 +33,7 @@ namespace Chutpot.FPSParty.Persistent
         Dust2
     }
 
-    public enum FPSGameStatus : byte
+    public enum FPSLobbyStatus : byte
     {
         Lobby,
         Loading,
@@ -68,20 +70,20 @@ namespace Chutpot.FPSParty.Persistent
     {
         public FixedString32Bytes LobbyName;
         public FPSMap Map;
-        public FPSGameStatus GameStatus;
+        public FPSLobbyStatus LobbyStatus;
 
-        public FPSLobby(FixedString32Bytes lobbyName,FPSMap map, FPSGameStatus gameStatus)
+        public FPSLobby(FixedString32Bytes lobbyName,FPSMap map, FPSLobbyStatus gameStatus)
         {
             this.LobbyName = lobbyName;
             this.Map = map;
-            this.GameStatus = gameStatus;
+            this.LobbyStatus = gameStatus;
         }
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref LobbyName);
             serializer.SerializeValue(ref Map);
-            serializer.SerializeValue(ref GameStatus);
+            serializer.SerializeValue(ref LobbyStatus);
         }
     }
 
@@ -112,11 +114,17 @@ namespace Chutpot.FPSParty.Persistent
         private bool _isGameStarted;
 
         //Host, these values never gets updated at client
+        private Coroutine _timeoutCoroutine;
+        private GameNetworkHandler _gameNetworkHandler;
+        private GameObject _gameNetworkHandlerPrefab;
+        private NetworkObject _gameNetworObject;
+
+        private const string _gameNetworkHandlerAddress = "GameNetworkHandler";
+
         [HideInInspector]
         public int _loadingPlayersCount;
+        [HideInInspector]
         public Lobby SteamLobby;
-        private Coroutine _timeoutCoroutine;
-
 
         public const int TimeouTime = 30;
         public const int MaxPlayer = 8;
@@ -140,6 +148,10 @@ namespace Chutpot.FPSParty.Persistent
             _loadGameStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadGame");
             _gameLoadedStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "GameLoaded");
             _startGameStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "StartGame");
+
+            var handle = Addressables.LoadAssetAsync<GameObject>(_gameNetworkHandlerAddress);
+            _gameNetworkHandlerPrefab = handle.WaitForCompletion();
+            Addressables.Release(handle);
         }
 
         public override void OnNetworkSpawn()
@@ -164,7 +176,7 @@ namespace Chutpot.FPSParty.Persistent
                 if (SteamLobby.Id != 0)
                     fpsLobby.LobbyName = SteamLobby.GetData("Name");
 
-                fpsLobby.GameStatus = FPSGameStatus.Lobby;
+                fpsLobby.LobbyStatus = FPSLobbyStatus.Lobby;
                 fpsLobby.Map = FPSMap.Random;
                 _lobby.Value = fpsLobby;
 
@@ -231,7 +243,7 @@ namespace Chutpot.FPSParty.Persistent
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
         private void UpdatePlayerStatusServerRpc(ServerRpcParams rpcParams = default)
         {
-            if (_lobby.Value.GameStatus != FPSGameStatus.Lobby)
+            if (_lobby.Value.LobbyStatus != FPSLobbyStatus.Lobby)
                 return;
 
             var client = FindClientWithIndex(_clients.GetEnumerator(), rpcParams.Receive.SenderClientId);
@@ -246,6 +258,10 @@ namespace Chutpot.FPSParty.Persistent
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = true)]
         private void UpdateMapServerRpc()
         {
+            if (_lobby.Value.LobbyStatus != FPSLobbyStatus.Lobby)
+                return;
+
+
             var map = _lobby.Value.Map;
             map = map + 1;
             if (map > Enum.GetValues(typeof(FPSMap)).Cast<FPSMap>().Last())
@@ -258,7 +274,7 @@ namespace Chutpot.FPSParty.Persistent
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = true)]
         private void StartGameServerRpc()
         {
-            if (_lobby.Value.GameStatus != FPSGameStatus.Lobby)
+            if (_lobby.Value.LobbyStatus != FPSLobbyStatus.Lobby)
                 return;
 
             int readyPlayer = 0;
@@ -272,7 +288,7 @@ namespace Chutpot.FPSParty.Persistent
             if(readyPlayer >= _clients.Count)
             {
                 var lobby = _lobby.Value;
-                lobby.GameStatus = FPSGameStatus.Loading;
+                lobby.LobbyStatus = FPSLobbyStatus.Loading;
                 _lobby.Value = lobby;
 
                 _loadingPlayersCount = readyPlayer;
@@ -291,9 +307,7 @@ namespace Chutpot.FPSParty.Persistent
         [ServerRpc(Delivery = RpcDelivery.Reliable, RequireOwnership = false)]
         public void UpdateLoadingStatusServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            Debug.Log("UpdateLoadingStatusServerRpc");
-
-            if (_lobby.Value.GameStatus != FPSGameStatus.Loading)
+            if (_lobby.Value.LobbyStatus != FPSLobbyStatus.Loading)
                 return;
 
             _loadingPlayersCount--;
@@ -304,7 +318,10 @@ namespace Chutpot.FPSParty.Persistent
 
                 _timeoutCoroutine = null;
                 var lobby = _lobby.Value;
-                lobby.GameStatus = FPSGameStatus.Started;
+                lobby.LobbyStatus = FPSLobbyStatus.Started;
+                _gameNetworkHandler = Instantiate(_gameNetworkHandlerPrefab).GetComponent<GameNetworkHandler>();
+                _gameNetworObject = _gameNetworkHandler.GetComponent<NetworkObject>();
+                _gameNetworObject.Spawn();
                 StartGameClientRpc();
             }
         }

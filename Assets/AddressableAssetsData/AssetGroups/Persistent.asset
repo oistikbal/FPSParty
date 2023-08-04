@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Persistent
+  m_EditorClassIdentifier: 
+  m_GroupName: Persistent
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 163f2405927c9ab459215ae740fddde2
+  m_SerializeEntries:
+  - m_GUID: f30ddc72024795842b612017f8630a3a
+    m_Address: Camera
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cff15c7baedfd1e4384cfd61639f9727
+    m_Address: EventSystem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7c9fdc0d99f6b1e4ea448ee6b8ef529d
+    m_Address: VirtualCameras
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e8a8dcda3874f74680482de4457504f
+    m_Address: NetworkService
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7747ecaf83cdcdc47a890668a91a111a
+    m_Address: LoadingScreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f6bf054ad6b0134fb7e8e69980a544e
+    m_Address: GameNetworkHandler
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 58ce8709694564f4c8d23da42524f9e0
+    m_Address: LobbyNetworkHandler
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 932f90036fd4cc74084cc82b90623801
+    m_Address: MainMenuCanvas
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dc4e2b29925bc654ab182c9e8ecbe71b
+    m_Address: Popup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99dea69cff9038142ab954d363ce00e3
+    m_Address: PopupBlock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e98a8786d9fbb7741bcb6be9e41341df
+    m_Address: Assets/Chutpot/FPSParty/Prefabs/Persistent/UI/Lobby.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 33d3fb0533265f346bad30c619a625eb
+    m_Address: MapCovers/Dust2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4498963134dc6be429b6eeb0d28c1675
+    m_Address: MapCovers/Random
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42bce41d646470b419aff724fa658aad
+    m_Address: Assets/Chutpot/FPSParty/Images/BgRenderTexture.renderTexture
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9604b2361a8b3a141abd25fc3be7acdf
+    m_Address: Assets/Chutpot/FPSParty/Images/default_pp.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a216d38e72b1034e94ef8aba66fc3fa
+    m_Address: Assets/Chutpot/FPSParty/Images/Gabe-Newell.jpeg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1a0b1f60dcbea34f807eab495335969
+    m_Address: Assets/Chutpot/FPSParty/Images/loading-bg.jpg
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 318fb6f7d9a3acc45ab9a85c88dfa9fe, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d9de5cc506c8fe3438905ac996525bd0, type: 2}
+    - {fileID: 11400000, guid: 2373464204cdf0f4f8e779faab32f9f4, type: 2}
