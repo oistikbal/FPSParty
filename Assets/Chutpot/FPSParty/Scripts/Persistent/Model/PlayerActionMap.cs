@@ -57,7 +57,7 @@ namespace Chutpot.FPSParty
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Escape"",
+                    ""name"": ""Cancel"",
                     ""type"": ""Button"",
                     ""id"": ""749bc748-7098-465b-b673-39c1b3e28ee4"",
                     ""expectedControlType"": ""Button"",
@@ -158,11 +158,11 @@ namespace Chutpot.FPSParty
                 {
                     ""name"": """",
                     ""id"": ""999252e9-edff-4b6b-89b1-995249366914"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""path"": ""*/{Cancel}"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Escape"",
+                    ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -258,6 +258,15 @@ namespace Chutpot.FPSParty
                     ""type"": ""PassThrough"",
                     ""id"": ""de88bec9-5d8f-4828-b8a7-0e3f29e64cc4"",
                     ""expectedControlType"": ""Quaternion"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""0236cb5f-ce68-4394-9407-defda169f9ec"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -681,6 +690,17 @@ namespace Chutpot.FPSParty
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b45a6103-822a-40db-9413-fd1be00be036"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -692,7 +712,7 @@ namespace Chutpot.FPSParty
             m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
-            m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
+            m_Player_Cancel = m_Player.FindAction("Cancel", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -705,6 +725,7 @@ namespace Chutpot.FPSParty
             m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
             m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+            m_UI_Escape = m_UI.FindAction("Escape", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -769,7 +790,7 @@ namespace Chutpot.FPSParty
         private readonly InputAction m_Player_Movement;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Camera;
-        private readonly InputAction m_Player_Escape;
+        private readonly InputAction m_Player_Cancel;
         public struct PlayerActions
         {
             private @PlayerActionMap m_Wrapper;
@@ -777,7 +798,7 @@ namespace Chutpot.FPSParty
             public InputAction @Movement => m_Wrapper.m_Player_Movement;
             public InputAction @Jump => m_Wrapper.m_Player_Jump;
             public InputAction @Camera => m_Wrapper.m_Player_Camera;
-            public InputAction @Escape => m_Wrapper.m_Player_Escape;
+            public InputAction @Cancel => m_Wrapper.m_Player_Cancel;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -796,9 +817,9 @@ namespace Chutpot.FPSParty
                 @Camera.started += instance.OnCamera;
                 @Camera.performed += instance.OnCamera;
                 @Camera.canceled += instance.OnCamera;
-                @Escape.started += instance.OnEscape;
-                @Escape.performed += instance.OnEscape;
-                @Escape.canceled += instance.OnEscape;
+                @Cancel.started += instance.OnCancel;
+                @Cancel.performed += instance.OnCancel;
+                @Cancel.canceled += instance.OnCancel;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -812,9 +833,9 @@ namespace Chutpot.FPSParty
                 @Camera.started -= instance.OnCamera;
                 @Camera.performed -= instance.OnCamera;
                 @Camera.canceled -= instance.OnCamera;
-                @Escape.started -= instance.OnEscape;
-                @Escape.performed -= instance.OnEscape;
-                @Escape.canceled -= instance.OnEscape;
+                @Cancel.started -= instance.OnCancel;
+                @Cancel.performed -= instance.OnCancel;
+                @Cancel.canceled -= instance.OnCancel;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -846,6 +867,7 @@ namespace Chutpot.FPSParty
         private readonly InputAction m_UI_RightClick;
         private readonly InputAction m_UI_TrackedDevicePosition;
         private readonly InputAction m_UI_TrackedDeviceOrientation;
+        private readonly InputAction m_UI_Escape;
         public struct UIActions
         {
             private @PlayerActionMap m_Wrapper;
@@ -860,6 +882,7 @@ namespace Chutpot.FPSParty
             public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
             public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
             public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+            public InputAction @Escape => m_Wrapper.m_UI_Escape;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -899,6 +922,9 @@ namespace Chutpot.FPSParty
                 @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -933,6 +959,9 @@ namespace Chutpot.FPSParty
                 @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+                @Escape.started -= instance.OnEscape;
+                @Escape.performed -= instance.OnEscape;
+                @Escape.canceled -= instance.OnEscape;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -955,7 +984,7 @@ namespace Chutpot.FPSParty
             void OnMovement(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnCamera(InputAction.CallbackContext context);
-            void OnEscape(InputAction.CallbackContext context);
+            void OnCancel(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
@@ -969,6 +998,7 @@ namespace Chutpot.FPSParty
             void OnRightClick(InputAction.CallbackContext context);
             void OnTrackedDevicePosition(InputAction.CallbackContext context);
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+            void OnEscape(InputAction.CallbackContext context);
         }
     }
 }

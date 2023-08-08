@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Escape",
+                    "name": "Cancel",
                     "type": "Button",
                     "id": "749bc748-7098-465b-b673-39c1b3e28ee4",
                     "expectedControlType": "Button",
@@ -134,11 +134,11 @@
                 {
                     "name": "",
                     "id": "999252e9-edff-4b6b-89b1-995249366914",
-                    "path": "<Keyboard>/escape",
+                    "path": "*/{Cancel}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Escape",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -234,6 +234,15 @@
                     "type": "PassThrough",
                     "id": "de88bec9-5d8f-4828-b8a7-0e3f29e64cc4",
                     "expectedControlType": "Quaternion",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "0236cb5f-ce68-4394-9407-defda169f9ec",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -655,6 +664,17 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b45a6103-822a-40db-9413-fd1be00be036",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

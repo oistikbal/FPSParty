@@ -18,7 +18,6 @@ namespace Chutpot.FPSParty.Game
         NetworkVariable<Quaternion> _cameraRotation;
 
         private InputModel _inputModel;
-        private SignalStream _escapeStream;
         private PlayerController _playerController;
         private KinematicCharacterMotor _kinematicCharacterMotor;
         private PlayerActionMap _playerActionMap;
@@ -37,7 +36,6 @@ namespace Chutpot.FPSParty.Game
             _playerController = GetComponent<PlayerController>();
             _kinematicCharacterMotor = GetComponent<KinematicCharacterMotor>();
             _virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
-            _escapeStream = SignalStream.Get("MainMenuUI", "Escape");
         }
 
 
@@ -61,7 +59,6 @@ namespace Chutpot.FPSParty.Game
             _playerActionMap.Player.Movement.canceled += OnMovementCanceled;
             _playerActionMap.Player.Jump.performed += OnJumpPerformed;
             _playerActionMap.Player.Jump.canceled += OnJumpCancelled;
-            _playerActionMap.Player.Escape.performed += OnEscapePerformed;
 
             _rigidbody.useGravity = true;
             _rigidbody.isKinematic = true;
@@ -78,7 +75,6 @@ namespace Chutpot.FPSParty.Game
             _playerActionMap.Player.Movement.canceled -= OnMovementCanceled;
             _playerActionMap.Player.Jump.performed -= OnJumpPerformed;
             _playerActionMap.Player.Jump.canceled -= OnJumpCancelled;
-            _playerActionMap.Player.Escape.performed -= OnEscapePerformed;
 
             _rigidbody.useGravity = false;
             _rigidbody.isKinematic = false;
@@ -120,10 +116,6 @@ namespace Chutpot.FPSParty.Game
             _moveInput = obj.ReadValue<Vector2>();
         }
 
-        private void OnEscapePerformed(InputAction.CallbackContext obj)
-        {
-            _escapeStream.SendSignal();
-        }
 
         private void HandleCharacterInput()
         {

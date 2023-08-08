@@ -17,7 +17,7 @@ MonoBehaviour:
     - Category: MainMenuUI
       Name: Background
     - Category: MainMenuUI
-      Name: Escape
+      Name: Cancel
     - Category: MainMenuUI
       Name: ExitLobby
     - Category: MainMenuUI

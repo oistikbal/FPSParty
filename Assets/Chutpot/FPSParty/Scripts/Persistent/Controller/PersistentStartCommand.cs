@@ -60,7 +60,7 @@ namespace Chutpot.FPSParty.Persistent
             Context.AddView(go.GetComponent<View>());
             go.GetComponent<NetworkServiceView>().Initialized += InitNetworkService;
 
-
+            //Shouldn't be calling this manually but otherwise the game doesn't work , need a fix.
             InitNetworkService();
         }
 

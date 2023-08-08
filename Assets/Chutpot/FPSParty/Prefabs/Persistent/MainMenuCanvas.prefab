@@ -24738,6 +24738,7 @@ GameObject:
   - component: {fileID: 6332520043927152035}
   - component: {fileID: 6730040756458786198}
   - component: {fileID: 9119976878397355114}
+  - component: {fileID: 3009628603052464290}
   m_Layer: 5
   m_Name: GameView
   m_TagString: Untagged
@@ -25430,6 +25431,18 @@ MonoBehaviour:
       ToCustomValue: 1
       FromOffset: 0
       ToOffset: 0
+--- !u!114 &3009628603052464290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4232196006429916803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5ad20ed1c1d3554c9ae1544a570e652, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4375220149037682254
 GameObject:
   m_ObjectHideFlags: 0
