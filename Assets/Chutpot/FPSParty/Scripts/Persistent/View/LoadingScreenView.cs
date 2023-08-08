@@ -13,6 +13,7 @@ using Doozy.Runtime.Signals;
 using Doozy.Runtime.Reactor;
 using System.Linq;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 namespace Chutpot.FPSParty.Persistent
 {
@@ -23,6 +24,7 @@ namespace Chutpot.FPSParty.Persistent
         private SignalStream _loadingScreenStream;
         private SignalStream _gameLoadedStream;
         private Progressor _loadingScreenProgressor;
+        private Scene _persistentSceneInstance;
         public Signal<LoadingScreenStatus> LoadingScreenSignal { get; private set; }
 
         protected override void Awake()
@@ -31,6 +33,7 @@ namespace Chutpot.FPSParty.Persistent
             LoadingScreenSignal = new Signal<LoadingScreenStatus>();
             _loadingScreenStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "LoadingScreen");
             _gameLoadedStream = Doozy.Runtime.Signals.SignalsService.GetStream("MainMenuUI", "GameLoaded");
+            _persistentSceneInstance = SceneManager.GetActiveScene();
         }
 
         protected override void Start()
@@ -42,8 +45,11 @@ namespace Chutpot.FPSParty.Persistent
 
         private void OnClientStopped(bool obj)
         {
-            if(_currentInstance.Scene.isLoaded)
+            if (_currentInstance.Scene.isLoaded)
+            {
                 _sceneHandle = Addressables.UnloadSceneAsync(_currentInstance);
+                SceneManager.SetActiveScene(_persistentSceneInstance);
+            }
         }
 
         public void LoadScene(string sceneAddress) 
@@ -78,11 +84,15 @@ namespace Chutpot.FPSParty.Persistent
                 _loadingScreenProgressor.PlayToValue(handle.PercentComplete);
                 yield return null;
             }
-            _loadingScreenProgressor.PlayToValue(1);
-            _gameLoadedStream.SendSignal();
 
+            _loadingScreenProgressor.PlayToValue(1);
             _currentInstance = handle.Result;
-            _currentInstance.ActivateAsync();
+            _currentInstance.ActivateAsync().completed += asyncObj => 
+            {
+                SceneManager.SetActiveScene(_currentInstance.Scene);
+                _gameLoadedStream.SendSignal();
+            };
         }
+
     }
 }
