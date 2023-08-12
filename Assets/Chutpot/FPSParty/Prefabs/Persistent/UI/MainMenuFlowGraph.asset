@@ -199,7 +199,7 @@ MonoBehaviour:
       Category: MainMenuUI
       Name: GameView
       Custom: 0
-    Mode: 0
+    Mode: 1
   OnEnterHideViews:
   - Id:
       Category: MainMenuUI
@@ -212,7 +212,12 @@ MonoBehaviour:
       Name: BackgroundView
       Custom: 0
     Mode: 1
-  OnExitHideViews: []
+  OnExitHideViews:
+  - Id:
+      Category: MainMenuUI
+      Name: GameView
+      Custom: 0
+    Mode: 1
   OnEnterHideAllViews: 0
   OnExitHideAllViews: 0
 --- !u!114 &-4528307643269711311

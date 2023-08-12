@@ -1,6 +1,7 @@
 using Doozy.Runtime.Signals;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.YamlDotNet.Core;
 using UnityEngine;
 
 namespace Chutpot.FPSParty.Persistent
@@ -25,12 +26,16 @@ namespace Chutpot.FPSParty.Persistent
         private void OnPlayerCancelPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
             _cancelStream.SendSignal();
+            Cursor.visible = true;
         }
 
         private void OnUICancelPerformed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
         {
-            if(_isGameStarted)
+            if (_isGameStarted)
+            {
                 _cancelStream.SendSignal();
+                Cursor.visible = false;
+            }
         }
     }
 }

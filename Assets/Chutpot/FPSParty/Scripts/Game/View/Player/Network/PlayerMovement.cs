@@ -13,7 +13,7 @@ using UnityEngine.TextCore.Text;
 
 namespace Chutpot.FPSParty.Game
 {
-    public class Player : NetworkBehaviour
+    public class PlayerMovement : NetworkBehaviour
     {
         NetworkVariable<Quaternion> _cameraRotation;
 
@@ -128,7 +128,6 @@ namespace Chutpot.FPSParty.Game
             characterInputs.JumpDown = _jumpInput;
             characterInputs.CrouchDown = false;
             characterInputs.CrouchUp = true;
-
             // Apply inputs to character
             _playerController.SetInputs(ref characterInputs);
         }
