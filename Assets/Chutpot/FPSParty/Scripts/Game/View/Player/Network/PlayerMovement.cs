@@ -15,7 +15,7 @@ namespace Chutpot.FPSParty.Game
 {
     public class PlayerMovement : NetworkBehaviour
     {
-        NetworkVariable<Quaternion> _cameraRotation;
+        public NetworkVariable<Quaternion> CameraRotation { get; protected set; }
 
         private InputModel _inputModel;
         private PlayerController _playerController;
@@ -30,7 +30,7 @@ namespace Chutpot.FPSParty.Game
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
-            _cameraRotation = new NetworkVariable<Quaternion>(default,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+            CameraRotation = new NetworkVariable<Quaternion>(default,NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
             _inputModel = ((PersistentContext)FindObjectOfType<PersistentContextView>().context).injectionBinder.GetInstance<InputModel>();
             _playerActionMap = _inputModel.PlayerActionMap;
             _playerController = GetComponent<PlayerController>();
@@ -88,7 +88,7 @@ namespace Chutpot.FPSParty.Game
         {
             if (IsOwner)
             {
-                _cameraRotation.Value = _virtualCamera.State.FinalOrientation;
+                CameraRotation.Value = _virtualCamera.State.FinalOrientation;
                 HandleCharacterInput();
             }
 
