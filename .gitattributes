@@ -2,7 +2,6 @@
 *.cginc              text
 *.cs                 text diff=csharp
 *.shader             text
-
 # Unity YAML
 *.mat                merge=unityyamlmerge eol=lf
 *.anim               merge=unityyamlmerge eol=lf
@@ -72,7 +71,7 @@
 *.jpg                binary
 *.pict               binary
 *.png                binary
-*.psd                binary
+*.psd filter=lfs diff=lfs merge=lfs -text
 *.tga                binary
 *.tif                binary
 *.tiff               binary
